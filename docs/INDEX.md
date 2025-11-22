@@ -8,17 +8,23 @@
 - [Environment Setup](.env.example) - Configuration template
 
 ### Core Documentation
-1. **[Fee Implementation Summary](FEE_IMPLEMENTATION_SUMMARY.md)**
+1. **[Business Model](BUSINESS_MODEL.md)**
+   - Revenue model and value proposition
+   - Competitive advantages and market positioning
+   - Growth strategy and financial projections
+   - Target market and marketing strategy
+
+2. **[Fee Implementation Summary](FEE_IMPLEMENTATION_SUMMARY.md)**
    - Complete overview of the 5% fee system
    - Implementation details and security features
    - Testing results and usage examples
 
-2. **[Blockchain Separation Guide](BLOCKCHAIN_SEPARATION_GUIDE.md)**
+3. **[Blockchain Separation Guide](BLOCKCHAIN_SEPARATION_GUIDE.md)**
    - How RPC_URL determines which blockchain to use
    - Same wallet on Solana vs Gorbagana
    - Network isolation and safety guarantees
 
-3. **[Fee Integration Guide](FEE_INTEGRATION_GUIDE.md)**
+4. **[Fee Integration Guide](FEE_INTEGRATION_GUIDE.md)**
    - Front-end integration instructions
    - UI/UX recommendations
    - Component examples and marketing copy

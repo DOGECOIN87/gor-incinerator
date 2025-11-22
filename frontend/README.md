@@ -1,26 +1,26 @@
-# Gor Incinerator - Gorbagana Token Account Manager
-### Professional dApp with Optional 5% Fee Implementation
+# Gor Incinerator - Premium Token Burning Service
+### Professional Web Service with Transparent 5% Fee
 
-A production-ready decentralized application for efficiently closing empty token accounts on the **Gorbagana** blockchain (Solana fork). This program enables users to reclaim rent from unused token accounts with an optional, configurable fee structure.
+The easiest way to reclaim rent from empty token accounts on the **Gorbagana** blockchain. Our user-friendly web interface with Backpack wallet integration makes token burning effortless. Professional service with industry-low 5% fee.
 
 ## 🔥 Key Features
 
+- **Easy Web Interface**: No command line required - simple point-and-click
+- **Backpack Wallet Integration**: Seamless connection to Gorbagana network
 - **Batch Processing**: Close up to 14 token accounts in a single transaction
 - **High Success Rate**: >90% transaction success rate with optimized compute budget
 - **Safety First**: Only closes accounts with zero balance to prevent accidental token loss
-- **Configurable Fees**: Optional 5% fee (default) that can be adjusted or disabled
-- **Production Ready**: Comprehensive error handling, logging, and testing
-- **Type-Safe**: Full TypeScript implementation with strict typing
-- **Well-Tested**: Complete test coverage for all services
+- **Transparent 5% Fee**: Industry-low service fee - you keep 95% of reclaimed rent
+- **Professional Service**: Comprehensive error handling and reliable execution
 
-## 💰 Fee Structure
+## 💰 Service Fee
 
-The Gor Incinerator implements a **transparent and configurable fee system**:
+Gor Incinerator offers the **lowest fees in the industry**:
 
-- **Default Fee**: 5% of reclaimed rent
-- **Fully Optional**: Can be disabled by not setting `FEE_RECIPIENT`
-- **Adjustable**: Fee percentage can be set from 0% to 100%
-- **Transparent**: All fees are logged and displayed to users
+- **5% Service Fee**: Industry-leading low rate
+- **You Keep 95%**: More than competitors charging 15%+
+- **Transparent**: All fees displayed upfront before transaction
+- **No Hidden Costs**: What you see is what you pay
 - **Safe Implementation**: Fee transfer happens atomically with account closures
 
 ### Fee Calculation

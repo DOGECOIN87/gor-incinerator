@@ -1,14 +1,14 @@
 {
   "name": "gor-incinerator",
   "version": "1.0.0",
-  "description": "Close empty token accounts on Gorbagana blockchain to reclaim rent",
+  "description": "Premium token burning service for Gorbagana blockchain - Professional rent reclamation with transparent 5% fee",
   "scripts": {
     "build": "tsc",
     "burn": "npm run build && node --env-file .env dist/burn.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
-  "author": "",
+  "author": "Gor Incinerator",
   "license": "ISC",
   "dependencies": {
     "@project-serum/anchor": "^0.26.0",

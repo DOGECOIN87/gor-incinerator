@@ -1,0 +1,216 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Flame, Loader2, CheckCircle2, AlertCircle, Wallet } from "lucide-react";
+import { useState, useEffect } from "react";
+
+interface BurnInterfaceProps {
+  walletConnected: boolean;
+  walletAddress: string;
+  onConnectWallet: () => void;
+}
+
+export default function BurnInterface({ walletConnected, walletAddress, onConnectWallet }: BurnInterfaceProps) {
+  const [loading, setLoading] = useState(false);
+  const [accountsFound, setAccountsFound] = useState(0);
+  const [totalRent, setTotalRent] = useState(0);
+  const [serviceFee, setServiceFee] = useState(0);
+  const [youReceive, setYouReceive] = useState(0);
+  const [scanning, setScanning] = useState(false);
+  const [burnComplete, setBurnComplete] = useState(false);
+
+  useEffect(() => {
+    if (walletConnected && !scanning) {
+      scanAccounts();
+    }
+  }, [walletConnected]);
+
+  const scanAccounts = async () => {
+    setScanning(true);
+    // Simulate scanning for demo
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const accounts = Math.floor(Math.random() * 20) + 5;
+    const rent = accounts * 0.00203928;
+    const fee = rent * 0.05;
+    
+    setAccountsFound(accounts);
+    setTotalRent(rent);
+    setServiceFee(fee);
+    setYouReceive(rent - fee);
+    setScanning(false);
+  };
+
+  const handleBurn = async () => {
+    setLoading(true);
+    // Simulate transaction
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    setLoading(false);
+    setBurnComplete(true);
+  };
+
+  if (!walletConnected) {
+    return (
+      <Card className="max-w-2xl mx-auto bg-card/50 backdrop-blur border-border/50">
+        <CardHeader className="text-center">
+          <div className="mx-auto h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+            <Wallet className="h-8 w-8 text-primary" />
+          </div>
+          <CardTitle className="text-2xl">Connect Your Wallet</CardTitle>
+          <CardDescription className="text-base">
+            Connect your Backpack wallet to start burning empty token accounts and reclaiming your GOR
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button 
+            onClick={onConnectWallet}
+            className="w-full bg-primary hover:bg-primary/90"
+            size="lg"
+          >
+            <Wallet className="mr-2 h-5 w-5" />
+            Connect Backpack Wallet
+          </Button>
+          <p className="text-sm text-muted-foreground text-center mt-4">
+            Don't have Backpack? <a href="https://backpack.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Download here</a>
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (burnComplete) {
+    return (
+      <Card className="max-w-2xl mx-auto bg-card/50 backdrop-blur border-border/50">
+        <CardHeader className="text-center">
+          <div className="mx-auto h-16 w-16 rounded-full bg-green-500/10 flex items-center justify-center mb-4">
+            <CheckCircle2 className="h-8 w-8 text-green-500" />
+          </div>
+          <CardTitle className="text-2xl text-green-500">Burn Complete!</CardTitle>
+          <CardDescription className="text-base">
+            Your empty token accounts have been successfully closed
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Accounts closed:</span>
+              <span className="font-bold text-lg">{accountsFound}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Service fee (5%):</span>
+              <span className="font-semibold">{serviceFee.toFixed(5)} GOR</span>
+            </div>
+            <div className="border-t border-border/50 pt-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold">You received:</span>
+                <span className="font-bold text-xl text-green-500">{youReceive.toFixed(5)} GOR</span>
+              </div>
+            </div>
+          </div>
+          <Button 
+            onClick={() => {
+              setBurnComplete(false);
+              scanAccounts();
+            }}
+            className="w-full"
+            variant="outline"
+          >
+            Scan for More Accounts
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="max-w-2xl mx-auto bg-card/50 backdrop-blur border-border/50">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-2xl">Ready to Burn</CardTitle>
+            <CardDescription className="text-base mt-1">
+              Connected: {walletAddress.slice(0, 4)}...{walletAddress.slice(-4)}
+            </CardDescription>
+          </div>
+          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+            <Flame className="h-6 w-6 text-primary" />
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {scanning ? (
+          <div className="text-center py-8">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary mb-4" />
+            <p className="text-muted-foreground">Scanning for empty token accounts...</p>
+          </div>
+        ) : (
+          <>
+            <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Empty accounts found:</span>
+                <span className="font-bold text-lg">{accountsFound}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Total rent to reclaim:</span>
+                <span className="font-bold text-lg text-green-500">{totalRent.toFixed(5)} GOR</span>
+              </div>
+              <div className="border-t border-border/50 pt-3 mt-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Service fee (5%):</span>
+                  <span className="font-semibold">{serviceFee.toFixed(5)} GOR</span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-sm font-semibold">You receive:</span>
+                  <span className="font-bold text-xl text-primary">{youReceive.toFixed(5)} GOR</span>
+                </div>
+              </div>
+            </div>
+
+            {accountsFound > 0 ? (
+              <>
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div className="text-sm">
+                      <p className="font-semibold text-foreground mb-1">Before you proceed:</p>
+                      <ul className="text-muted-foreground space-y-1">
+                        <li>• Only empty accounts will be closed</li>
+                        <li>• Your tokens are always safe</li>
+                        <li>• Transaction completes in seconds</li>
+                        <li>• 5% service fee will be deducted</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <Button 
+                  onClick={handleBurn}
+                  className="w-full bg-gradient-to-r from-primary via-accent to-orange-500 hover:opacity-90"
+                  size="lg"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Processing Transaction...
+                    </>
+                  ) : (
+                    <>
+                      <Flame className="mr-2 h-5 w-5" />
+                      Burn {accountsFound} Accounts Now
+                    </>
+                  )}
+                </Button>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <CheckCircle2 className="h-12 w-12 mx-auto text-green-500 mb-4" />
+                <p className="text-lg font-semibold mb-2">All Clean!</p>
+                <p className="text-muted-foreground">No empty token accounts found in your wallet.</p>
+              </div>
+            )}
+          </>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

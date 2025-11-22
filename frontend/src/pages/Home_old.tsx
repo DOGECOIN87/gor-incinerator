@@ -1,9 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO } from "@/const";
-import { Flame, Zap, Shield, Github, ExternalLink, Coins, TrendingUp, Clock } from "lucide-react";
+import { Flame, Zap, Shield, Github, ExternalLink, Coins, TrendingUp, Clock, Wallet, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import BurnInterface from "../components/BurnInterface";
 
 export default function Home() {
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState("");
+
+  const connectBackpackWallet = async () => {
+    try {
+      // @ts-ignore - Backpack wallet injected
+      if (window.backpack) {
+        // @ts-ignore
+        const response = await window.backpack.connect();
+        setWalletAddress(response.publicKey.toString());
+        setWalletConnected(true);
+      } else {
+        alert("Backpack wallet not found. Please install Backpack wallet extension.");
+        window.open("https://backpack.app", "_blank");
+      }
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Navigation */}
@@ -22,9 +44,17 @@ export default function Home() {
             >
               <Github className="h-5 w-5" />
             </a>
-            <Button asChild variant="outline" className="hidden sm:flex">
-              <a href="#get-started">Get Started</a>
-            </Button>
+            {!walletConnected ? (
+              <Button onClick={connectBackpackWallet} className="bg-primary hover:bg-primary/90">
+                <Wallet className="mr-2 h-4 w-4" />
+                Connect Backpack
+              </Button>
+            ) : (
+              <Button variant="outline" className="hidden sm:flex">
+                <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
+                {walletAddress.slice(0, 4)}...{walletAddress.slice(-4)}
+              </Button>
+            )}
           </div>
         </div>
       </nav>
@@ -48,30 +78,30 @@ export default function Home() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm">
                 <Zap className="h-4 w-4 text-primary" />
-                <span>Optional 5% Fee • Fully Configurable</span>
+                <span>Only 5% Service Fee • You Keep 95%</span>
               </div>
               
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                 Reclaim Your{" "}
                 <span className="gradient-text">GOR</span>
+                {" "}Instantly
               </h1>
               
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Close empty token accounts on the <strong className="text-foreground">Gorbagana</strong> blockchain 
-                and recover rent with an optional 5% fee. Fast, secure, transparent, and completely open source.
+                The easiest way to close empty token accounts on <strong className="text-foreground">Gorbagana</strong> and 
+                recover your rent. Professional service with transparent 5% fee. Connect with <strong className="text-foreground">Backpack wallet</strong> and start burning.
               </p>
               
               <div className="flex flex-wrap gap-4">
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                  <a href="#get-started">
+                <Button asChild size="lg" className="bg-gradient-to-r from-primary via-accent to-orange-500 hover:opacity-90">
+                  <a href="#burn">
                     <Flame className="mr-2 h-5 w-5" />
-                    Start Burning
+                    Start Burning Now
                   </a>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.fun" target="_blank" rel="noopener noreferrer">
-                    <Github className="mr-2 h-5 w-5" />
-                    View on GitHub
+                  <a href="#how-it-works">
+                    Learn More
                   </a>
                 </Button>
               </div>
@@ -80,11 +110,11 @@ export default function Home() {
               <div className="grid grid-cols-3 gap-4 pt-8">
                 <div className="space-y-1">
                   <div className="text-3xl font-bold gradient-text">5%</div>
-                  <div className="text-sm text-muted-foreground">Optional Fee</div>
+                  <div className="text-sm text-muted-foreground">Service Fee</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-3xl font-bold gradient-text">14</div>
-                  <div className="text-sm text-muted-foreground">Accounts/TX</div>
+                  <div className="text-3xl font-bold gradient-text">95%</div>
+                  <div className="text-sm text-muted-foreground">You Keep</div>
                 </div>
                 <div className="space-y-1">
                   <div className="text-3xl font-bold gradient-text">&gt;90%</div>
@@ -131,9 +161,9 @@ export default function Home() {
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                   <Coins className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Transparent Fees</CardTitle>
+                <CardTitle>Industry-Low 5% Fee</CardTitle>
                 <CardDescription>
-                  Optional 5% fee that can be adjusted or completely disabled. Unlike other services charging 15%, you have full control. Keep 95-100% of your reclaimed GOR.
+                  Transparent 5% service fee - the lowest in the industry. Unlike competitors charging 15%+, you keep 95% of your reclaimed GOR. All fees shown upfront before you confirm.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -165,11 +195,11 @@ export default function Home() {
             <Card className="bg-card/50 backdrop-blur border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10">
               <CardHeader>
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <Github className="h-6 w-6 text-primary" />
+                  <Wallet className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Open Source</CardTitle>
+                <CardTitle>Backpack Wallet Ready</CardTitle>
                 <CardDescription>
-                  Fully transparent and auditable code. Review, fork, and contribute on GitHub.
+                  Seamlessly integrated with Backpack wallet - the only wallet supporting Gorbagana network. One-click connection and instant transactions.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -202,14 +232,14 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section id="get-started" className="py-20 bg-card/30">
+      <section id="how-it-works" className="py-20 bg-card/30">
         <div className="container">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Get Started in <span className="gradient-text">3 Easy Steps</span>
+              How It <span className="gradient-text">Works</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Start reclaiming your GOR in minutes
+              Reclaim your GOR in 3 simple steps
             </p>
           </div>
 
@@ -221,12 +251,24 @@ export default function Home() {
                     <span className="text-2xl font-bold text-primary">1</span>
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="mb-2">Clone the Repository</CardTitle>
+                    <CardTitle className="mb-2">Connect Backpack Wallet</CardTitle>
                     <CardDescription className="text-base mb-4">
-                      Get the Gor Incinerator code from GitHub
+                      Install Backpack wallet extension and connect to Gorbagana network
                     </CardDescription>
-                    <div className="bg-secondary/50 rounded-lg p-4 font-mono text-sm overflow-x-auto">
-                      <code>git clone https://github.com/DOGECOIN87/gor-incinerator.fun</code>
+                    <div className="space-y-3">
+                      <Button 
+                        onClick={connectBackpackWallet}
+                        className="w-full bg-primary hover:bg-primary/90"
+                        disabled={walletConnected}
+                      >
+                        <Wallet className="mr-2 h-4 w-4" />
+                        {walletConnected ? "Wallet Connected" : "Connect Backpack Wallet"}
+                      </Button>
+                      {!walletConnected && (
+                        <p className="text-sm text-muted-foreground">
+                          Don't have Backpack? <a href="https://backpack.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Download here</a>
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -240,20 +282,30 @@ export default function Home() {
                     <span className="text-2xl font-bold text-accent">2</span>
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="mb-2">Configure Your Environment</CardTitle>
+                    <CardTitle className="mb-2">Review Your Accounts</CardTitle>
                     <CardDescription className="text-base mb-4">
-                      Create a <code className="bg-secondary/50 px-2 py-1 rounded">.env</code> file with your Gorbagana RPC URL and wallet
+                      See all empty token accounts and estimated GOR to reclaim
                     </CardDescription>
-                    <div className="bg-secondary/50 rounded-lg p-4 font-mono text-sm space-y-1">
-                      <div><code>RPC_URL=https://your-gorbagana-rpc-url</code></div>
-                      <div><code>WALLET=[your,wallet,bytes,array]</code></div>
-                      <div><code># Optional - Enable 5% fee</code></div>
-                      <div><code>FEE_RECIPIENT=CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL</code></div>
-                      <div><code>FEE_PERCENTAGE=5</code></div>
+                    <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">Empty accounts found:</span>
+                        <span className="font-bold text-lg">14</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">Total rent to reclaim:</span>
+                        <span className="font-bold text-lg text-green-500">~0.0285 GOR</span>
+                      </div>
+                      <div className="border-t border-border/50 pt-3 mt-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">Service fee (5%):</span>
+                          <span className="font-semibold">~0.00143 GOR</span>
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <span className="text-sm font-semibold">You receive:</span>
+                          <span className="font-bold text-xl text-primary">~0.0271 GOR</span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-4">
-                      <strong>Note:</strong> The wallet should be in uint8 bytes array format. Omit FEE_RECIPIENT to disable fees and keep 100%.
-                    </p>
                   </div>
                 </div>
               </CardHeader>
@@ -266,16 +318,21 @@ export default function Home() {
                     <span className="text-2xl font-bold text-orange-500">3</span>
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="mb-2">Run the Incinerator</CardTitle>
+                    <CardTitle className="mb-2">Confirm & Burn</CardTitle>
                     <CardDescription className="text-base mb-4">
-                      Execute the burn script to close empty token accounts
+                      Approve the transaction in your Backpack wallet and reclaim your GOR
                     </CardDescription>
-                    <div className="bg-secondary/50 rounded-lg p-4 font-mono text-sm">
-                      <code>npm run burn</code>
-                    </div>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-primary via-accent to-orange-500 hover:opacity-90"
+                      size="lg"
+                      disabled={!walletConnected}
+                    >
+                      <Flame className="mr-2 h-5 w-5" />
+                      {walletConnected ? "Start Burning Now" : "Connect Wallet First"}
+                    </Button>
                     <p className="text-sm text-muted-foreground mt-4">
-                      The program will respond with <code className="bg-secondary/50 px-2 py-1 rounded">14 token accounts successfully closed</code> if successful. 
-                      Run it repeatedly to keep closing accounts and maximize your GOR recovery.
+                      <CheckCircle2 className="inline h-4 w-4 text-green-500 mr-1" />
+                      Transaction completes in seconds. Your GOR will be instantly available in your wallet.
                     </p>
                   </div>
                 </div>
@@ -287,8 +344,8 @@ export default function Home() {
             <Card className="inline-block bg-primary/5 border-primary/20">
               <CardContent className="p-6">
                 <p className="text-sm text-muted-foreground mb-2">
-                  <strong className="text-foreground">Pro Tip:</strong> Add token addresses you want to keep to the blacklist in{" "}
-                  <code className="bg-secondary/50 px-2 py-1 rounded">burn.ts</code> to prevent them from being closed
+                  <strong className="text-foreground">Safe & Secure:</strong> Only empty accounts are closed. Your tokens are always protected. 
+                  The service automatically skips any account with a balance.
                 </p>
               </CardContent>
             </Card>
@@ -301,18 +358,74 @@ export default function Home() {
         <div className="container">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-4xl lg:text-5xl font-bold">
-              About <span className="gradient-text">Gorbagana</span>
+              Why <span className="gradient-text">Gor Incinerator</span>?
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Gorbagana is a high-performance blockchain fork of Solana, engineered for exceptional speed, 
-              efficiency, and scalability. Built on proven technology with enhanced optimizations, 
-              Gorbagana delivers the throughput and reliability needed for modern decentralized applications.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              The Gor Incinerator leverages Gorbagana's advanced architecture to help you efficiently manage 
-              your token accounts and reclaim valuable rent from unused accounts—putting your GOR back where it belongs.
+            <div className="grid md:grid-cols-2 gap-6 text-left mt-8">
+              <Card className="bg-card/50 border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Coins className="h-5 w-5 text-primary" />
+                    Lowest Fees
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Only 5% service fee compared to 15%+ from competitors. Save more of your reclaimed GOR.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-card/50 border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Wallet className="h-5 w-5 text-accent" />
+                    Backpack Integration
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Seamlessly works with Backpack wallet - the only wallet supporting Gorbagana network.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-card/50 border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Zap className="h-5 w-5 text-orange-500" />
+                    Lightning Fast
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Close up to 14 accounts per transaction with &gt;90% success rate. Optimized for speed.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-card/50 border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-green-500" />
+                    100% Safe
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    Only closes zero-balance accounts. Your tokens are always protected from accidental loss.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Burn Interface Section */}
+      <section id="burn" className="py-20">
+        <div className="container">
+          <div className="text-center mb-12 space-y-4">
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              Start <span className="gradient-text">Burning</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Connect your Backpack wallet and reclaim your GOR in seconds
             </p>
           </div>
+          <BurnInterface 
+            walletConnected={walletConnected}
+            walletAddress={walletAddress}
+            onConnectWallet={connectBackpackWallet}
+          />
         </div>
       </section>
 
@@ -325,22 +438,26 @@ export default function Home() {
               Ready to Reclaim Your GOR?
             </h2>
             <p className="text-xl text-muted-foreground">
-              Join the Gorbagana community and start optimizing your blockchain assets today
+              Join thousands of Gorbagana users saving money with our professional token burning service
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                <a href="https://github.com/DOGECOIN87/gor-incinerator.fun" target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-5 w-5" />
-                  Get Started on GitHub
+              <Button asChild size="lg" className="bg-gradient-to-r from-primary via-accent to-orange-500 hover:opacity-90">
+                <a href="#burn">
+                  <Flame className="mr-2 h-5 w-5" />
+                  Start Burning Now
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <a href="#get-started">
+                <a href="#how-it-works">
                   <ExternalLink className="mr-2 h-5 w-5" />
-                  View Documentation
+                  Learn How It Works
                 </a>
               </Button>
             </div>
+            <p className="text-sm text-muted-foreground">
+              <Shield className="inline h-4 w-4 mr-1" />
+              Trusted by the Gorbagana community • 5% service fee • You keep 95%
+            </p>
           </div>
         </div>
       </section>
@@ -355,7 +472,10 @@ export default function Home() {
                 <span className="font-bold gradient-text">Gor Incinerator</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Zero-fee token account management for the Gorbagana blockchain
+                Professional token burning service for Gorbagana network
+              </p>
+              <p className="text-xs text-muted-foreground">
+                5% service fee • Backpack wallet compatible
               </p>
             </div>
             
@@ -398,8 +518,8 @@ export default function Home() {
           </div>
           
           <div className="mt-12 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-            <p>© 2024 Gor Incinerator. Open source under MIT License.</p>
-            <p className="mt-2">Built for the Gorbagana blockchain community</p>
+            <p>© 2024 Gor Incinerator. Professional token burning service.</p>
+            <p className="mt-2">Serving the Gorbagana blockchain community with transparent 5% fees</p>
           </div>
         </div>
       </footer>

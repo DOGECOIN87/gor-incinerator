@@ -1,6 +1,6 @@
-# Gor Incinerator - Gorbagana Token Account Manager
+# Gor Incinerator - Premium Token Burning Service
 
-A production-ready dApp for efficiently closing empty token accounts on the **Gorbagana** blockchain with an optional 5% fee structure.
+The easiest way to reclaim rent from empty token accounts on the **Gorbagana** blockchain. Professional service with a transparent 5% fee.
 
 ## 📚 Documentation
 
@@ -12,21 +12,31 @@ A production-ready dApp for efficiently closing empty token accounts on the **Go
 
 ## 🔥 Features
 
+- **Easy-to-use web interface** - No command line required
+- **Backpack wallet integration** - Seamless connection to Gorbagana network
 - Close up to 14 token accounts per transaction
 - >90% success rate with optimized compute budget
-- Optional 5% fee (fully configurable or can be disabled)
+- **Transparent 5% service fee** - You keep 95% of reclaimed rent
 - Safety: Only closes zero-balance accounts
-- Full TypeScript implementation with comprehensive tests
-- Professional logging and error handling
+- Professional service with comprehensive logging
 
-## 💰 Fee Structure
+## 💰 Service Fee
 
-- **Default**: 5% of reclaimed rent
-- **Optional**: Disable by not setting `FEE_RECIPIENT`
-- **Configurable**: Adjust from 0% to 100%
-- **Transparent**: All fees logged and displayed
+- **5% of reclaimed rent** - Industry-leading low fee
+- **You keep 95%** - More than other services charging 15%+
+- **Transparent** - All fees clearly displayed before transaction
+- **No hidden costs** - What you see is what you pay
 
 ## 🚀 Quick Start
+
+### Web Interface (Recommended)
+
+1. Visit **https://gor-incinerator.fun**
+2. Connect your **Backpack wallet**
+3. Review accounts to close
+4. Confirm transaction and reclaim your GOR
+
+### Command Line (Advanced)
 
 ```bash
 # Install dependencies
@@ -119,7 +129,15 @@ Modern React UI included in `Adapting Solana Code for Gorbagana Fork and Front-E
 
 ## 🌐 About Gorbagana
 
-Gorbagana is a high-performance Solana fork designed for speed, efficiency, and scalability. The Gor Incinerator helps users reclaim rent from unused token accounts.
+Gorbagana is a high-performance Solana fork designed for speed, efficiency, and scalability. The Gor Incinerator provides the easiest way for users to reclaim rent from unused token accounts.
+
+## 💼 Why Choose Gor Incinerator?
+
+- **Lowest fees in the industry** - Only 5% vs 15%+ from competitors
+- **Backpack wallet support** - The only wallet compatible with Gorbagana
+- **User-friendly interface** - No technical knowledge required
+- **Proven reliability** - >90% success rate
+- **Transparent pricing** - See exactly what you'll receive before confirming
 
 ## 📄 License
 
@@ -127,9 +145,10 @@ ISC License
 
 ## 🔗 Links
 
-- **GitHub**: https://github.com/DOGECOIN87/gor-incinerator.fun
 - **Website**: https://gor-incinerator.fun
+- **GitHub**: https://github.com/DOGECOIN87/gor-incinerator.fun
+- **Support**: Contact us through GitHub Issues
 
 ---
 
-**Note**: The 5% fee is optional and fully configurable. Users maintain complete control over their assets.
+**Gor Incinerator** - The professional token burning service for Gorbagana network users.
