@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "Close empty token accounts on Gorbagana blockchain to reclaim rent",
   "scripts": {
-    "build": "tsc",
-    "burn": "npm run build && node --env-file .env dist/burn.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "burn": "tsc && node --env-file .env src/burn.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,11 +12,5 @@
     "@solana/spl-token": "^0.4.8",
     "@solana/web3.js": "^1.95.0",
     "bs58": "^6.0.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20.0.0",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.5"
   }
 }
