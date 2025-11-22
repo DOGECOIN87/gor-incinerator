@@ -170,7 +170,11 @@ Transactions sent to that blockchain only
 - On Gorbagana: Receives GOR tokens
 - On Solana: Would receive SOL tokens (if you ran it there)
 
-**Token Program ID**: Both Solana and Gorbagana use the same Token Program ID (`TokenkegQfeZyiNwAJbPVwwQQfuM32jneSYP1daM`), which is why the same code works on both chains.
+**Token Program ID**: Gorbagana uses a **different** Token Program ID than Solana:
+- **Gorbagana**: `TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA`
+- **Solana**: `TokenkegQfeZyiNwAJbPVwwQQfuM32jneSYP1daM`
+
+This code is configured specifically for Gorbagana. The same transaction structure and instruction format work on both chains, but you must use the correct Program IDs for each chain.
 
 ## Verification: How to Check Which Chain You're On
 

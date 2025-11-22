@@ -8,7 +8,6 @@ import {
 } from "@solana/web3.js";
 import {
   createCloseAccountInstruction,
-  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import {
   ComputeBudgetProgram,
@@ -19,6 +18,9 @@ import { Logger } from "../utils/logger";
 import { TransactionError, NetworkError } from "../utils/errors";
 import { Config } from "../config";
 import { FeeService } from "./feeService";
+
+// Gorbagana Token Program ID (different from Solana)
+const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
 /**
  * Service for building, signing, and executing blockchain transactions

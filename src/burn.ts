@@ -3,14 +3,18 @@ import {
   ComputeBudgetProgram,
   TransactionMessage,
   VersionedTransaction,
+  PublicKey,
 } from "@solana/web3.js";
 import {
   createCloseAccountInstruction,
-  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import bs58 from "bs58";
 import { FeeService } from "./services/feeService";
 import { Logger } from "./utils/logger";
+
+// Gorbagana Program IDs (different from Solana)
+const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+const ASSOCIATED_TOKEN_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 
 // Initialize configuration from environment variables
 Config.initialize();

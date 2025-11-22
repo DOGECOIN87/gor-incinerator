@@ -1,7 +1,10 @@
 import {Config} from "../config";
-import {ComputeBudgetProgram, TransactionMessage, VersionedTransaction} from "@solana/web3.js";
-import {createCloseAccountInstruction, TOKEN_PROGRAM_ID} from "@solana/spl-token";
+import {ComputeBudgetProgram, TransactionMessage, VersionedTransaction, PublicKey} from "@solana/web3.js";
+import {createCloseAccountInstruction} from "@solana/spl-token";
 import bs58 from "bs58";
+
+// Gorbagana Token Program ID (different from Solana)
+const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
 const blacklist = [
     "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
