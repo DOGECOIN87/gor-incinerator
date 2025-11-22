@@ -9,7 +9,7 @@ const blacklist = [
 ];
 
 (async function close_atas() {
-    const atas = await Config.connection.getParsedTokenAccountsByOwner(Config.solWallet.publicKey, {
+    const atas = await Config.connection.getParsedTokenAccountsByOwner(Config.gorWallet.publicKey, {
         programId: TOKEN_PROGRAM_ID
     });
 
@@ -31,18 +31,18 @@ const blacklist = [
         inst.push(
             createCloseAccountInstruction(
               ata.pubkey,
-              Config.solWallet.publicKey,
-              Config.solWallet.publicKey
+              Config.gorWallet.publicKey,
+              Config.gorWallet.publicKey
             )
         );
     }
 
     const txn = new VersionedTransaction(new TransactionMessage({
         instructions: inst,
-        payerKey: Config.solWallet.publicKey,
+        payerKey: Config.gorWallet.publicKey,
         recentBlockhash: block.blockhash
     }).compileToV0Message());
-    txn.sign([Config.solWallet.payer]);
+    txn.sign([Config.gorWallet.payer]);
     let sig = bs58.encode(txn.signatures[0]);
 
     await Config.connection.sendTransaction(txn, {
