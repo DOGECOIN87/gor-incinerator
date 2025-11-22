@@ -2,14 +2,6 @@
 
 The easiest way to reclaim rent from empty token accounts on the **Gorbagana** blockchain. Professional service with a transparent 5% fee.
 
-## 📚 Documentation
-
-- **[Project Structure](PROJECT_STRUCTURE.md)** - Complete codebase organization
-- **[Documentation Index](docs/INDEX.md)** - All guides and references
-- **[Fee Implementation](docs/FEE_IMPLEMENTATION_SUMMARY.md)** - Fee system details
-- **[Blockchain Guide](docs/BLOCKCHAIN_SEPARATION_GUIDE.md)** - Multi-chain explanation
-- **[Frontend README](frontend/README.md)** - UI documentation
-
 ## 🔥 Features
 
 - **Easy-to-use web interface** - No command line required
@@ -84,30 +76,6 @@ Fee collected: 0.00143 GOR (5%)
 - **Transaction Validation**: Preflight checks and retry logic
 - **Comprehensive Logging**: Full audit trail of operations
 
-## 🏗️ Architecture
-
-```
-src/
-├── burn.ts                    # Main script
-├── config.ts                  # Configuration with fee support
-├── services/
-│   ├── accountService.ts      # Account discovery
-│   ├── transactionService.ts  # Transaction building with fees
-│   ├── feeService.ts          # Fee calculation & collection
-│   └── __tests__/             # Complete test coverage
-└── utils/
-    ├── errors.ts              # Error handling
-    ├── logger.ts              # Structured logging
-    └── validators.ts          # Input validation
-```
-
-## 🧪 Testing
-
-```bash
-npm test              # Run all tests
-npm run test:watch    # Watch mode
-```
-
 ## 📝 Fee Implementation
 
 The 5% fee is implemented with:
@@ -119,14 +87,6 @@ The 5% fee is implemented with:
 
 See `src/services/feeService.ts` for implementation details.
 
-## 🎨 Front-End
-
-Modern React UI included in `Adapting Solana Code for Gorbagana Fork and Front-End Design/`:
-- Responsive design with Tailwind CSS
-- Dark theme optimized for crypto
-- Step-by-step user guide
-- Feature highlights
-
 ## 🌐 About Gorbagana
 
 Gorbagana is a high-performance Solana fork designed for speed, efficiency, and scalability. The Gor Incinerator provides the easiest way for users to reclaim rent from unused token accounts.
@@ -134,7 +94,9 @@ Gorbagana is a high-performance Solana fork designed for speed, efficiency, and 
 ## 💼 Why Choose Gor Incinerator?
 
 - **Lowest fees in the industry** - Only 5% vs 15%+ from competitors
+- **0% fees** for Gorbagio NFT holders-
 - **Backpack wallet support** - The only wallet compatible with Gorbagana
+- **Gorbag Wallet** support coming soon!
 - **User-friendly interface** - No technical knowledge required
 - **Proven reliability** - >90% success rate
 - **Transparent pricing** - See exactly what you'll receive before confirming
@@ -147,7 +109,7 @@ ISC License
 
 - **Website**: https://gor-incinerator.fun
 - **GitHub**: https://github.com/DOGECOIN87/gor-incinerator.fun
-- **Support**: Contact us through GitHub Issues
+- **Support**: Contact @mattrickbeats via X.com
 
 ---
 
