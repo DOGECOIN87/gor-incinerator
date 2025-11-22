@@ -181,7 +181,26 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       setBurnComplete(true);
     } catch (err) {
       console.error("Error burning accounts:", err);
-      setError(err instanceof Error ? err.message : "Failed to burn accounts");
+      
+      let errorMessage = "Failed to burn accounts";
+      
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === 'object' && err !== null) {
+        // Try to extract error message from various error formats
+        const errorObj = err as any;
+        if (errorObj.message) {
+          errorMessage = errorObj.message;
+        } else if (errorObj.error) {
+          errorMessage = typeof errorObj.error === 'string' ? errorObj.error : JSON.stringify(errorObj.error);
+        } else if (errorObj.toString && errorObj.toString() !== '[object Object]') {
+          errorMessage = errorObj.toString();
+        } else {
+          errorMessage = JSON.stringify(err, null, 2);
+        }
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
