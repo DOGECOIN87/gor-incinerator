@@ -1,4 +1,4 @@
-# Gor Incinerator - Premium Token Burning Service
+# Gor-Incinerator.fun - Burn Junk - Get Gor - Premium Token Burning Service
 
 The easiest way to reclaim rent from empty token accounts on the **Gorbagana** blockchain. Professional service with a transparent 5% fee.
 
