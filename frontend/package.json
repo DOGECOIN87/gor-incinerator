@@ -17,6 +17,7 @@
     "@solana/spl-token": "^0.4.8",
     "@solana/web3.js": "^1.95.0",
     "buffer": "^6.0.3",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
