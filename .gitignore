@@ -41,3 +41,23 @@ coverage/
 .cache/
 .temp/
 .tmp/
+
+# Cloudflare configuration (contains project-specific settings)
+frontend/wrangler.toml
+api/wrangler.toml
+
+# Environment files (if you create any)
+.env
+.env.local
+.env.production
+*.env
+
+# Cloudflare deployment artifacts
+.wrangler/
+wrangler.toml
+
+# Keep security headers and redirects local for now
+frontend/public/_headers
+frontend/public/_redirects
+
+
