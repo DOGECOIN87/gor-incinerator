@@ -1,0 +1,43 @@
+name = "gor-incinerator-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+node_compat = true
+
+# Workers AI binding (optional, for future enhancements)
+# [ai]
+# binding = "AI"
+
+# D1 Database for transaction logging
+[[d1_databases]]
+binding = "DB"
+database_name = "gor-incinerator-logs"
+database_id = "" # Will be populated after: wrangler d1 create gor-incinerator-logs
+
+# Environment variables (non-secret)
+[vars]
+ENVIRONMENT = "production"
+
+# Secrets (set via: wrangler secret put <KEY>)
+# API_KEY - API key for Gorbag Wallet authentication
+# ADMIN_API_KEY - API key for reconciliation endpoint
+# GOR_RPC_URL - Gorbagana RPC endpoint URL
+# GOR_VAULT_ADDRESS_AETHER - Aether Labs vault address (50% of fee)
+# GOR_VAULT_ADDRESS_INCINERATOR - Gor-incinerator vault address (50% of fee)
+
+# Development environment
+[env.dev]
+name = "gor-incinerator-api-dev"
+vars = { ENVIRONMENT = "development" }
+
+# Routes (configure after deployment)
+# routes = [
+#   { pattern = "api.gor-incinerator.fun/*", zone_name = "gor-incinerator.fun" }
+# ]
+
+# CORS configuration
+[build]
+command = ""
+
+# Limits
+[limits]
+cpu_ms = 50
