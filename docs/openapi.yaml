@@ -1,0 +1,525 @@
+openapi: 3.0.3
+info:
+  title: Gor-Incinerator API
+  description: |
+    Protected API for token burning service on Gorbagana blockchain.
+    
+    ## Features
+    - Burn-eligible asset detection
+    - Unsigned transaction building with automatic fee splits
+    - Monthly reconciliation reporting
+    - 50/50 revenue split between Aether Labs and Gor-incinerator
+    
+    ## Authentication
+    All endpoints (except health check) require an API key in the `x-api-key` header.
+    
+    ## Rate Limiting
+    - 100 requests per minute per API key
+    - 429 status code returned when limit exceeded
+    
+  version: 1.0.0
+  contact:
+    name: Gor-Incinerator Support
+    url: https://github.com/DOGECOIN87/gor-incinerator
+  license:
+    name: ISC
+    url: https://opensource.org/licenses/ISC
+
+servers:
+  - url: https://api.gor-incinerator.fun
+    description: Production server
+  - url: http://localhost:8787
+    description: Local development server
+
+tags:
+  - name: Health
+    description: Service health and status
+  - name: Assets
+    description: Burn-eligible asset detection
+  - name: Transactions
+    description: Transaction building
+  - name: Reconciliation
+    description: Monthly reporting and analytics
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Check API service status and availability
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  service:
+                    type: string
+                    example: Gor-Incinerator API
+                  version:
+                    type: string
+                    example: 1.0.0
+                  status:
+                    type: string
+                    example: healthy
+                  endpoints:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - GET /assets/:wallet
+                      - POST /build-burn-tx
+                      - GET /reconciliation/report
+
+  /assets/{wallet}:
+    get:
+      tags:
+        - Assets
+      summary: Get burn-eligible assets
+      description: Returns all token accounts eligible for burning (zero balance accounts)
+      operationId: getAssets
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: wallet
+          in: path
+          required: true
+          description: Base58-encoded Gorbagana wallet address
+          schema:
+            type: string
+            example: 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+      responses:
+        '200':
+          description: Successfully retrieved burn-eligible assets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetsResponse'
+        '400':
+          description: Invalid wallet address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /build-burn-tx:
+    post:
+      tags:
+        - Transactions
+      summary: Build burn transaction
+      description: |
+        Builds an unsigned transaction to close token accounts with automatic 50/50 fee splitting.
+        
+        The transaction includes:
+        - Close account instructions for selected token accounts
+        - Transfer instruction for Aether Labs fee (2.5%)
+        - Transfer instruction for Gor-incinerator fee (2.5%)
+        - User receives 95% of reclaimed rent
+      operationId: buildBurnTransaction
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildBurnTxRequest'
+      responses:
+        '200':
+          description: Successfully built unsigned transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildBurnTxResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /reconciliation/report:
+    get:
+      tags:
+        - Reconciliation
+      summary: Get reconciliation report
+      description: |
+        Returns reconciliation report for specified date range.
+        Requires admin API key.
+        
+        Used for monthly revenue verification and fee distribution tracking.
+      operationId: getReconciliationReport
+      security:
+        - AdminApiKeyAuth: []
+      parameters:
+        - name: start
+          in: query
+          required: true
+          description: Start date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+            example: '2025-01-01'
+        - name: end
+          in: query
+          required: true
+          description: End date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+            example: '2025-01-31'
+      responses:
+        '200':
+          description: Successfully retrieved reconciliation report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationResponse'
+        '400':
+          description: Invalid date format or range
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed or insufficient privileges
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key for authentication (format gorincin_[64_hex_chars])
+    AdminApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Admin API key for reconciliation access
+
+  schemas:
+    AssetsResponse:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: Wallet address
+          example: 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenAccount'
+        summary:
+          $ref: '#/components/schemas/AssetsSummary'
+
+    TokenAccount:
+      type: object
+      properties:
+        pubkey:
+          type: string
+          description: Token account public key
+          example: DzP3K8vQZ2nM5xLrT9wY1jH4sB6cF8dE7gA2hN9pK3qR
+        mint:
+          type: string
+          description: Token mint address
+          example: GorTokenMint111111111111111111111111111111
+        balance:
+          type: string
+          description: Token balance (always "0" for burn-eligible)
+          example: '0'
+        burnEligible:
+          type: boolean
+          description: Whether account is eligible for burning
+          example: true
+        estimatedRent:
+          type: number
+          format: double
+          description: Estimated rent in GOR
+          example: 0.00203928
+
+    AssetsSummary:
+      type: object
+      properties:
+        totalAccounts:
+          type: integer
+          description: Total number of token accounts found
+          example: 15
+        burnEligible:
+          type: integer
+          description: Number of burn-eligible accounts
+          example: 15
+        totalRent:
+          type: number
+          format: double
+          description: Total rent that can be reclaimed (in GOR)
+          example: 0.03058920
+        serviceFee:
+          type: number
+          format: double
+          description: Total 5% service fee (in GOR)
+          example: 0.00152946
+        youReceive:
+          type: number
+          format: double
+          description: Net amount user receives after fees (in GOR)
+          example: 0.02905974
+
+    BuildBurnTxRequest:
+      type: object
+      required:
+        - wallet
+        - accounts
+      properties:
+        wallet:
+          type: string
+          description: User's wallet address (transaction signer)
+          example: 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+        accounts:
+          type: array
+          items:
+            type: string
+          description: Array of token account addresses to close
+          example:
+            - DzP3K8vQZ2nM5xLrT9wY1jH4sB6cF8dE7gA2hN9pK3qR
+            - 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+        maxAccounts:
+          type: integer
+          description: Maximum number of accounts to close per transaction (max 14)
+          default: 14
+          minimum: 1
+          maximum: 14
+          example: 14
+
+    BuildBurnTxResponse:
+      type: object
+      properties:
+        transaction:
+          type: string
+          description: Base64-encoded unsigned transaction
+          example: AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAHDwK...
+        accountsToClose:
+          type: integer
+          description: Number of accounts included in transaction
+          example: 14
+        totalRent:
+          type: number
+          format: double
+          description: Total rent to be reclaimed (in GOR)
+          example: 0.02854992
+        serviceFee:
+          type: number
+          format: double
+          description: Total 5% service fee (in GOR)
+          example: 0.00142750
+        feeBreakdown:
+          $ref: '#/components/schemas/FeeBreakdown'
+        youReceive:
+          type: number
+          format: double
+          description: Net amount user receives after fees (in GOR)
+          example: 0.02712242
+        blockhash:
+          type: string
+          description: Recent blockhash used in transaction
+          example: 9xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+        requiresSignatures:
+          type: array
+          items:
+            type: string
+          description: Array of public keys that must sign the transaction
+          example:
+            - 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+
+    FeeBreakdown:
+      type: object
+      properties:
+        aetherLabs:
+          type: number
+          format: double
+          description: Aether Labs share (2.5% of total rent)
+          example: 0.00071375
+        gorIncinerator:
+          type: number
+          format: double
+          description: Gor-incinerator share (2.5% of total rent)
+          example: 0.00071375
+
+    ReconciliationResponse:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/DatePeriod'
+        summary:
+          $ref: '#/components/schemas/ReconciliationSummary'
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionRecord'
+
+    DatePeriod:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+          description: Start date of reporting period
+          example: '2025-01-01'
+        end:
+          type: string
+          format: date
+          description: End date of reporting period
+          example: '2025-01-31'
+
+    ReconciliationSummary:
+      type: object
+      properties:
+        totalTransactions:
+          type: integer
+          description: Total number of transactions in period
+          example: 1250
+        totalAccountsClosed:
+          type: integer
+          description: Total number of accounts closed
+          example: 15000
+        totalRent:
+          type: number
+          format: double
+          description: Total rent reclaimed (in GOR)
+          example: 30.5892
+        totalFees:
+          type: number
+          format: double
+          description: Total service fees collected (in GOR)
+          example: 1.52946
+        aetherLabsShare:
+          type: number
+          format: double
+          description: Total amount for Aether Labs (in GOR)
+          example: 0.76473
+        gorIncineratorShare:
+          type: number
+          format: double
+          description: Total amount for Gor-incinerator (in GOR)
+          example: 0.76473
+
+    TransactionRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Database transaction ID
+          example: 1
+        timestamp:
+          type: string
+          format: date-time
+          description: Transaction timestamp (ISO 8601)
+          example: '2025-01-15T10:30:00Z'
+        wallet:
+          type: string
+          description: User wallet address
+          example: 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+        accountsClosed:
+          type: integer
+          description: Number of accounts closed
+          example: 10
+        totalRent:
+          type: number
+          format: double
+          description: Total rent reclaimed (in GOR)
+          example: 0.0203928
+        serviceFee:
+          type: number
+          format: double
+          description: Service fee collected (in GOR)
+          example: 0.00101964
+        aetherLabsFee:
+          type: number
+          format: double
+          description: Aether Labs share (in GOR)
+          example: 0.00050982
+        gorIncineratorFee:
+          type: number
+          format: double
+          description: Gor-incinerator share (in GOR)
+          example: 0.00050982
+        txHash:
+          type: string
+          nullable: true
+          description: On-chain transaction hash
+          example: 5xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+        status:
+          type: string
+          enum: [pending, confirmed, failed]
+          description: Transaction status
+          example: confirmed
+        createdAt:
+          type: string
+          format: date-time
+          description: Database record creation timestamp
+          example: '2025-01-15T10:30:00Z'
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type
+          example: Validation Error
+        message:
+          type: string
+          description: Detailed error message
+          example: Invalid wallet address format
+        status:
+          type: integer
+          description: HTTP status code
+          example: 400
