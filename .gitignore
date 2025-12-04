@@ -60,4 +60,10 @@ wrangler.toml
 frontend/public/_headers
 frontend/public/_redirects
 
+# Design assets (large files - keep in separate design repo)
+ui-design-ideas/*.xcf
+ui-design-ideas/*.rar
+ui-design-ideas/*.zip
+*.xcf
+
 

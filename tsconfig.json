@@ -109,5 +109,5 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "Adapting Solana Code for Gorbagana Fork and Front-End Design"]
+  "exclude": ["node_modules", "dist", "frontend", "api", "ui-design-ideas"]
 }
