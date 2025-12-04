@@ -11,10 +11,15 @@ node_compat = true
 [[d1_databases]]
 binding = "DB"
 database_name = "gor-incinerator-logs"
-database_id = "" # Will be populated after: wrangler d1 create gor-incinerator-logs
+database_id = "54456de5-7083-46c2-a69b-4164d5de2dff" # Placeholder, will be created in Cloudflare dashboard
 
 # Environment variables (non-secret)
 [vars]
+GOR_RPC_URL = "https://api.gorbagana.com" # Placeholder, will be set in Cloudflare dashboard
+GOR_VAULT_ADDRESS_AETHER = "AETHER_VAULT_ADDRESS_PLACEHOLDER" # Placeholder
+GOR_VAULT_ADDRESS_INCINERATOR = "INCINERATOR_VAULT_ADDRESS_PLACEHOLDER" # Placeholder
+ADMIN_API_KEY = "ADMIN_API_KEY_PLACEHOLDER" # Placeholder
+
 ENVIRONMENT = "production"
 
 # Secrets (set via: wrangler secret put <KEY>)

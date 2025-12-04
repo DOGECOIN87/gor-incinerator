@@ -1,0 +1,21 @@
+name = "gor-incinerator-pages"
+pages_build_output_dir = "frontend/dist"
+
+[functions]
+directory = "api"
+main = "src/index.ts"
+
+[functions.bindings]
+DB = { type = "d1", database_name = "gor-incinerator-logs", database_id = "54456de5-7083-46c2-a69b-4164d5de2dff" }
+
+[functions.environment]
+GOR_RPC_URL = "https://api.gorbagana.com"
+GOR_VAULT_ADDRESS_AETHER = "AETHER_VAULT_ADDRESS_PLACEHOLDER"
+GOR_VAULT_ADDRESS_INCINERATOR = "INCINERATOR_VAULT_ADDRESS_PLACEHOLDER"
+ADMIN_API_KEY = "ADMIN_API_KEY_PLACEHOLDER"
+
+[build]
+command = "pnpm install && pnpm --filter frontend run build"
+# The API worker is built separately by the Pages Functions build process.
+# We only need to build the frontend here.
+# The Pages Functions will automatically detect the 'api' directory and build it.
