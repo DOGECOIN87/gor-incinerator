@@ -1,0 +1,603 @@
+{
+  "resources": {
+    "@project-serum/anchor>@coral-xyz/borsh": {
+      "globals": {
+        "Buffer": true
+      },
+      "packages": {
+        "@solana/web3.js": true,
+        "@solana/web3.js>bn.js": true,
+        "@project-serum/anchor>buffer-layout": true
+      }
+    },
+    "@solana/web3.js>@noble/curves": {
+      "globals": {
+        "TextEncoder": true
+      },
+      "packages": {
+        "@solana/web3.js>@noble/hashes": true
+      }
+    },
+    "@solana/web3.js>@noble/hashes": {
+      "globals": {
+        "TextEncoder": true,
+        "crypto": true
+      }
+    },
+    "@project-serum/anchor": {
+      "builtin": {
+        "assert": true,
+        "buffer": true,
+        "crypto": true,
+        "events": true,
+        "fs.existsSync": true,
+        "fs.readFileSync": true,
+        "fs.readdirSync": true,
+        "path.dirname": true,
+        "path.join": true,
+        "process.cwd": true,
+        "process.env.ANCHOR_PROVIDER_URL": true,
+        "process.env.ANCHOR_WALLET": true,
+        "util.TextDecoder": true,
+        "util.TextEncoder": true
+      },
+      "globals": {
+        "Buffer": true,
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "console": true,
+        "process": true
+      },
+      "packages": {
+        "@project-serum/anchor>@coral-xyz/borsh": true,
+        "@solana/web3.js": true,
+        "@project-serum/anchor>base64-js": true,
+        "@solana/web3.js>bn.js": true,
+        "@project-serum/anchor>bs58": true,
+        "@project-serum/anchor>buffer-layout": true,
+        "@project-serum/anchor>camelcase": true,
+        "@project-serum/anchor>cross-fetch": true,
+        "@project-serum/anchor>eventemitter3": true,
+        "@project-serum/anchor>js-sha256": true,
+        "@project-serum/anchor>pako": true,
+        "@project-serum/anchor>snake-case": true,
+        "@project-serum/anchor>superstruct": true,
+        "@project-serum/anchor>toml": true
+      }
+    },
+    "@solana/spl-token>@solana/buffer-layout-utils": {
+      "globals": {
+        "Buffer.from": true
+      },
+      "packages": {
+        "@solana/web3.js>@solana/buffer-layout": true,
+        "@solana/web3.js": true,
+        "@solana/web3.js>bigint-buffer": true,
+        "@solana/spl-token>@solana/buffer-layout-utils>bignumber.js": true
+      }
+    },
+    "@solana/web3.js>@solana/buffer-layout": {
+      "builtin": {
+        "buffer.Buffer.from": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-core": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-data-structures": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-numbers": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-data-structures": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-numbers": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-numbers": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-numbers": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-strings": {
+      "globals": {
+        "Buffer.from": true,
+        "TextDecoder": true,
+        "TextEncoder": true
+      },
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-strings": {
+      "globals": {
+        "Buffer.from": true,
+        "TextDecoder": true,
+        "TextEncoder": true
+      },
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-numbers": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core>@solana/errors": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-data-structures": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-numbers": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-strings": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-data-structures": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-numbers": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-strings": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/options": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core>@solana/errors": {
+      "globals": {
+        "process": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options>@solana/errors": {
+      "globals": {
+        "Buffer.from": true,
+        "process.env.NODE_ENV": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/options": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-data-structures": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs>@solana/codecs-numbers": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/options": {
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-core": true,
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs>@solana/codecs-numbers": true
+      }
+    },
+    "@solana/spl-token": {
+      "builtin": {
+        "buffer": true
+      },
+      "globals": {
+        "Buffer": true,
+        "console": true
+      },
+      "packages": {
+        "@solana/spl-token>@solana/buffer-layout-utils": true,
+        "@solana/web3.js>@solana/buffer-layout": true,
+        "@solana/spl-token>@solana/spl-token-group": true,
+        "@solana/spl-token>@solana/spl-token-metadata": true,
+        "@solana/web3.js": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group": {
+      "globals": {
+        "Buffer.from": true
+      },
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-group>@solana/codecs": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/spl-type-length-value": true,
+        "@solana/web3.js": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-metadata": {
+      "globals": {
+        "Buffer.from": true
+      },
+      "packages": {
+        "@solana/spl-token>@solana/spl-token-metadata>@solana/codecs": true,
+        "@solana/spl-token>@solana/spl-token-group>@solana/spl-type-length-value": true,
+        "@solana/web3.js": true
+      }
+    },
+    "@solana/spl-token>@solana/spl-token-group>@solana/spl-type-length-value": {
+      "builtin": {
+        "crypto.createHash": true
+      }
+    },
+    "@solana/web3.js": {
+      "builtin": {
+        "buffer": true,
+        "crypto": true,
+        "events": true,
+        "http": true,
+        "https": true,
+        "stream": true,
+        "url": true,
+        "util": true
+      },
+      "globals": {
+        "Buffer": true,
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "URL": true,
+        "URLSearchParams": true,
+        "WebSocket": true,
+        "clearInterval": true,
+        "clearTimeout": true,
+        "console": true,
+        "fetch": true,
+        "process.env": true,
+        "process.version.split": true,
+        "setInterval": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "@solana/web3.js>@noble/curves": true,
+        "@solana/web3.js>@noble/hashes": true,
+        "@solana/web3.js>@solana/buffer-layout": true,
+        "@solana/web3.js>bigint-buffer": true,
+        "@solana/web3.js>bn.js": true,
+        "@solana/web3.js>borsh": true,
+        "@solana/web3.js>bs58": true,
+        "@solana/web3.js>jayson": true,
+        "@solana/web3.js>node-fetch": true,
+        "@solana/web3.js>rpc-websockets": true,
+        "@solana/web3.js>superstruct": true
+      }
+    },
+    "@project-serum/anchor>bs58>base-x": {
+      "packages": {
+        "@solana/web3.js>bs58>base-x>safe-buffer": true
+      }
+    },
+    "@solana/web3.js>bs58>base-x": {
+      "packages": {
+        "@solana/web3.js>bs58>base-x>safe-buffer": true
+      }
+    },
+    "@solana/web3.js>borsh>bs58>base-x": {
+      "packages": {
+        "@solana/web3.js>bs58>base-x>safe-buffer": true
+      }
+    },
+    "@solana/web3.js>bigint-buffer": {
+      "globals": {
+        "Buffer.allocUnsafe": true,
+        "Buffer.from": true,
+        "console.warn": true
+      },
+      "packages": {
+        "lavamoat>bindings": true
+      }
+    },
+    "@solana/spl-token>@solana/buffer-layout-utils>bignumber.js": {
+      "globals": {
+        "crypto": true,
+        "define": true
+      }
+    },
+    "lavamoat>bindings": {
+      "builtin": {
+        "fs.accessSync": true,
+        "fs.existsSync": true,
+        "path.dirname": true,
+        "path.existsSync": true,
+        "path.extname": true,
+        "path.join": true
+      },
+      "globals": {
+        "__filename": true,
+        "__non_webpack_require__": true,
+        "__webpack_require__": true,
+        "process.arch": true,
+        "process.cwd": true,
+        "process.env.NODE_BINDINGS_ARROW": true,
+        "process.env.NODE_BINDINGS_COMPILED_DIR": true,
+        "process.platform": true,
+        "process.versions.modules": true,
+        "process.versions.node": true
+      },
+      "packages": {
+        "lavamoat>bindings>file-uri-to-path": true
+      }
+    },
+    "@solana/web3.js>bn.js": {
+      "builtin": {
+        "buffer.Buffer": true
+      },
+      "globals": {
+        "Buffer": true
+      }
+    },
+    "@solana/web3.js>borsh": {
+      "globals": {
+        "Buffer.alloc": true,
+        "Buffer.concat": true,
+        "Buffer.from": true,
+        "TextDecoder": true
+      },
+      "packages": {
+        "@solana/web3.js>bn.js": true,
+        "@solana/web3.js>borsh>bs58": true,
+        "@solana/web3.js>borsh>text-encoding-utf-8": true
+      }
+    },
+    "bs58": {
+      "builtin": {
+        "buffer": true
+      },
+      "globals": {
+        "Buffer": true
+      },
+      "packages": {
+        "bs58>base-x": true
+      }
+    },
+    "@project-serum/anchor>bs58": {
+      "packages": {
+        "@project-serum/anchor>bs58>base-x": true
+      }
+    },
+    "@solana/web3.js>bs58": {
+      "packages": {
+        "@solana/web3.js>bs58>base-x": true
+      }
+    },
+    "@solana/web3.js>borsh>bs58": {
+      "packages": {
+        "@solana/web3.js>borsh>bs58>base-x": true
+      }
+    },
+    "@project-serum/anchor>buffer-layout": {
+      "globals": {
+        "Buffer": true
+      }
+    },
+    "@solana/web3.js>rpc-websockets>bufferutil": {
+      "globals": {
+        "__dirname": true
+      },
+      "native": true,
+      "packages": {
+        "lavamoat>node-gyp-build": true
+      }
+    },
+    "@project-serum/anchor>cross-fetch": {
+      "packages": {
+        "@solana/web3.js>node-fetch": true
+      }
+    },
+    "@project-serum/anchor>snake-case>dot-case": {
+      "packages": {
+        "@project-serum/anchor>snake-case>dot-case>no-case": true,
+        "@project-serum/anchor>snake-case>tslib": true
+      }
+    },
+    "@solana/web3.js>node-fetch>encoding": {
+      "globals": {
+        "Buffer.from": true,
+        "console.error": true
+      },
+      "packages": {
+        "@solana/web3.js>node-fetch>encoding>iconv-lite": true
+      }
+    },
+    "lavamoat>bindings>file-uri-to-path": {
+      "builtin": {
+        "path.sep": true
+      }
+    },
+    "@solana/web3.js>node-fetch>encoding>iconv-lite": {
+      "builtin": {
+        "stream": true,
+        "string_decoder.StringDecoder": true
+      },
+      "globals": {
+        "console.error": true
+      },
+      "packages": {
+        "@solana/web3.js>node-fetch>encoding>iconv-lite>safer-buffer": true
+      }
+    },
+    "@solana/web3.js>jayson": {
+      "packages": {
+        "@solana/web3.js>jayson>uuid": true
+      }
+    },
+    "@project-serum/anchor>js-sha256": {
+      "globals": {
+        "define": true,
+        "process": true
+      }
+    },
+    "@project-serum/anchor>snake-case>dot-case>no-case": {
+      "packages": {
+        "@project-serum/anchor>snake-case>dot-case>no-case>lower-case": true
+      }
+    },
+    "@solana/web3.js>node-fetch": {
+      "builtin": {
+        "http": true,
+        "https": true,
+        "stream": true,
+        "url": true,
+        "zlib": true
+      },
+      "globals": {
+        "Buffer": true,
+        "clearTimeout": true,
+        "process.version.substring": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "@solana/web3.js>node-fetch>encoding": true,
+        "@solana/web3.js>node-fetch>whatwg-url": true
+      }
+    },
+    "lavamoat>node-gyp-build": {
+      "builtin": {
+        "fs.existsSync": true,
+        "fs.readdirSync": true,
+        "os.arch": true,
+        "os.platform": true,
+        "path.dirname": true,
+        "path.join": true,
+        "path.resolve": true
+      },
+      "globals": {
+        "__non_webpack_require__": true,
+        "__webpack_require__": true,
+        "process": true
+      }
+    },
+    "@project-serum/anchor>pako": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
+      }
+    },
+    "@solana/web3.js>rpc-websockets": {
+      "builtin": {
+        "url": true
+      },
+      "globals": {
+        "Buffer.from": true,
+        "clearTimeout": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "@solana/web3.js>rpc-websockets>eventemitter3": true,
+        "@solana/web3.js>jayson>uuid": true,
+        "@solana/web3.js>rpc-websockets>ws": true
+      }
+    },
+    "@solana/web3.js>bs58>base-x>safe-buffer": {
+      "builtin": {
+        "buffer": true
+      }
+    },
+    "@solana/web3.js>node-fetch>encoding>iconv-lite>safer-buffer": {
+      "builtin": {
+        "buffer": true
+      },
+      "globals": {
+        "process.binding": true
+      }
+    },
+    "@project-serum/anchor>snake-case": {
+      "packages": {
+        "@project-serum/anchor>snake-case>dot-case": true,
+        "@project-serum/anchor>snake-case>tslib": true
+      }
+    },
+    "@project-serum/anchor>superstruct": {
+      "globals": {
+        "console.warn": true
+      }
+    },
+    "@solana/web3.js>superstruct": {
+      "globals": {
+        "console.warn": true,
+        "define": true
+      }
+    },
+    "@solana/web3.js>node-fetch>whatwg-url>tr46": {
+      "builtin": {
+        "punycode.toASCII": true,
+        "punycode.toUnicode": true
+      }
+    },
+    "@project-serum/anchor>snake-case>tslib": {
+      "globals": {
+        "SuppressedError": true,
+        "define": true
+      }
+    },
+    "@solana/web3.js>rpc-websockets>utf-8-validate": {
+      "globals": {
+        "__dirname": true
+      },
+      "native": true,
+      "packages": {
+        "lavamoat>node-gyp-build": true
+      }
+    },
+    "@solana/web3.js>jayson>uuid": {
+      "builtin": {
+        "crypto": true
+      },
+      "globals": {
+        "Buffer.from": true
+      }
+    },
+    "@solana/web3.js>node-fetch>whatwg-url": {
+      "builtin": {
+        "punycode.ucs2.decode": true
+      },
+      "globals": {
+        "Buffer": true
+      },
+      "packages": {
+        "@solana/web3.js>node-fetch>whatwg-url>tr46": true,
+        "@solana/web3.js>node-fetch>whatwg-url>webidl-conversions": true
+      }
+    },
+    "@solana/web3.js>rpc-websockets>ws": {
+      "builtin": {
+        "buffer.isUtf8": true,
+        "crypto.createHash": true,
+        "crypto.randomBytes": true,
+        "crypto.randomFillSync": true,
+        "events": true,
+        "http.STATUS_CODES": true,
+        "http.createServer": true,
+        "http.request": true,
+        "https.request": true,
+        "net.connect": true,
+        "net.isIP": true,
+        "stream.Duplex": true,
+        "stream.Readable": true,
+        "stream.Writable": true,
+        "tls.connect": true,
+        "url.URL": true,
+        "zlib.Z_DEFAULT_WINDOWBITS": true,
+        "zlib.Z_SYNC_FLUSH": true,
+        "zlib.createDeflateRaw": true,
+        "zlib.createInflateRaw": true
+      },
+      "globals": {
+        "Blob": true,
+        "Buffer": true,
+        "clearTimeout": true,
+        "process.env.WS_NO_BUFFER_UTIL": true,
+        "process.env.WS_NO_UTF_8_VALIDATE": true,
+        "process.nextTick": true,
+        "setImmediate": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "@solana/web3.js>rpc-websockets>bufferutil": true,
+        "@solana/web3.js>rpc-websockets>utf-8-validate": true
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "resources": {
+    "@solana/web3.js": {
+      "builtin": {
+        "crypto": true,
+        "http": true,
+        "https": true,
+        "url": true,
+        "buffer": true,
+        "stream": true,
+        "events": true,
+        "util": true
+      },
+      "globals": {
+        "console": true,
+        "setTimeout": true,
+        "clearTimeout": true,
+        "setInterval": true,
+        "clearInterval": true,
+        "TextEncoder": true,
+        "TextDecoder": true,
+        "fetch": true,
+        "URL": true,
+        "URLSearchParams": true,
+        "WebSocket": true,
+        "Buffer": true,
+        "process.env": true
+      }
+    },
+    "@solana/spl-token": {
+      "builtin": {
+        "buffer": true
+      },
+      "globals": {
+        "console": true,
+        "Buffer": true
+      }
+    },
+    "@project-serum/anchor": {
+      "builtin": {
+        "crypto": true,
+        "buffer": true,
+        "events": true
+      },
+      "globals": {
+        "console": true,
+        "Buffer": true,
+        "TextEncoder": true,
+        "TextDecoder": true
+      }
+    },
+    "bs58": {
+      "builtin": {
+        "buffer": true
+      },
+      "globals": {
+        "Buffer": true
+      }
+    }
+  }
+}
