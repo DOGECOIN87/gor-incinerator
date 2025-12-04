@@ -15,8 +15,8 @@ jest.mock("../../config");
 jest.mock("../../utils/logger");
 
 describe("TransactionService", () => {
-  const mockPayer = new PublicKey("11111111111111111111111111111112");
   const mockWallet = Keypair.generate();
+  const mockPayer = mockWallet.publicKey; // Payer must match the signing wallet
   const mockBlockhash = "11111111111111111111111111111111";
   const mockSignature =
     "5h6xBEauJ3PK6SWCZ1PGjkqa6LUohRQiS8th3NvCX7cYoFfsPQK3FkwEk6QdWteGSpVCrQy4bkMsqS2UTLHbP123";

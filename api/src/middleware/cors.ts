@@ -4,10 +4,38 @@
  */
 
 /**
- * CORS headers for API responses
+ * Allowed origins for CORS
+ * Add your production domains here
+ */
+const ALLOWED_ORIGINS = [
+  "https://gor-incinerator.fun",
+  "https://www.gor-incinerator.fun",
+  "https://app.gorbag.wallet",
+  "https://gorbag.wallet",
+  "http://localhost:5173", // Local development
+  "http://localhost:3000", // Local development
+];
+
+/**
+ * Get CORS headers for a specific origin
+ * @param origin - Request origin
+ * @returns CORS headers object
+ */
+export function getCorsHeaders(origin: string | null): Record<string, string> {
+  const allowedOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, x-api-key",
+    "Access-Control-Max-Age": "86400", // 24 hours
+  };
+}
+
+/**
+ * CORS headers for API responses (default - use getCorsHeaders for dynamic origin)
  */
 export const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*", // Allow all origins (can be restricted in production)
+  "Access-Control-Allow-Origin": ALLOWED_ORIGINS[0],
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, x-api-key",
   "Access-Control-Max-Age": "86400", // 24 hours

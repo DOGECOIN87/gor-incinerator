@@ -250,19 +250,23 @@ export class TransactionService {
           const status = await Config.connection.getSignatureStatus(signature);
 
           if (status.value) {
-            if (status.value.confirmationStatus === "processed") {
-              Logger.debug("Transaction confirmation status: processed", {
-                signature,
-              });
-              return true;
-            }
-
+            // Check for errors first (before checking confirmation status)
             if (status.value.err) {
               Logger.error("Transaction failed on chain", {
                 signature,
                 error: JSON.stringify(status.value.err),
               });
               return false;
+            }
+
+            if (status.value.confirmationStatus === "processed" ||
+                status.value.confirmationStatus === "confirmed" ||
+                status.value.confirmationStatus === "finalized") {
+              Logger.debug("Transaction confirmation status", {
+                signature,
+                status: status.value.confirmationStatus,
+              });
+              return true;
             }
           }
 
