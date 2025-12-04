@@ -23,6 +23,12 @@ ENVIRONMENT = "production"
 # GOR_RPC_URL - Gorbagana RPC endpoint URL
 # GOR_VAULT_ADDRESS_AETHER - Aether Labs vault address (50% of fee)
 # GOR_VAULT_ADDRESS_INCINERATOR - Gor-incinerator vault address (50% of fee)
+#
+# Gorbagio NFT Configuration (optional - for 0% fee eligibility):
+# GORBAGIO_COLLECTION_MINT - Metaplex collection mint address
+# GORBAGIO_CREATOR_ADDRESS - NFT creator address
+# GORBAGIO_UPDATE_AUTHORITY - Update authority address
+# GORBAGIO_VERIFIED_MINTS - Comma-separated list of verified Gorbagio mint addresses
 
 # Development environment
 [env.dev]

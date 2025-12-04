@@ -12,14 +12,20 @@ import { PublicKey } from "@solana/web3.js";
 export interface Env {
   // D1 Database binding
   DB: D1Database;
-  
+
   // Secrets (set via wrangler secret put)
   API_KEY: string;
   ADMIN_API_KEY: string;
   GOR_RPC_URL: string;
   GOR_VAULT_ADDRESS_AETHER: string;
   GOR_VAULT_ADDRESS_INCINERATOR: string;
-  
+
+  // Gorbagio NFT configuration (optional)
+  GORBAGIO_COLLECTION_MINT?: string;
+  GORBAGIO_CREATOR_ADDRESS?: string;
+  GORBAGIO_UPDATE_AUTHORITY?: string;
+  GORBAGIO_VERIFIED_MINTS?: string; // Comma-separated list
+
   // Environment variables
   ENVIRONMENT: string;
 }
@@ -46,8 +52,9 @@ export interface AssetsSummary {
   totalAccounts: number;
   burnEligible: number;
   totalRent: number; // in GOR
-  serviceFee: number; // in GOR (5% of totalRent)
-  youReceive: number; // in GOR (95% of totalRent)
+  serviceFee: number; // in GOR (5% of totalRent, or 0% for Gorbagio holders)
+  youReceive: number; // in GOR (95% of totalRent, or 100% for Gorbagio holders)
+  gorbagioHolder?: boolean; // Whether wallet holds Gorbagio NFT (0% fee)
 }
 
 /**
@@ -83,11 +90,12 @@ export interface BuildBurnTxResponse {
   transaction: string; // Base64 encoded serialized transaction
   accountsToClose: number;
   totalRent: number; // in GOR
-  serviceFee: number; // in GOR (5% total)
+  serviceFee: number; // in GOR (5% total, or 0% for Gorbagio holders)
   feeBreakdown: FeeBreakdown; // Split by party
   youReceive: number; // in GOR
   blockhash: string;
   requiresSignatures: string[]; // Array of pubkeys that need to sign
+  gorbagioHolder?: boolean; // Whether wallet holds Gorbagio NFT (0% fee)
 }
 
 /**

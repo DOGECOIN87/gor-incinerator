@@ -12,8 +12,9 @@ import {
 import { createCloseAccountInstruction } from "@solana/spl-token";
 import { Env, BuildBurnTxRequest, BuildBurnTxResponse, ValidationError } from "../types";
 import { createConnection, validateWalletAddress, validateAccountAddresses } from "../services/blockchainService";
-import { calculateFee, createFeeInstructions, lamportsToGor } from "../services/feeService";
+import { calculateFeeWithDiscount, createFeeInstructions, lamportsToGor } from "../services/feeService";
 import { logTransaction } from "../services/databaseService";
+import { isGorbagioNFTHolder, getGorbagioConfig } from "../services/gorbagioService";
 
 /**
  * Handle POST /build-burn-tx request
@@ -50,11 +51,15 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
     const accountsToClose = accountPubkeys.slice(0, maxAccounts);
     const accountCount = accountsToClose.length;
 
-    // Calculate fees
-    const feeCalc = calculateFee(accountCount);
-
     // Create connection to Gorbagana RPC
     const connection = createConnection(env.GOR_RPC_URL);
+
+    // Check if wallet holds Gorbagio NFT (0% fee eligibility)
+    const gorbagioConfig = getGorbagioConfig(env);
+    const isGorbagioHolder = await isGorbagioNFTHolder(connection, wallet, gorbagioConfig);
+
+    // Calculate fees with Gorbagio discount if applicable
+    const feeCalc = calculateFeeWithDiscount(accountCount, isGorbagioHolder);
 
     // Get latest blockhash
     const { blockhash } = await connection.getLatestBlockhash("processed");
@@ -77,12 +82,13 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
       );
     }
 
-    // Add fee transfer instructions (50/50 split)
+    // Add fee transfer instructions (50/50 split, or none for Gorbagio holders)
     const feeInstructions = createFeeInstructions(
       accountCount,
       wallet,
       env.GOR_VAULT_ADDRESS_AETHER,
-      env.GOR_VAULT_ADDRESS_INCINERATOR
+      env.GOR_VAULT_ADDRESS_INCINERATOR,
+      isGorbagioHolder
     );
     instructions.push(...feeInstructions);
 
@@ -122,6 +128,7 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
       youReceive: lamportsToGor(feeCalc.netAmount),
       blockhash,
       requiresSignatures: [body.wallet],
+      gorbagioHolder: isGorbagioHolder,
     };
 
     return new Response(JSON.stringify(response, null, 2), {

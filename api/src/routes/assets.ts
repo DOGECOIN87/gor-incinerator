@@ -10,7 +10,8 @@ import {
   filterBurnEligibleAccounts,
   validateWalletAddress,
 } from "../services/blockchainService";
-import { calculateFee, lamportsToGor } from "../services/feeService";
+import { calculateFeeWithDiscount, lamportsToGor } from "../services/feeService";
+import { isGorbagioNFTHolder, getGorbagioConfig } from "../services/gorbagioService";
 
 /**
  * Handle GET /assets/:wallet request
@@ -31,15 +32,19 @@ export async function handleGetAssets(
     // Create connection to Gorbagana RPC
     const connection = createConnection(env.GOR_RPC_URL);
 
+    // Check if wallet holds Gorbagio NFT (0% fee eligibility)
+    const gorbagioConfig = getGorbagioConfig(env);
+    const isGorbagioHolder = await isGorbagioNFTHolder(connection, wallet, gorbagioConfig);
+
     // Fetch all token accounts for wallet
     const allAccounts = await fetchTokenAccounts(connection, wallet);
 
     // Filter for burn-eligible accounts
     const burnEligibleAccounts = filterBurnEligibleAccounts(allAccounts);
 
-    // Calculate summary
+    // Calculate summary with Gorbagio discount if applicable
     const accountCount = burnEligibleAccounts.length;
-    const feeCalc = accountCount > 0 ? calculateFee(accountCount) : null;
+    const feeCalc = accountCount > 0 ? calculateFeeWithDiscount(accountCount, isGorbagioHolder) : null;
 
     const summary = {
       totalAccounts: allAccounts.length,
@@ -47,6 +52,7 @@ export async function handleGetAssets(
       totalRent: feeCalc ? lamportsToGor(feeCalc.totalRent) : 0,
       serviceFee: feeCalc ? lamportsToGor(feeCalc.serviceFee) : 0,
       youReceive: feeCalc ? lamportsToGor(feeCalc.netAmount) : 0,
+      gorbagioHolder: isGorbagioHolder,
     };
 
     const response: AssetsResponse = {

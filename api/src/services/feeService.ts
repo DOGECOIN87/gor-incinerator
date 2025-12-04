@@ -1,6 +1,7 @@
 /**
  * Fee calculation service with 50/50 split
  * Calculates fees for Aether Labs and Gor-incinerator
+ * Supports 0% fee discount for Gorbagio NFT holders
  */
 
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, TransactionInstruction } from "@solana/web3.js";
@@ -14,8 +15,14 @@ export const RENT_PER_ACCOUNT = 0.00203928 * LAMPORTS_PER_SOL;
 
 /**
  * Service fee percentage (5% of total rent reclaimed)
+ * Set to 0% for Gorbagio NFT holders
  */
 export const FEE_PERCENTAGE = 5;
+
+/**
+ * Fee percentage for Gorbagio NFT holders (0%)
+ */
+export const GORBAGIO_FEE_PERCENTAGE = 0;
 
 /**
  * Calculate fee breakdown with 50/50 split
@@ -54,19 +61,59 @@ export function calculateFee(accountCount: number): FeeCalculation {
 }
 
 /**
+ * Calculate fee breakdown with Gorbagio NFT holder discount
+ * @param accountCount - Number of token accounts being closed
+ * @param isGorbagioHolder - Whether wallet holds a Gorbagio NFT
+ * @returns Fee calculation with 0% fees for Gorbagio holders
+ */
+export function calculateFeeWithDiscount(accountCount: number, isGorbagioHolder: boolean): FeeCalculation {
+  if (accountCount <= 0) {
+    throw new ValidationError("Account count must be positive");
+  }
+
+  if (accountCount > 14) {
+    throw new ValidationError("Cannot close more than 14 accounts per transaction");
+  }
+
+  // Calculate total rent reclaimed
+  const totalRent = Math.floor(accountCount * RENT_PER_ACCOUNT);
+
+  // Apply 0% fee for Gorbagio NFT holders
+  if (isGorbagioHolder) {
+    return {
+      totalRent,
+      serviceFee: 0,
+      aetherLabsFee: 0,
+      gorIncineratorFee: 0,
+      netAmount: totalRent, // User receives 100% of rent
+    };
+  }
+
+  // Standard 5% fee for non-holders
+  return calculateFee(accountCount);
+}
+
+/**
  * Create fee transfer instructions for both vault addresses
  * @param accountCount - Number of accounts being closed
  * @param payer - Wallet address paying the fees
  * @param aetherVaultAddress - Aether Labs vault address
  * @param incineratorVaultAddress - Gor-incinerator vault address
- * @returns Array of two transfer instructions (50/50 split)
+ * @param isGorbagioHolder - Whether wallet holds a Gorbagio NFT (defaults to false)
+ * @returns Array of transfer instructions (empty for Gorbagio holders)
  */
 export function createFeeInstructions(
   accountCount: number,
   payer: PublicKey,
   aetherVaultAddress: string,
-  incineratorVaultAddress: string
+  incineratorVaultAddress: string,
+  isGorbagioHolder: boolean = false
 ): TransactionInstruction[] {
+  // Gorbagio NFT holders pay 0% fees - no transfer instructions needed
+  if (isGorbagioHolder) {
+    return [];
+  }
+
   const feeCalc = calculateFee(accountCount);
 
   // Validate vault addresses
