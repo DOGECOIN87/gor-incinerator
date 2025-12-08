@@ -107,8 +107,8 @@ ISC License
 
 ## 🔗 Links
 
-- **Website**: https://gor-incinerator.fun
-- **GitHub**: https://github.com/DOGECOIN87/gor-incinerator.fun
+- **Website**: https://gor-incinerator.com
+- **GitHub**: https://github.com/DOGECOIN87/gor-incinerator.com
 - **Support**: Contact @mattrickbeats via X.com
 
 ---
