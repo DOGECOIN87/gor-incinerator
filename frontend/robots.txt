@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gor-incinerator.fun/sitemap.xml
+Sitemap: https://gor-incinerator.com/sitemap.xml

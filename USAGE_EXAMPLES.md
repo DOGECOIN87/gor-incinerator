@@ -7,7 +7,7 @@ Complete examples for integrating with the Gor-Incinerator API.
 All API requests require the `x-api-key` header:
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" https://api.gor-incinerator.fun/health
+curl -H "x-api-key: YOUR_API_KEY" https://api.gor-incinerator.com/health
 ```
 
 ---
@@ -19,7 +19,7 @@ Fetch all burn-eligible token accounts for a wallet.
 ### cURL
 
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/assets/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU" \
+curl -X GET "https://api.gor-incinerator.com/assets/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json"
 ```
@@ -29,7 +29,7 @@ curl -X GET "https://api.gor-incinerator.fun/assets/7xKXtg2CW87d97TXJSDpbD5jBkhe
 ```typescript
 async function fetchBurnEligibleAccounts(walletAddress: string) {
   const response = await fetch(
-    `https://api.gor-incinerator.fun/assets/${walletAddress}`,
+    `https://api.gor-incinerator.com/assets/${walletAddress}`,
     {
       method: "GET",
       headers: {
@@ -62,7 +62,7 @@ import requests
 import os
 
 def fetch_burn_eligible_accounts(wallet_address):
-    url = f"https://api.gor-incinerator.fun/assets/{wallet_address}"
+    url = f"https://api.gor-incinerator.com/assets/{wallet_address}"
     headers = {
         "Content-Type": "application/json",
         "x-api-key": os.getenv("API_KEY")
@@ -120,7 +120,7 @@ Build an unsigned burn transaction with fee splits.
 ### cURL
 
 ```bash
-curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
+curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -143,7 +143,7 @@ async function buildBurnTransaction(
   accounts: string[]
 ) {
   const response = await fetch(
-    "https://api.gor-incinerator.fun/build-burn-tx",
+    "https://api.gor-incinerator.com/build-burn-tx",
     {
       method: "POST",
       headers: {
@@ -214,7 +214,7 @@ import base64
 from solders.transaction import VersionedTransaction
 
 def build_burn_transaction(wallet_address, accounts):
-    url = "https://api.gor-incinerator.fun/build-burn-tx"
+    url = "https://api.gor-incinerator.com/build-burn-tx"
     headers = {
         "Content-Type": "application/json",
         "x-api-key": os.getenv("API_KEY")
@@ -282,7 +282,7 @@ Generate monthly reconciliation report (admin only).
 ### cURL
 
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: YOUR_ADMIN_API_KEY" \
   -H "Content-Type: application/json"
 ```
@@ -291,7 +291,7 @@ curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01
 
 ```typescript
 async function getReconciliationReport(startDate: string, endDate: string) {
-  const url = new URL("https://api.gor-incinerator.fun/reconciliation/report");
+  const url = new URL("https://api.gor-incinerator.com/reconciliation/report");
   url.searchParams.append("start", startDate);
   url.searchParams.append("end", endDate);
 
@@ -356,7 +356,7 @@ import csv
 from datetime import datetime
 
 def get_reconciliation_report(start_date, end_date):
-    url = "https://api.gor-incinerator.fun/reconciliation/report"
+    url = "https://api.gor-incinerator.com/reconciliation/report"
     params = {
         "start": start_date,
         "end": end_date
@@ -543,7 +543,7 @@ class GorIncineratorClient {
 
 // Usage in Gorbag Wallet
 const client = new GorIncineratorClient(
-  "https://api.gor-incinerator.fun",
+  "https://api.gor-incinerator.com",
   process.env.API_KEY!
 );
 

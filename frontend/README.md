@@ -48,8 +48,8 @@ When closing token accounts, the program:
 
 ```bash
 # Clone the repository
-git clone https://github.com/DOGECOIN87/gor-incinerator.fun
-cd gor-incinerator.fun
+git clone https://github.com/DOGECOIN87/gor-incinerator.com
+cd gor-incinerator.com
 
 # Install dependencies
 npm install
@@ -163,7 +163,7 @@ The program automatically skips any account with a non-zero balance, ensuring yo
 ### Project Structure
 
 ```
-gor-incinerator.fun/
+gor-incinerator.com/
 ├── src/
 │   ├── burn.ts                 # Main execution script
 │   ├── config.ts               # Configuration management
@@ -343,8 +343,8 @@ ISC License - See LICENSE file for details
 
 ## 🔗 Links
 
-- **GitHub**: [https://github.com/DOGECOIN87/gor-incinerator.fun](https://github.com/DOGECOIN87/gor-incinerator.fun)
-- **Website**: [https://gor-incinerator.fun](https://gor-incinerator.fun)
+- **GitHub**: [https://github.com/DOGECOIN87/gor-incinerator.com](https://github.com/DOGECOIN87/gor-incinerator.com)
+- **Website**: [https://gor-incinerator.com](https://gor-incinerator.com)
 
 ---
 

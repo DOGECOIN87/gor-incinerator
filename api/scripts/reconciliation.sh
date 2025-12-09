@@ -10,7 +10,7 @@
 set -e
 
 # Configuration
-API_URL="${API_URL:-https://api.gor-incinerator.fun}"
+API_URL="${API_URL:-https://api.gor-incinerator.com}"
 ADMIN_API_KEY="${ADMIN_API_KEY:-}"
 
 # Colors for output

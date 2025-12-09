@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any
 
 # Configuration
-API_URL = os.getenv("API_URL", "https://api.gor-incinerator.fun")
+API_URL = os.getenv("API_URL", "https://api.gor-incinerator.com")
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 
 # ANSI color codes

@@ -66,7 +66,7 @@ User receives: 0.0271 GOR
 5. "Professional service with proven reliability"
 
 ### Channels
-- Website: https://gor-incinerator.fun
+- Website: https://gor-incinerator.com
 - GitHub: Open source repository for transparency
 - Community: Gorbagana network forums and social media
 - SEO: Optimized for "Gorbagana token burning" searches

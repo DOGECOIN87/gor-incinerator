@@ -33,7 +33,7 @@ Include the API key in the `x-api-key` header for all requests:
 
 ```bash
 curl -H "x-api-key: gorincin_YOUR_API_KEY" \
-  https://api.gor-incinerator.fun/assets/WALLET_ADDRESS
+  https://api.gor-incinerator.com/assets/WALLET_ADDRESS
 ```
 
 ### Rate Limiting
@@ -47,7 +47,7 @@ curl -H "x-api-key: gorincin_YOUR_API_KEY" \
 ### Base URL
 
 ```
-https://api.gor-incinerator.fun
+https://api.gor-incinerator.com
 ```
 
 ### 1. Health Check
@@ -60,7 +60,7 @@ https://api.gor-incinerator.fun
 
 **Request**:
 ```bash
-curl https://api.gor-incinerator.fun/health
+curl https://api.gor-incinerator.com/health
 ```
 
 **Response**:
@@ -92,7 +92,7 @@ curl https://api.gor-incinerator.fun/health
 
 **Request**:
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP" \
+curl -X GET "https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP" \
   -H "x-api-key: gorincin_YOUR_API_KEY"
 ```
 
@@ -175,7 +175,7 @@ curl -X GET "https://api.gor-incinerator.fun/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY
 
 **Request**:
 ```bash
-curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
+curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: gorincin_YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -305,7 +305,7 @@ class GorIncineratorAPI {
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
-    this.baseURL = 'https://api.gor-incinerator.fun';
+    this.baseURL = 'https://api.gor-incinerator.com';
   }
 
   /**
@@ -444,14 +444,14 @@ const connection = new Connection('https://rpc.gorbagana.com');
 
 ```bash
 # 1. Test health endpoint
-curl https://api.gor-incinerator.fun/health
+curl https://api.gor-incinerator.com/health
 
 # 2. Test get assets (replace with your API key and wallet)
-curl -X GET "https://api.gor-incinerator.fun/assets/YOUR_WALLET_ADDRESS" \
+curl -X GET "https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS" \
   -H "x-api-key: gorincin_YOUR_API_KEY"
 
 # 3. Test build transaction (replace with actual data)
-curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
+curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: gorincin_YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -518,7 +518,7 @@ These addresses are hardcoded in the API and cannot be changed by the client.
 
 **Request**:
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: gorincin_ADMIN_API_KEY"
 ```
 

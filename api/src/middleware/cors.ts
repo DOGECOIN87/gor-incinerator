@@ -1,6 +1,6 @@
 /**
  * CORS middleware for API endpoints
- * Allows requests from Gorbag Wallet and gor-incinerator.fun
+ * Allows requests from Gorbag Wallet and gor-incinerator.com
  */
 
 /**

@@ -10,7 +10,7 @@ This guide covers deploying Gor Incinerator as a production service for the Gorb
 - Node.js 16+ and npm
 - Gorbagana RPC endpoint access
 - Fee recipient wallet (for collecting service fees)
-- Domain name (e.g., gor-incinerator.fun)
+- Domain name (e.g., gor-incinerator.com)
 - Web hosting service (Vercel, Netlify, or similar)
 
 ### Recommended
@@ -119,7 +119,7 @@ npm run build
 ```nginx
 server {
     listen 80;
-    server_name gor-incinerator.fun;
+    server_name gor-incinerator.com;
     
     # Redirect to HTTPS
     return 301 https://$server_name$request_uri;
@@ -127,7 +127,7 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name gor-incinerator.fun;
+    server_name gor-incinerator.com;
     
     ssl_certificate /path/to/cert.pem;
     ssl_certificate_key /path/to/key.pem;
@@ -505,8 +505,8 @@ Maintain:
 ## Support
 
 For deployment assistance:
-- GitHub Issues: https://github.com/DOGECOIN87/gor-incinerator.fun/issues
-- Email: support@gor-incinerator.fun (if configured)
+- GitHub Issues: https://github.com/DOGECOIN87/gor-incinerator.com/issues
+- Email: support@gor-incinerator.com (if configured)
 
 ---
 

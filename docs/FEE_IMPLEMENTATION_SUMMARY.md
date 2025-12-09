@@ -1,7 +1,7 @@
 # Fee Implementation Summary - Gor Incinerator
 
 ## Overview
-Successfully implemented a **5% configurable fee system** for the Gor-incinerator.fun dApp on the Gorbagana blockchain (Solana fork).
+Successfully implemented a **5% configurable fee system** for the Gor-incinerator.com dApp on the Gorbagana blockchain (Solana fork).
 
 ## Implementation Date
 November 22, 2024

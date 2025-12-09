@@ -17,7 +17,7 @@ Create `.env.local` file:
 
 ```bash
 # API Backend URL
-VITE_API_BASE_URL=https://api.gor-incinerator.fun
+VITE_API_BASE_URL=https://api.gor-incinerator.com
 
 # API Key (if frontend calls API directly)
 VITE_API_KEY=your_api_key
@@ -42,7 +42,7 @@ To enable API mode, set `VITE_API_BASE_URL` in your environment:
 echo "VITE_API_BASE_URL=http://localhost:8787" > .env.local
 
 # Production
-echo "VITE_API_BASE_URL=https://api.gor-incinerator.fun" > .env.local
+echo "VITE_API_BASE_URL=https://api.gor-incinerator.com" > .env.local
 ```
 
 ## Components
@@ -161,7 +161,7 @@ VITE_API_BASE_URL=
 
 ```bash
 # Set backend URL
-VITE_API_BASE_URL=https://api.gor-incinerator.fun
+VITE_API_BASE_URL=https://api.gor-incinerator.com
 VITE_API_KEY=your_api_key
 ```
 
@@ -181,7 +181,7 @@ VITE_API_KEY=your_api_key
 
 3. **Environment Variables**:
    ```
-   VITE_API_BASE_URL=https://api.gor-incinerator.fun
+   VITE_API_BASE_URL=https://api.gor-incinerator.com
    VITE_API_KEY=<api_key>
    VITE_GOR_VAULT_ADDRESS_AETHER=<aether_vault>
    VITE_GOR_VAULT_ADDRESS_INCINERATOR=<incinerator_vault>

@@ -113,7 +113,7 @@ function main() {
   console.log('      wrangler secret put ADMIN_API_KEY');
   console.log();
   console.log('   4. Test the API key:');
-  console.log('      curl -H "x-api-key: YOUR_API_KEY" https://api.gor-incinerator.fun/health');
+  console.log('      curl -H "x-api-key: YOUR_API_KEY" https://api.gor-incinerator.com/health');
   console.log();
   console.log('═══════════════════════════════════════════════════════════════════════');
   console.log();

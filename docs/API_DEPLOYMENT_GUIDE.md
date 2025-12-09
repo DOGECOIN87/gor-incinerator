@@ -325,7 +325,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 2. Click on **gor-incinerator-api**
 3. Go to **Settings** → **Domains & Routes**
 4. Click **Add Custom Domain**
-5. Enter: `api.gor-incinerator.fun`
+5. Enter: `api.gor-incinerator.com`
 6. Click **Add Domain**
 
 ### 7.2 Verify DNS Configuration
@@ -333,13 +333,13 @@ curl -H "x-api-key: YOUR_API_KEY" \
 Cloudflare will automatically create the necessary DNS records. Verify:
 
 ```bash
-dig api.gor-incinerator.fun
+dig api.gor-incinerator.com
 ```
 
 ### 7.3 Test Custom Domain
 
 ```bash
-curl https://api.gor-incinerator.fun/health
+curl https://api.gor-incinerator.com/health
 ```
 
 ---
@@ -383,21 +383,21 @@ wrangler tail
 
 ```bash
 # Health check
-curl https://api.gor-incinerator.fun/health
+curl https://api.gor-incinerator.com/health
 
 # Get assets
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.gor-incinerator.fun/assets/WALLET_ADDRESS
+  https://api.gor-incinerator.com/assets/WALLET_ADDRESS
 
 # Build transaction
-curl -X POST https://api.gor-incinerator.fun/build-burn-tx \
+curl -X POST https://api.gor-incinerator.com/build-burn-tx \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"wallet": "WALLET", "accounts": ["ACCOUNT"]}'
 
 # Reconciliation (admin only)
 curl -H "x-api-key: YOUR_ADMIN_API_KEY" \
-  "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31"
+  "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
 ```
 
 ### 9.2 Test Error Handling
@@ -405,12 +405,12 @@ curl -H "x-api-key: YOUR_ADMIN_API_KEY" \
 ```bash
 # Test invalid API key
 curl -H "x-api-key: invalid" \
-  https://api.gor-incinerator.fun/assets/WALLET_ADDRESS
+  https://api.gor-incinerator.com/assets/WALLET_ADDRESS
 # Expected: 401 Unauthorized
 
 # Test invalid wallet
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.gor-incinerator.fun/assets/invalid
+  https://api.gor-incinerator.com/assets/invalid
 # Expected: 400 Bad Request
 ```
 
@@ -420,7 +420,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 # Make 101 requests in quick succession
 for i in {1..101}; do
   curl -H "x-api-key: YOUR_API_KEY" \
-    https://api.gor-incinerator.fun/health
+    https://api.gor-incinerator.com/health
 done
 # Last request should return 429 (if rate limiting is implemented)
 ```
@@ -433,7 +433,7 @@ done
 
 Create a document with:
 
-1. **API Base URL**: `https://api.gor-incinerator.fun`
+1. **API Base URL**: `https://api.gor-incinerator.com`
 2. **API Key**: `gorincin_[generated_key]`
 3. **Rate Limit**: 100 requests per minute
 4. **Integration Guide**: Link to `GORBAG_WALLET_INTEGRATION.md`

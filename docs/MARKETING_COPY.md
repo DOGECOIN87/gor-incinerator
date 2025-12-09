@@ -136,7 +136,7 @@ The easiest way to reclaim rent from empty token accounts on #Gorbagana
 ✓ >90% success rate
 ✓ No technical knowledge needed
 
-Start burning: gor-incinerator.fun
+Start burning: gor-incinerator.com
 
 #GOR #Crypto #DeFi
 ```
@@ -152,7 +152,7 @@ You keep 95% of your reclaimed GOR
 Transparent pricing
 No hidden fees
 
-Try it now: gor-incinerator.fun
+Try it now: gor-incinerator.com
 ```
 
 **User Benefit**
@@ -191,7 +191,7 @@ Key features:
 Just closed 14 accounts and reclaimed 0.0271 GOR (after 5% fee). 
 Super easy and fast.
 
-Check it out: gor-incinerator.fun
+Check it out: gor-incinerator.com
 
 Not affiliated, just a happy user!
 ```
@@ -212,7 +212,7 @@ Gor Incinerator makes it easy to reclaim your rent:
 
 Only 5% service fee - you keep 95%!
 
-Try it: https://gor-incinerator.fun
+Try it: https://gor-incinerator.com
 
 Questions? Ask away! 👇
 ```
@@ -237,7 +237,7 @@ Here's what makes us different:
 
 Ready to start?
 1. Install Backpack wallet (if you haven't already)
-2. Visit gor-incinerator.fun
+2. Visit gor-incinerator.com
 3. Connect and burn!
 
 Questions? Just reply to this email.
@@ -265,7 +265,7 @@ any transaction:
 As always, we're committed to transparency and the lowest fees in 
 the industry.
 
-Try it now: gor-incinerator.fun
+Try it now: gor-incinerator.com
 
 Best,
 The Gor Incinerator Team
@@ -361,7 +361,7 @@ No technical knowledge needed. Start in seconds.
 ```
 Reclaim Your GOR
 5% Fee | You Keep 95%
-gor-incinerator.fun
+gor-incinerator.com
 ```
 
 **Square Ad**:
@@ -406,7 +406,7 @@ Key features include:
 - >90% transaction success rate
 - Batch processing of up to 14 accounts per transaction
 
-The service is now available at gor-incinerator.fun.
+The service is now available at gor-incinerator.com.
 
 About Gor Incinerator:
 Gor Incinerator is a professional token burning service for the Gorbagana 

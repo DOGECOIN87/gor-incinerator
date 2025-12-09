@@ -26,7 +26,7 @@ info:
     url: https://opensource.org/licenses/ISC
 
 servers:
-  - url: https://api.gor-incinerator.fun
+  - url: https://api.gor-incinerator.com
     description: Production server
   - url: http://localhost:8787
     description: Local development server

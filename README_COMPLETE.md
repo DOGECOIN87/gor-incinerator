@@ -125,14 +125,14 @@ npm run build
 ```typescript
 // 1. Fetch burn-eligible accounts
 const response = await fetch(
-  `https://api.gor-incinerator.fun/assets/${walletAddress}`,
+  `https://api.gor-incinerator.com/assets/${walletAddress}`,
   { headers: { "x-api-key": API_KEY } }
 );
 const assets = await response.json();
 
 // 2. Build burn transaction
 const txResponse = await fetch(
-  "https://api.gor-incinerator.fun/build-burn-tx",
+  "https://api.gor-incinerator.com/build-burn-tx",
   {
     method: "POST",
     headers: { "x-api-key": API_KEY, "Content-Type": "application/json" },
@@ -183,7 +183,7 @@ Returns all burn-eligible token accounts for a wallet.
 
 **Example**:
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/assets/YOUR_WALLET" \
+curl -X GET "https://api.gor-incinerator.com/assets/YOUR_WALLET" \
   -H "x-api-key: YOUR_API_KEY"
 ```
 
@@ -250,7 +250,7 @@ Generates reconciliation report for date range.
 
 **Example**:
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: YOUR_ADMIN_API_KEY"
 ```
 
@@ -358,7 +358,7 @@ wrangler deploy
    - **Build command**: `npm run build`
    - **Build output**: `dist`
 5. Set environment variables:
-   - `VITE_API_BASE_URL=https://api.gor-incinerator.fun`
+   - `VITE_API_BASE_URL=https://api.gor-incinerator.com`
    - `VITE_API_KEY=<api_key>`
 6. Click **Save and Deploy**
 
@@ -372,14 +372,14 @@ wrangler deploy
 
 ```bash
 # Health check
-curl https://api.gor-incinerator.fun/health
+curl https://api.gor-incinerator.com/health
 
 # Test assets endpoint
-curl -X GET "https://api.gor-incinerator.fun/assets/YOUR_WALLET" \
+curl -X GET "https://api.gor-incinerator.com/assets/YOUR_WALLET" \
   -H "x-api-key: YOUR_API_KEY"
 
 # Test build transaction
-curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
+curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -389,13 +389,13 @@ curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
   }'
 
 # Test reconciliation (admin)
-curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: YOUR_ADMIN_API_KEY"
 ```
 
 ### Test Frontend
 
-1. Visit `https://gor-incinerator.fun`
+1. Visit `https://gor-incinerator.com`
 2. Connect Backpack wallet
 3. Scan for empty accounts
 4. Click **Burn X Accounts**
@@ -460,7 +460,7 @@ CSV export saved to: reconciliation_2025-01-01_to_2025-01-31.csv
 ### For Aether Labs (Gorbag Wallet)
 
 **API Credentials**:
-- API Base URL: `https://api.gor-incinerator.fun`
+- API Base URL: `https://api.gor-incinerator.com`
 - API Key: (provided separately)
 
 **Documentation**:
@@ -472,7 +472,7 @@ CSV export saved to: reconciliation_2025-01-01_to_2025-01-31.csv
 
 ### For Users
 
-- **Website**: https://gor-incinerator.fun
+- **Website**: https://gor-incinerator.com
 - **GitHub**: https://github.com/DOGECOIN87/gor-incinerator
 - **Support**: @mattrickbeats via X.com
 

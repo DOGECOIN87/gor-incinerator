@@ -37,7 +37,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4">
             <a 
-              href="https://github.com/DOGECOIN87/gor-incinerator.fun" 
+              href="https://github.com/DOGECOIN87/gor-incinerator.com" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -483,7 +483,7 @@ export default function Home() {
               <h3 className="font-semibold">Resources</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.fun" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  <a href="https://github.com/DOGECOIN87/gor-incinerator.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                     GitHub Repository
                   </a>
                 </li>
@@ -493,7 +493,7 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.fun/issues" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  <a href="https://github.com/DOGECOIN87/gor-incinerator.com/issues" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                     Report Issues
                   </a>
                 </li>
@@ -509,7 +509,7 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.fun/blob/master/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  <a href="https://github.com/DOGECOIN87/gor-incinerator.com/blob/master/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                     Contributing Guide
                   </a>
                 </li>

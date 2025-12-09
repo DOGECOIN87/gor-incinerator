@@ -75,7 +75,7 @@
 ### Setup and Installation
 ```bash
 # 1. Clone repository
-git clone https://github.com/DOGECOIN87/gor-incinerator.fun
+git clone https://github.com/DOGECOIN87/gor-incinerator.com
 
 # 2. Install dependencies
 npm install
@@ -170,7 +170,7 @@ Results logged and displayed
 ## File Organization
 
 ```
-gor-incinerator.fun/
+gor-incinerator.com/
 ├── src/              # Backend TypeScript code
 ├── frontend/         # React UI components
 ├── docs/             # Documentation (you are here)
@@ -188,8 +188,8 @@ See: [Project Structure](../PROJECT_STRUCTURE.md)
 - All guides in this directory
 
 ### Code
-- GitHub: https://github.com/DOGECOIN87/gor-incinerator.fun
-- Issues: https://github.com/DOGECOIN87/gor-incinerator.fun/issues
+- GitHub: https://github.com/DOGECOIN87/gor-incinerator.com
+- Issues: https://github.com/DOGECOIN87/gor-incinerator.com/issues
 
 ### Configuration
 - Example: [../.env.example](../.env.example)

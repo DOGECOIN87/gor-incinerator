@@ -473,11 +473,11 @@ npm test -- integration.test.ts
 
 ```bash
 # Test health endpoint (no auth)
-ab -n 1000 -c 10 https://api.gor-incinerator.fun/health
+ab -n 1000 -c 10 https://api.gor-incinerator.com/health
 
 # Test assets endpoint (with auth)
 ab -n 1000 -c 10 -H "x-api-key: YOUR_API_KEY" \
-  https://api.gor-incinerator.fun/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+  https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 ```
 
 ### Using k6
@@ -502,7 +502,7 @@ export const options = {
   },
 };
 
-const API_URL = 'https://api.gor-incinerator.fun';
+const API_URL = 'https://api.gor-incinerator.com';
 const API_KEY = __ENV.API_KEY;
 
 export default function () {
@@ -549,17 +549,17 @@ API_KEY=your_api_key k6 run api/tests/load-test.js
 
 ```bash
 # Test missing API key
-curl -i https://api.gor-incinerator.fun/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+curl -i https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 # Expected: 401 Unauthorized
 
 # Test invalid API key
 curl -i -H "x-api-key: invalid" \
-  https://api.gor-incinerator.fun/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+  https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 # Expected: 401 Unauthorized
 
 # Test valid API key
 curl -i -H "x-api-key: gorincin_YOUR_KEY" \
-  https://api.gor-incinerator.fun/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+  https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 # Expected: 200 OK
 ```
 
@@ -567,20 +567,20 @@ curl -i -H "x-api-key: gorincin_YOUR_KEY" \
 
 ```bash
 # Test SQL injection attempt
-curl -X POST https://api.gor-incinerator.fun/build-burn-tx \
+curl -X POST https://api.gor-incinerator.com/build-burn-tx \
   -H "x-api-key: YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"wallet": "'; DROP TABLE transactions; --", "accounts": []}'
 # Expected: 400 Bad Request
 
 # Test XSS attempt
-curl -X GET "https://api.gor-incinerator.fun/assets/<script>alert('xss')</script>" \
+curl -X GET "https://api.gor-incinerator.com/assets/<script>alert('xss')</script>" \
   -H "x-api-key: YOUR_KEY"
 # Expected: 400 Bad Request
 
 # Test oversized payload
 dd if=/dev/zero bs=1M count=10 | curl -X POST \
-  https://api.gor-incinerator.fun/build-burn-tx \
+  https://api.gor-incinerator.com/build-burn-tx \
   -H "x-api-key: YOUR_KEY" \
   -H "Content-Type: application/json" \
   --data-binary @-

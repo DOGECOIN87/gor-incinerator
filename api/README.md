@@ -21,7 +21,7 @@ Returns all burn-eligible token accounts for a wallet.
 
 **Request**:
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/assets/ABC123..." \
+curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
   -H "x-api-key: your_api_key"
 ```
 
@@ -56,7 +56,7 @@ Builds an unsigned burn transaction with fee splits.
 
 **Request**:
 ```bash
-curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
+curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -102,7 +102,7 @@ Generates reconciliation report for date range.
 
 **Request**:
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: your_admin_api_key"
 ```
 
@@ -260,14 +260,14 @@ Both scripts generate:
 ### Test GET /assets/:wallet
 
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/assets/YOUR_WALLET_ADDRESS" \
+curl -X GET "https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS" \
   -H "x-api-key: YOUR_API_KEY"
 ```
 
 ### Test POST /build-burn-tx
 
 ```bash
-curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
+curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -280,7 +280,7 @@ curl -X POST "https://api.gor-incinerator.fun/build-burn-tx" \
 ### Test Reconciliation
 
 ```bash
-curl -X GET "https://api.gor-incinerator.fun/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: YOUR_ADMIN_API_KEY"
 ```
 
@@ -309,6 +309,6 @@ ISC License
 
 ## 🔗 Links
 
-- **API**: https://api.gor-incinerator.fun
-- **Frontend**: https://gor-incinerator.fun
+- **API**: https://api.gor-incinerator.com
+- **Frontend**: https://gor-incinerator.com
 - **GitHub**: https://github.com/DOGECOIN87/gor-incinerator

@@ -278,7 +278,7 @@ and transferred to the designated recipient address.
 - Configuration Guide: `.env.example`
 
 ### Contact for Questions
-- GitHub Issues: https://github.com/DOGECOIN87/gor-incinerator.fun/issues
+- GitHub Issues: https://github.com/DOGECOIN87/gor-incinerator.com/issues
 - Fee Recipient: CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
 
 ---
