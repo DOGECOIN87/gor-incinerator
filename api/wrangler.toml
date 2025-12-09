@@ -11,7 +11,7 @@ node_compat = true
 [[d1_databases]]
 binding = "DB"
 database_name = "gor-incinerator-logs"
-database_id = "54456de5-7083-46c2-a69b-4164d5de2dff" # Placeholder, will be created in Cloudflare dashboard
+database_id = "YOUR_ACTUAL_DATABASE_ID_HERE" # <-- REPLACE THIS WITH THE ID FROM 'wrangler d1 create'
 
 # Environment variables (non-secret)
 [vars]
@@ -35,9 +35,10 @@ name = "gor-incinerator-api-dev"
 vars = { ENVIRONMENT = "development" }
 
 # Routes (configure after deployment)
-# routes = [
-#   { pattern = "api.gor-incinerator.com/*", zone_name = "gor-incinerator.com" }
-# ]
+# This section is now uncommented to enable custom domain routing
+routes = [
+  { pattern = "api.gor-incinerator.com/*", zone_name = "gor-incinerator.com" }
+]
 
 # CORS configuration
 [build]
