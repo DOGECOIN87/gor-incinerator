@@ -35,8 +35,10 @@ export interface TokenAccount {
   pubkey: string;
   mint: string;
   balance: string;
+  decimals: number; // Added for clarity in /assets response
   burnEligible: boolean;
   estimatedRent: number; // in GOR
+  authComment?: string; // Added for debugging/clarity of eligibility
 }
 
 /**

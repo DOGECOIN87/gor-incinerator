@@ -2,6 +2,20 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { env } from 'hono/adapter';
 import { createClient } from '@supabase/supabase-js';
+import {
+  createConnection,
+  validateWalletAddress,
+  fetchTokenAccounts,
+  enrichTokenAccounts,
+} from './services/blockchainService';
+import { buildBurnTransaction } from './services/transactionBuilder';
+import {
+  AssetsResponse,
+  BuildBurnTxRequest,
+  BuildBurnTxResponse,
+  ValidationError,
+  BlockchainError,
+} from './types';
 
 // Define the environment variables expected by the Worker
 type Bindings = {
@@ -24,9 +38,9 @@ app.use('/*', cors());
 
 // Middleware for API Key Authentication
 const apiKeyAuth = async (c: any, next: any) => {
+  const { API_KEY } = env<Bindings>(c);
   const apiKey = c.req.header('x-api-key');
-  // For MVP, we will use a simple check. In a real app, this would be a lookup.
-  if (!apiKey || apiKey !== 'GORBAG_WALLET_API_KEY_PLACEHOLDER') {
+  if (!apiKey || apiKey !== API_KEY) {
     return c.json({ error: 'Unauthorized: Invalid or missing API Key' }, 401);
   }
   await next();
@@ -80,90 +94,108 @@ app.get('/assets/:wallet', apiKeyAuth, async (c) => {
   const { wallet } = c.req.param();
   const { GOR_RPC_URL } = env<Bindings>(c);
 
-  // Placeholder for Solana/Gorbagana RPC logic
-  // In a real implementation, you would use a library like @solana/web3.js
-  // to connect to GOR_RPC_URL and fetch token accounts.
-  // For MVP, we return a mock response.
+  try {
+    // 1. Validate wallet address
+    const walletPubkey = validateWalletAddress(wallet);
 
-  // await initializeD1Schema(c.env.DB); // Uncomment this line to ensure schema is created on first request
+    // 2. Create connection
+    const connection = createConnection(GOR_RPC_URL);
 
-  const mockResponse = {
-    wallet,
-    accounts: [
-      { pubkey: 'DEF456...', mint: 'GHI789...', balance: '0', burnEligible: true, estimatedRent: 0.00203928 },
-      { pubkey: 'JKL012...', mint: 'MNO345...', balance: '0', burnEligible: true, estimatedRent: 0.00203928 },
-    ],
-    summary: {
-      totalAccounts: 2,
-      burnEligible: 2,
-      totalRent: 0.00407856,
-      serviceFee: 0.00020393,
-      youReceive: 0.00387463,
-    },
-  };
+    // 3. Fetch all token accounts
+    const parsedAccounts = await fetchTokenAccounts(connection, walletPubkey);
 
-  return c.json(mockResponse);
+    // 4. Enrich accounts with burn eligibility (uses new logic from Phase 3)
+    const enrichedAccounts = await enrichTokenAccounts(
+      connection,
+      walletPubkey,
+      parsedAccounts
+    );
+
+    // 5. Calculate summary
+    const burnEligibleAccounts = enrichedAccounts.filter((a) => a.burnEligible);
+    const totalRent = burnEligibleAccounts.reduce(
+      (sum, a) => sum + a.estimatedRent,
+      0
+    );
+    const serviceFee = totalRent * 0.05;
+    const youReceive = totalRent - serviceFee;
+
+    const response: AssetsResponse = {
+      wallet,
+      accounts: enrichedAccounts,
+      summary: {
+        totalAccounts: enrichedAccounts.length,
+        burnEligible: burnEligibleAccounts.length,
+        totalRent: totalRent,
+        serviceFee: serviceFee,
+        youReceive: youReceive,
+      },
+    };
+
+    return c.json(response);
+  } catch (error) {
+    if (error instanceof ValidationError || error instanceof BlockchainError) {
+      return c.json({ error: error.message }, 400);
+    }
+    console.error('Error in /assets:', error);
+    return c.json({ error: 'Internal Server Error' }, 500);
+  }
 });
 
 // 2. POST /build-burn-tx
 app.post('/build-burn-tx', apiKeyAuth, async (c) => {
-  const { DB, GOR_VAULT_ADDRESS_AETHER, GOR_VAULT_ADDRESS_INCINERATOR } = env<Bindings>(c);
-  const { wallet, accounts, maxAccounts } = await c.req.json();
-
-  if (!wallet || !accounts || accounts.length === 0) {
-    return c.json({ error: 'Invalid request body' }, 400);
-  }
-
-  // Placeholder for transaction building logic
-  // In a real implementation, you would use @solana/web3.js to build the transaction
-  // with the two fee transfer instructions.
-
-  const accountsToClose = Math.min(accounts.length, maxAccounts || 14);
-  const rentPerAccount = 0.00203928; // Mock value
-  const totalRent = accountsToClose * rentPerAccount;
-  const serviceFee = totalRent * 0.05;
-  const aetherLabsFee = serviceFee * 0.5;
-  const gorIncineratorFee = serviceFee * 0.5;
-
-  // 1. Log to D1 database (pending status)
-  const timestamp = new Date().toISOString();
-  const insertStmt = DB.prepare(
-    `INSERT INTO transactions (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, gor_incinerator_fee, status)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-  );
+  const { DB, GOR_RPC_URL } = env<Bindings>(c);
 
   try {
-    const result = await insertStmt.bind(
-      timestamp,
-      wallet,
-      accountsToClose,
-      totalRent,
-      serviceFee,
-      aetherLabsFee,
-      gorIncineratorFee,
-      'pending'
-    ).run();
-    console.log('Transaction logged to D1:', result);
-  } catch (e) {
-    console.error('D1 Insert Error:', e);
-    // Continue with the transaction build even if logging fails for MVP
+    const requestBody = (await c.req.json()) as BuildBurnTxRequest;
+    const { wallet, accounts } = requestBody;
+
+    if (!wallet || !accounts || accounts.length === 0) {
+      throw new ValidationError('Invalid request body: wallet and accounts are required.');
+    }
+
+    // 1. Create connection
+    const connection = createConnection(GOR_RPC_URL);
+
+    // 2. Build the transaction (uses new logic from Phase 2)
+    const txResponse: BuildBurnTxResponse = await buildBurnTransaction(
+      connection,
+      env<Bindings>(c),
+      requestBody
+    );
+
+    // 3. Log to D1 database (pending status)
+    const timestamp = new Date().toISOString();
+    const insertStmt = DB.prepare(
+      `INSERT INTO transactions (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, gor_incinerator_fee, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+
+    try {
+      await insertStmt.bind(
+        timestamp,
+        wallet,
+        txResponse.accountsToClose,
+        txResponse.totalRent,
+        txResponse.serviceFee,
+        txResponse.feeBreakdown.aetherLabs,
+        txResponse.feeBreakdown.gorIncinerator,
+        'pending'
+      ).run();
+    } catch (e) {
+      console.error('D1 Insert Error:', e);
+      // Continue with the transaction build even if logging fails
+    }
+
+    // 4. Return the transaction response
+    return c.json(txResponse);
+  } catch (error) {
+    if (error instanceof ValidationError || error instanceof BlockchainError) {
+      return c.json({ error: error.message }, 400);
+    }
+    console.error('Error in /build-burn-tx:', error);
+    return c.json({ error: 'Internal Server Error' }, 500);
   }
-
-  const mockTxResponse = {
-    transaction: 'base64_encoded_mock_transaction', // Placeholder
-    accountsToClose,
-    totalRent,
-    serviceFee,
-    feeBreakdown: {
-      aetherLabs: aetherLabsFee,
-      gorIncinerator: gorIncineratorFee,
-    },
-    youReceive: totalRent - serviceFee,
-    blockhash: 'ABC123...',
-    requiresSignatures: [wallet],
-  };
-
-  return c.json(mockTxResponse);
 });
 
 // 3. GET /reconciliation/report
