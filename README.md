@@ -1,116 +1,69 @@
-# Gor-Incinerator.fun - Burn Junk - Get Gor - Premium Token Burning Service
+# Gor-Incinerator API
 
-The easiest way to reclaim rent from empty token accounts on the **Gorbagana** blockchain. Professional service with a transparent 5% fee.
+The Gor-Incinerator API is a secure Cloudflare Worker designed to facilitate the burning and closing of unneeded Solana Program Library (SPL) token accounts. It provides a robust backend for wallet integration, ensuring real on-chain token burning and secure transaction building.
 
-## 🔥 Features
+## 🚀 Final Functionality
 
-- **Easy-to-use web interface** - No command line required
-- **Backpack wallet integration** - Seamless connection to Gorbagana network
-- Close up to 14 token accounts per transaction
-- >90% success rate with optimized compute budget
-- **Transparent 5% service fee** - You keep 95% of reclaimed rent
-- Safety: Only closes zero-balance accounts
-- Professional service with comprehensive logging
+This API implements the following core features:
 
-## 💰 Service Fee
+1.  **Real Token Burning**: Supports on-chain burning of non-zero balance token accounts where the wallet holds the Mint Authority.
+2.  **Rent Reclamation**: Closes all specified token accounts (zero-balance or burned) to reclaim the locked SOL rent to the user's wallet.
+3.  **Secure Fee Collection**: Automatically calculates a 5% service fee on the reclaimed rent, split 50/50 between the Aether Labs and Gor-Incinerator vaults, and includes the transfer instructions in the transaction.
+4.  **Burn Eligibility Logic**: Determines if an account is eligible for closing/burning based on balance, blacklist status, and Mint Authority ownership.
+5.  **Secure API Access**: All core endpoints are protected by API key authentication using Cloudflare Worker secrets.
 
-- **5% of reclaimed rent** - Industry-leading low fee
-- **You keep 95%** - More than other services charging 15%+
-- **Transparent** - All fees clearly displayed before transaction
-- **No hidden costs** - What you see is what you pay
+## ⚙️ API Endpoints
 
-## 🚀 Quick Start
+| Endpoint | Method | Description | Authentication |
+| :--- | :--- | :--- | :--- |
+| `/assets/:wallet` | `GET` | Fetches all token accounts for a wallet, enriched with burn eligibility status and estimated rent. | `x-api-key` |
+| `/build-burn-tx` | `POST` | Builds an unsigned, versioned Solana transaction containing BurnChecked, CloseAccount, and fee transfer instructions. | `x-api-key` |
+| `/reconciliation/report` | `GET` | Admin endpoint to query transaction logs from the D1 database for reconciliation. | `x-api-key` (Admin) |
 
-### Web Interface (Recommended)
+## 🛠️ Deployment
 
-1. Visit **https://gor-incinerator.fun**
-2. Connect your **Backpack wallet**
-3. Review accounts to close
-4. Confirm transaction and reclaim your GOR
+The API is built using Hono and deployed as a Cloudflare Worker.
 
-### Command Line (Advanced)
+### 1. Install Dependencies
+
+Navigate to the `api/` directory and install the necessary packages:
 
 ```bash
-# Install dependencies
-npm install
-
-# Create .env file (see below)
-# Run the incinerator
-npm run burn
+cd api
+pnpm install
 ```
 
-### Configuration (.env)
+### 2. Configure Environment Secrets
 
-```dotenv
-# Required - Determines which blockchain to use
-RPC_URL=https://rpc.gorbagana.com  # For Gorbagana
-# RPC_URL=https://api.mainnet-beta.solana.com  # For Solana
+The worker requires several secrets to be set via `wrangler secret put`. **Do not hardcode these values.**
 
-WALLET=[1,2,3,...,64]  # uint8 array format
+| Secret Name | Description |
+| :--- | :--- |
+| `API_KEY` | Key for general API access (`/assets`, `/build-burn-tx`). |
+| `ADMIN_API_KEY` | Key for administrative access (`/reconciliation/report`). |
+| `GOR_RPC_URL` | URL for the Solana RPC endpoint (e.g., Gorbagana RPC). |
+| `GOR_VAULT_ADDRESS_AETHER` | Public key for the Aether Labs fee vault. |
+| `GOR_VAULT_ADDRESS_INCINERATOR` | Public key for the Gor-Incinerator fee vault. |
 
-# Optional - Fee Configuration
-FEE_RECIPIENT=CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
-FEE_PERCENTAGE=5  # Default is 5, set 0-100
+**Example Setup (Execute in the `api/` directory):**
+
+```bash
+# Example for API_KEY - replace the value with your actual secret
+echo "YOUR_SECURE_API_KEY_VALUE" | wrangler secret put API_KEY
 ```
 
-**Important**: The `RPC_URL` determines which blockchain you're operating on. The same wallet can exist on both Solana and Gorbagana, but the program will **only interact with the blockchain specified by your RPC_URL**. See `BLOCKCHAIN_SEPARATION_GUIDE.md` for details.
+### 3. Deploy the Worker
 
-## 📊 How It Works
+Ensure your `wrangler.toml` is configured correctly, then deploy the worker:
 
-1. Scans wallet for empty token accounts
-2. Builds transaction to close up to 14 accounts
-3. Calculates and applies configured fee (if enabled)
-4. Executes transaction atomically
-5. Reports results and fees collected
-
-**Example Output**:
-```
-14 token accounts successfully closed
-Fee collected: 0.00143 GOR (5%)
+```bash
+wrangler deploy
 ```
 
-## 🛡️ Safety Features
+## 🧪 Testing
 
-- **Blacklist Protection**: Prevent specific tokens from being closed
-- **Zero Balance Check**: Never closes accounts with tokens
-- **Transaction Validation**: Preflight checks and retry logic
-- **Comprehensive Logging**: Full audit trail of operations
+Unit tests for the core logic are available in `api/src/services/*.test.ts`. Run them using:
 
-## 📝 Fee Implementation
-
-The 5% fee is implemented with:
-- Accurate rent calculation (~0.00203928 GOR per account)
-- Atomic execution with account closures
-- Full transparency and logging
-- User control (can be disabled)
-- Comprehensive validation
-
-See `src/services/feeService.ts` for implementation details.
-
-## 🌐 About Gorbagana
-
-Gorbagana is a high-performance Solana fork designed for speed, efficiency, and scalability. The Gor Incinerator provides the easiest way for users to reclaim rent from unused token accounts.
-
-## 💼 Why Choose Gor Incinerator?
-
-- **Lowest fees in the industry** - Only 5% vs 15%+ from competitors
-- **0% fees** for Gorbagio NFT holders-
-- **Backpack wallet support** - The only wallet compatible with Gorbagana
-- **Gorbag Wallet** support coming soon!
-- **User-friendly interface** - No technical knowledge required
-- **Proven reliability** - >90% success rate
-- **Transparent pricing** - See exactly what you'll receive before confirming
-
-## 📄 License
-
-ISC License
-
-## 🔗 Links
-
-- **Website**: https://gor-incinerator.com
-- **GitHub**: https://github.com/DOGECOIN87/gor-incinerator.com
-- **Support**: Contact @mattrickbeats via X.com
-
----
-
-**Gor Incinerator** - The professional token burning service for Gorbagana network users.
+```bash
+pnpm test
+```
