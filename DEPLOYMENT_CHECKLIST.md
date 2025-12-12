@@ -101,12 +101,12 @@
 
 **User API Key** (for frontend and standard requests):
 ```
-gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3
+REDACTED_USER_API_KEY
 ```
 
 **Admin API Key** (for reconciliation and admin tasks only):
 ```
-gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101
+REDACTED_ADMIN_API_KEY
 ```
 
 ## 🚀 Getting Started With Next Steps

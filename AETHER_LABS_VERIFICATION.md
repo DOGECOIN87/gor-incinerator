@@ -53,8 +53,8 @@ Tables:
 
 **Status:** Secure and Enforced
 ```
-User API Key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3
-Admin API Key: gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101
+User API Key: REDACTED_USER_API_KEY
+Admin API Key: REDACTED_ADMIN_API_KEY
 
 Tests:
 ✅ Missing key returns HTTP 401

@@ -16,8 +16,8 @@ Two API keys have been generated for your deployment:
 
 | Purpose | Partner Name | API Key | Key ID |
 |---------|-------------|---------|--------|
-| User API Key | Gorbag Wallet | `gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3` | `2ee20e3c` |
-| Admin Key | Admin | `gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101` | `11c539f5` |
+| User API Key | Gorbag Wallet | `REDACTED_USER_API_KEY` | `2ee20e3c` |
+| Admin Key | Admin | `REDACTED_ADMIN_API_KEY` | `11c539f5` |
 
 **IMPORTANT**: 
 - Store these values in a password manager or secure secret store
@@ -51,10 +51,10 @@ cd api
 
 # Set each secret when prompted
 wrangler secret put API_KEY
-# Paste: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3
+# Paste: REDACTED_USER_API_KEY
 
 wrangler secret put ADMIN_API_KEY
-# Paste: gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101
+# Paste: REDACTED_ADMIN_API_KEY
 
 wrangler secret put GOR_RPC_URL
 # Paste: https://rpc.gorbagana.wtf
@@ -79,7 +79,7 @@ The frontend `.env` file has been created at `frontend/.env` with API mode confi
 **Current values**:
 ```
 VITE_API_BASE_URL=https://api.gor-incinerator.com
-VITE_API_KEY=gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3
+VITE_API_KEY=REDACTED_USER_API_KEY
 VITE_GOR_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
 VITE_GOR_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
 VITE_MODE=api
@@ -155,8 +155,8 @@ Expected response: `{"status":"ok","timestamp":"2025-...","environment":"product
 ### Get Burn-Eligible Assets
 
 ```bash
-curl -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3" \
-     https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS
+curl -H "x-api-key: REDACTED_USER_API_KEY" \
+   https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS
 ```
 
 ### Build a Burn Transaction
@@ -164,7 +164,7 @@ curl -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9
 ```bash
 curl -X POST \
      -H "Content-Type: application/json" \
-     -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3" \
+   -H "x-api-key: REDACTED_USER_API_KEY" \
      -d '{"wallet":"YOUR_WALLET_ADDRESS","accounts":["ACC1","ACC2"],"maxAccounts":14}' \
      https://api.gor-incinerator.com/build-burn-tx
 ```
@@ -172,8 +172,8 @@ curl -X POST \
 ### Generate Reconciliation Report (Admin Only)
 
 ```bash
-curl -H "x-api-key: gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101" \
-     "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
+curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
+   "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
 ```
 
 ## Files Created/Modified

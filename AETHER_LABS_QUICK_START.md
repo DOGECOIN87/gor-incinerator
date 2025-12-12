@@ -15,12 +15,12 @@
 
 **User API Key** (for frontend transactions):
 ```
-gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3
+REDACTED_USER_API_KEY
 ```
 
 **Admin API Key** (for reconciliation & reporting):
 ```
-gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101
+REDACTED_ADMIN_API_KEY
 ```
 
 ### Fee Vault Address (AETHER LABS)
@@ -107,14 +107,14 @@ Gor-Incinerator Share:       254,910 lamports (0.00025491 GOR)
 
 ### 1. Get User's Token Accounts
 ```bash
-curl -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3" \
+curl -H "x-api-key: REDACTED_USER_API_KEY" \
   https://gor-incinerator-api.gor-incinerator.workers.dev/assets/WALLET_ADDRESS
 ```
 
 ### 2. Build Burn Transaction
 ```bash
 curl -X POST \
-  -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3" \
+  -H "x-api-key: REDACTED_USER_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"wallet":"WALLET_ADDRESS","accounts":["ACCOUNT1","ACCOUNT2"]}' \
   https://gor-incinerator-api.gor-incinerator.workers.dev/build-burn-tx
@@ -122,7 +122,7 @@ curl -X POST \
 
 ### 3. Get Reconciliation Report (Admin Only)
 ```bash
-curl -H "x-api-key: gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101" \
+curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
   "https://gor-incinerator-api.gor-incinerator.workers.dev/reconciliation/report?start=2025-12-01&end=2025-12-31"
 ```
 

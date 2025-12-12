@@ -208,12 +208,12 @@ app.get('/reconciliation/report', adminApiKeyAuth, async (c) => {
     return c.json({ error: 'Missing start and end date query parameters' }, 400);
   }
 
-  // 1. Query D1 for all transactions in date range
-  const selectStmt = DB.prepare(
-    `SELECT * FROM transactions WHERE timestamp BETWEEN ? AND ? AND status = 'pending'` // Using 'pending' for MVP, should be 'confirmed'
-  );
-
   try {
+    // 1. Query D1 for all transactions in date range
+    const selectStmt = DB.prepare(
+      `SELECT * FROM transactions WHERE timestamp BETWEEN ? AND ? AND status = 'pending'` // Using 'pending' for MVP, should be 'confirmed'
+    );
+
     const { results } = await selectStmt.bind(start, end).all();
 
     // 2. Aggregate totals
@@ -243,7 +243,7 @@ app.get('/reconciliation/report', adminApiKeyAuth, async (c) => {
     return c.json(report);
   } catch (e) {
     console.error('D1 Select Error:', e);
-    return c.json({ error: 'Failed to generate report from database' }, 500);
+    return c.json({ error: `Failed to generate report from database: ${e instanceof Error ? e.message : 'Unknown error'}` }, 500);
   }
 });
 

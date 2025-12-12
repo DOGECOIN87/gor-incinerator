@@ -3,8 +3,8 @@
 ## API Keys (Store in Password Manager)
 
 ```
-User API Key:  gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3
-Admin API Key: gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101
+User API Key:  REDACTED_USER_API_KEY
+Admin API Key: REDACTED_ADMIN_API_KEY
 ```
 
 ## Configuration Files
@@ -53,7 +53,7 @@ curl https://api.gor-incinerator.com/health
 
 ### Get Assets
 ```bash
-curl -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3" \
+curl -H "x-api-key: REDACTED_USER_API_KEY" \
      https://api.gor-incinerator.com/assets/WALLET_ADDRESS
 ```
 
@@ -61,14 +61,14 @@ curl -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9
 ```bash
 curl -X POST \
      -H "Content-Type: application/json" \
-     -H "x-api-key: gorincin_a8026612e8c77bc7738ee5de0d1ebd906f21049c9ad2d964ee9a0b6e51c3f2d3" \
+     -H "x-api-key: REDACTED_USER_API_KEY" \
      -d '{"wallet":"ADDRESS","accounts":["ACC1"],"maxAccounts":14}' \
      https://api.gor-incinerator.com/build-burn-tx
 ```
 
 ### Get Reconciliation (Admin)
 ```bash
-curl -H "x-api-key: gorincin_b911b5a0f3782b209ad493df12819893458844a4d42dbbce483c24e86cf12101" \
+curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
      "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
 ```
 
