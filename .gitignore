@@ -46,8 +46,11 @@ coverage/
 frontend/wrangler.toml
 api/wrangler.toml
 
-# Environment files (if you create any)
+# Environment files and secrets (NEVER commit these!)
 .env
+.env.secrets
+.env.local
+frontend/.env
 .env.local
 .env.production
 *.env

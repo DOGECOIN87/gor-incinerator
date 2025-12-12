@@ -10,24 +10,19 @@ node_compat = true
 # D1 Database for transaction logging
 [[d1_databases]]
 binding = "DB"
-database_name = "gor-incinerator-logs"
-database_id = "YOUR_ACTUAL_DATABASE_ID_HERE" # <-- REPLACE THIS WITH THE ID FROM 'wrangler d1 create'
+database_name = "gor-incinerator-logs-2"
+database_id = "54456de5-7083-46c2-a69b-4164d5de2dff"
 
 # Environment variables (non-secret)
 [vars]
-GOR_RPC_URL = "https://api.gorbagana.com" # Placeholder, will be set in Cloudflare dashboard
-GOR_VAULT_ADDRESS_AETHER = "AETHER_VAULT_ADDRESS_PLACEHOLDER" # Placeholder
-GOR_VAULT_ADDRESS_INCINERATOR = "INCINERATOR_VAULT_ADDRESS_PLACEHOLDER" # Placeholder
-ADMIN_API_KEY = "ADMIN_API_KEY_PLACEHOLDER" # Placeholder
-
 ENVIRONMENT = "production"
 
 # Secrets (set via: wrangler secret put <KEY>)
-# API_KEY - API key for Gorbag Wallet authentication
-# ADMIN_API_KEY - API key for reconciliation endpoint
-# GOR_RPC_URL - Gorbagana RPC endpoint URL
-# GOR_VAULT_ADDRESS_AETHER - Aether Labs vault address (50% of fee)
-# GOR_VAULT_ADDRESS_INCINERATOR - Gor-incinerator vault address (50% of fee)
+# API_KEY - API key for Gorbag Wallet authentication (set ✓)
+# ADMIN_API_KEY - API key for reconciliation endpoint (set ✓)
+# GOR_RPC_URL - Gorbagana RPC endpoint URL (set ✓)
+# GOR_VAULT_ADDRESS_AETHER - Aether Labs vault address (50% of fee) (set ✓)
+# GOR_VAULT_ADDRESS_INCINERATOR - Gor-incinerator vault address (50% of fee) (set ✓)
 
 # Development environment
 [env.dev]
@@ -43,7 +38,3 @@ routes = [
 # CORS configuration
 [build]
 command = ""
-
-# Limits
-[limits]
-cpu_ms = 50
