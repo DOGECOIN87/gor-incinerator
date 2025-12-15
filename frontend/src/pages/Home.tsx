@@ -119,7 +119,7 @@ export default function Home() {
                 {/* Top pill */}
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-3 py-1 text-[0.65rem] sm:text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Gorbagana network</span>
+                  <span>Gorbagana & Solana</span>
                   <span className="h-3 w-px bg-border/60" />
                   <span>Rent recovery utility</span>
                 </div>
@@ -132,7 +132,7 @@ export default function Home() {
                     <span className="gradient-text">claim GOR</span>
                   </h1>
                   <p className="max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-                    Close empty token accounts on the Gorbagana network and recover your rent.{" "}
+                    Close empty token accounts on Gorbagana and Solana networks and recover your rent.{" "}
                     Industry low 5% fees – 0% fees for Gorbagio NFT holders.
                   </p>
                 </div>
@@ -278,11 +278,11 @@ export default function Home() {
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               Gor-Incinerator is a focused utility for{" "}
               <span className="font-semibold text-foreground">
-                closing empty token accounts on the Gorbagana network
+                closing empty token accounts on Gorbagana and Solana networks
               </span>{" "}
               so you can recover rent that would otherwise be locked away. It's built around a
-              simple flow: connect Backpack, scan for empty accounts, then burn and reclaim your
-              GOR.
+              simple flow: connect your wallet, scan for empty accounts, then burn and reclaim your
+              tokens.
             </p>
 
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
