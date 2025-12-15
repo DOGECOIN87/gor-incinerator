@@ -19,6 +19,10 @@ const RENT_PER_ACCOUNT = 0.00203928; // GOR per account
 const FEE_PERCENTAGE = 0.05; // 5%
 // Gorbagana Token Program ID (different from Solana)
 const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+// Custom RPC endpoint (not relying on Backpack's connection)
+const GOR_RPC_URL = "https://rpc.trashscan.io";
+// Fee recipient wallet
+const FEE_RECIPIENT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
 
 // Blacklist of important tokens that should never be closed
 const BLACKLIST = [
@@ -46,20 +50,20 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
   const scanAccounts = async () => {
     setScanning(true);
     setError("");
-    
+
     try {
       // @ts-ignore - Backpack wallet API
       if (!window.backpack) {
         throw new Error("Backpack wallet not found");
       }
 
-      // @ts-ignore
-      const connection = window.backpack.connection;
+      // Import Connection and PublicKey
+      const { Connection, PublicKey } = await import("@solana/web3.js");
+
+      // Use custom RPC connection instead of Backpack's
+      const connection = new Connection(GOR_RPC_URL, { commitment: "processed" });
       // @ts-ignore
       const publicKey = window.backpack.publicKey;
-
-      // Import PublicKey for programId
-      const { PublicKey } = await import("@solana/web3.js");
 
       // Fetch all token accounts
       const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
@@ -104,26 +108,27 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
   const handleBurn = async () => {
     setLoading(true);
     setError("");
-    
+
     try {
       // @ts-ignore
       if (!window.backpack) {
         throw new Error("Backpack wallet not found");
       }
 
-      // @ts-ignore
-      const connection = window.backpack.connection;
-      // @ts-ignore
-      const publicKey = window.backpack.publicKey;
-
       // Import required Solana libraries
-      const { 
-        TransactionMessage, 
+      const {
+        Connection,
+        TransactionMessage,
         VersionedTransaction,
         ComputeBudgetProgram,
         SystemProgram,
         PublicKey
       } = await import("@solana/web3.js");
+
+      // Use custom RPC connection instead of Backpack's
+      const connection = new Connection(GOR_RPC_URL, { commitment: "processed" });
+      // @ts-ignore
+      const publicKey = window.backpack.publicKey;
       
       const { createCloseAccountInstruction } = await import("@solana/spl-token");
 
@@ -148,13 +153,12 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         );
       }
 
-      // Add fee transfer if configured
-      const feeRecipient = import.meta.env.VITE_FEE_RECIPIENT;
-      if (feeRecipient && serviceFee > 0) {
+      // Add fee transfer to fee recipient
+      if (serviceFee > 0) {
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
-            toPubkey: new PublicKey(feeRecipient),
+            toPubkey: new PublicKey(FEE_RECIPIENT),
             lamports: Math.floor(serviceFee * 1e9), // Convert GOR to lamports
           })
         );
@@ -268,7 +272,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
 
           {txSignature && (
             <a
-              href={`https://explorer.solana.com/tx/${txSignature}`}
+              href={`https://explorer.gorbagana.com/tx/${txSignature}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 text-sm text-primary hover:underline"
