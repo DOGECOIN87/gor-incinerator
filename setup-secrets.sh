@@ -25,8 +25,29 @@ if [ -f ".env.secrets" ]; then
     set +a
 else
     echo "⚠️  .env.secrets file not found"
-    echo "Using provided values from documentation"
+    echo ""
+    echo "Please create .env.secrets from the template:"
+    echo "  cp .env.secrets.example .env.secrets"
+    echo "  # Then edit .env.secrets with your actual values"
+    echo ""
+    exit 1
 fi
+
+# Check for Cloudflare API Token
+if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+    echo "⚠️  CLOUDFLARE_API_TOKEN not set in .env.secrets"
+    echo "The wrangler CLI needs this token for authentication."
+    echo ""
+    echo "Get your token from: https://dash.cloudflare.com/profile/api-tokens"
+    echo "Add it to .env.secrets: CLOUDFLARE_API_TOKEN=your_token_here"
+    echo ""
+    exit 1
+fi
+
+# Export for wrangler CLI
+export CLOUDFLARE_API_TOKEN
+
+echo "✓ Cloudflare API Token configured"
 
 echo ""
 echo "Setting Cloudflare Worker secrets..."

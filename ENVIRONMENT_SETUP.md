@@ -5,10 +5,42 @@ This guide walks you through setting up your Gor-Incinerator deployment with all
 ## Overview
 
 Your Gor-Incinerator deployment requires:
+- **Cloudflare API Token**: For authenticating the wrangler CLI
 - **API Keys**: For authentication to the backend API
 - **Cloudflare Worker Secrets**: For the deployed backend
 - **Frontend Environment Variables**: For the React frontend in API mode
 - **Database Configuration**: For transaction logging
+
+## Quick Start
+
+```bash
+# 1. Copy the secrets template
+cp .env.secrets.example .env.secrets
+
+# 2. Edit .env.secrets with your actual values (including Cloudflare API Token)
+# Get your Cloudflare API Token from: https://dash.cloudflare.com/profile/api-tokens
+
+# 3. Run the setup script
+chmod +x setup-secrets.sh
+./setup-secrets.sh
+```
+
+## Step 0: Get Your Cloudflare API Token
+
+Before you can deploy or manage secrets, you need a Cloudflare API Token:
+
+1. Go to [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. Click "Create Token"
+3. Use the "Edit Cloudflare Workers" template, or create a custom token with:
+   - **Workers Scripts**: Edit
+   - **D1**: Edit
+   - **Pages**: Edit (if using Cloudflare Pages)
+4. Copy the token and add it to your `.env.secrets` file:
+   ```
+   CLOUDFLARE_API_TOKEN=your_token_here
+   ```
+
+**SECURITY**: Never commit your `.env.secrets` file. It's already in `.gitignore`.
 
 ## Generated API Keys
 
@@ -19,7 +51,7 @@ Two API keys have been generated for your deployment:
 | User API Key | Gorbag Wallet | `REDACTED_USER_API_KEY` | `2ee20e3c` |
 | Admin Key | Admin | `REDACTED_ADMIN_API_KEY` | `11c539f5` |
 
-**IMPORTANT**: 
+**IMPORTANT**:
 - Store these values in a password manager or secure secret store
 - Never hard-code them in your repository
 - Never expose the admin key in client-side code
