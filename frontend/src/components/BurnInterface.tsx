@@ -30,6 +30,31 @@ const BLACKLIST = [
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
 ];
 
+// Helper to get available wallet (Gorbag or Backpack)
+function getWallet(): { publicKey: any; signAndSendTransaction: (tx: any) => Promise<string>; name: string } | null {
+  // @ts-ignore - Check for Gorbag wallet first
+  if (window.gorbag?.publicKey) {
+    return {
+      // @ts-ignore
+      publicKey: window.gorbag.publicKey,
+      // @ts-ignore
+      signAndSendTransaction: (tx) => window.gorbag.signAndSendTransaction(tx),
+      name: "Gorbag"
+    };
+  }
+  // @ts-ignore - Fall back to Backpack
+  if (window.backpack?.publicKey) {
+    return {
+      // @ts-ignore
+      publicKey: window.backpack.publicKey,
+      // @ts-ignore
+      signAndSendTransaction: (tx) => window.backpack.signAndSendTransaction(tx),
+      name: "Backpack"
+    };
+  }
+  return null;
+}
+
 export default function BurnInterface({ walletConnected, walletAddress, onConnectWallet }: BurnInterfaceProps) {
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState<TokenAccount[]>([]);
@@ -52,18 +77,17 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
     setError("");
 
     try {
-      // @ts-ignore - Backpack wallet API
-      if (!window.backpack) {
-        throw new Error("Backpack wallet not found");
+      const wallet = getWallet();
+      if (!wallet) {
+        throw new Error("No compatible wallet found. Please install Gorbag or Backpack wallet.");
       }
 
       // Import Connection and PublicKey
       const { Connection, PublicKey } = await import("@solana/web3.js");
 
-      // Use custom RPC connection instead of Backpack's
+      // Use custom RPC connection
       const connection = new Connection(GOR_RPC_URL, { commitment: "processed" });
-      // @ts-ignore
-      const publicKey = window.backpack.publicKey;
+      const publicKey = wallet.publicKey;
 
       // Fetch all token accounts
       const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
@@ -110,9 +134,9 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
     setError("");
 
     try {
-      // @ts-ignore
-      if (!window.backpack) {
-        throw new Error("Backpack wallet not found");
+      const wallet = getWallet();
+      if (!wallet) {
+        throw new Error("No compatible wallet found. Please install Gorbag or Backpack wallet.");
       }
 
       // Import required Solana libraries
@@ -125,10 +149,9 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         PublicKey
       } = await import("@solana/web3.js");
 
-      // Use custom RPC connection instead of Backpack's
+      // Use custom RPC connection
       const connection = new Connection(GOR_RPC_URL, { commitment: "processed" });
-      // @ts-ignore
-      const publicKey = window.backpack.publicKey;
+      const publicKey = wallet.publicKey;
       
       const { createCloseAccountInstruction } = await import("@solana/spl-token");
 
@@ -173,9 +196,8 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
 
       const transaction = new VersionedTransaction(message);
 
-      // Sign and send transaction via Backpack
-      // @ts-ignore
-      const signature = await window.backpack.signAndSendTransaction(transaction);
+      // Sign and send transaction via wallet
+      const signature = await wallet.signAndSendTransaction(transaction);
       
       setTxSignature(signature);
       
@@ -219,20 +241,20 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
           </div>
           <CardTitle className="text-2xl">Connect Your Wallet</CardTitle>
           <CardDescription className="text-base mt-2">
-            Connect your Backpack wallet to start burning empty token accounts and reclaiming your GOR
+            Connect your wallet to start burning empty token accounts and reclaiming your GOR
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button 
+        <CardContent className="space-y-3">
+          <Button
             onClick={onConnectWallet}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             size="lg"
           >
             <Wallet className="mr-2 h-5 w-5" />
-            Connect Backpack Wallet
+            Connect Wallet
           </Button>
           <p className="text-sm text-muted-foreground text-center mt-4">
-            Don't have Backpack? <a href="https://backpack.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Download here</a>
+            Supported wallets: <a href="https://gorbag.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Gorbag</a> | <a href="https://backpack.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Backpack</a>
           </p>
         </CardContent>
       </Card>

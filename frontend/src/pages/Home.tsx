@@ -8,18 +8,28 @@ export default function Home() {
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
 
-  const connectBackpackWallet = async () => {
+  const connectWallet = async () => {
     try {
+      // Try Gorbag wallet first
+      // @ts-ignore
+      if (window.gorbag) {
+        // @ts-ignore
+        const response = await window.gorbag.connect();
+        setWalletAddress(response.publicKey.toString());
+        setWalletConnected(true);
+        return;
+      }
+      // Fall back to Backpack wallet
       // @ts-ignore
       if (window.backpack) {
         // @ts-ignore
         const response = await window.backpack.connect();
         setWalletAddress(response.publicKey.toString());
         setWalletConnected(true);
-      } else {
-        alert("Backpack wallet not found. Please install Backpack wallet extension.");
-        window.open("https://backpack.app", "_blank");
+        return;
       }
+      // No wallet found
+      alert("No compatible wallet found. Please install Gorbag or Backpack wallet.");
     } catch (error) {
       console.error("Failed to connect wallet:", error);
     }
@@ -91,7 +101,7 @@ export default function Home() {
                 </Button>
               ) : (
                 <Button
-                  onClick={connectBackpackWallet}
+                  onClick={connectWallet}
                   className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-5"
                 >
                   Connect
@@ -251,7 +261,7 @@ export default function Home() {
                 <BurnInterface
                   walletConnected={walletConnected}
                   walletAddress={walletAddress}
-                  onConnectWallet={connectBackpackWallet}
+                  onConnectWallet={connectWallet}
                 />
               </div>
             </div>
