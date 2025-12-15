@@ -10,20 +10,17 @@ export default function Home() {
 
   const connectWallet = async () => {
     try {
-      // Try Gorbag wallet first
-      // @ts-ignore
-      if (window.gorbag) {
-        // @ts-ignore
-        const response = await window.gorbag.connect();
+      // Try Gorbag wallet first (check both possible window names)
+      const gorbagWallet = (window as any).gorbag || (window as any).gorbagWallet;
+      if (gorbagWallet) {
+        const response = await gorbagWallet.connect();
         setWalletAddress(response.publicKey.toString());
         setWalletConnected(true);
         return;
       }
       // Fall back to Backpack wallet
-      // @ts-ignore
-      if (window.backpack) {
-        // @ts-ignore
-        const response = await window.backpack.connect();
+      if ((window as any).backpack) {
+        const response = await (window as any).backpack.connect();
         setWalletAddress(response.publicKey.toString());
         setWalletConnected(true);
         return;

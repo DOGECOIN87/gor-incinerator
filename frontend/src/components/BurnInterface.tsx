@@ -32,23 +32,20 @@ const BLACKLIST = [
 
 // Helper to get available wallet (Gorbag or Backpack)
 function getWallet(): { publicKey: any; signAndSendTransaction: (tx: any) => Promise<string>; name: string } | null {
-  // @ts-ignore - Check for Gorbag wallet first
-  if (window.gorbag?.publicKey) {
+  // @ts-ignore - Check for Gorbag wallet (try both possible window names)
+  const gorbagWallet = (window as any).gorbag || (window as any).gorbagWallet;
+  if (gorbagWallet?.publicKey) {
     return {
-      // @ts-ignore
-      publicKey: window.gorbag.publicKey,
-      // @ts-ignore
-      signAndSendTransaction: (tx) => window.gorbag.signAndSendTransaction(tx),
+      publicKey: gorbagWallet.publicKey,
+      signAndSendTransaction: (tx) => gorbagWallet.signAndSendTransaction(tx),
       name: "Gorbag"
     };
   }
   // @ts-ignore - Fall back to Backpack
-  if (window.backpack?.publicKey) {
+  if ((window as any).backpack?.publicKey) {
     return {
-      // @ts-ignore
-      publicKey: window.backpack.publicKey,
-      // @ts-ignore
-      signAndSendTransaction: (tx) => window.backpack.signAndSendTransaction(tx),
+      publicKey: (window as any).backpack.publicKey,
+      signAndSendTransaction: (tx) => (window as any).backpack.signAndSendTransaction(tx),
       name: "Backpack"
     };
   }
