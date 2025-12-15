@@ -4,8 +4,8 @@
 # Use these commands to test your deployed API endpoints
 
 API_URL="https://gor-incinerator-api.gor-incinerator.workers.dev"
-USER_API_KEY="REDACTED_USER_API_KEY"
-ADMIN_API_KEY="REDACTED_ADMIN_API_KEY"
+USER_API_KEY="<YOUR_USER_API_KEY>"
+ADMIN_API_KEY="<YOUR_ADMIN_API_KEY>"
 
 echo "=========================================="
 echo "Gor-Incinerator API Testing"

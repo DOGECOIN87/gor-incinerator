@@ -3,8 +3,8 @@
 ## API Keys (Store in Password Manager)
 
 ```
-User API Key:  REDACTED_USER_API_KEY
-Admin API Key: REDACTED_ADMIN_API_KEY
+User API Key:  <YOUR_USER_API_KEY>
+Admin API Key: <YOUR_ADMIN_API_KEY>
 ```
 
 ## Configuration Files
@@ -53,7 +53,7 @@ curl https://api.gor-incinerator.com/health
 
 ### Get Assets
 ```bash
-curl -H "x-api-key: REDACTED_USER_API_KEY" \
+curl -H "x-api-key: <YOUR_USER_API_KEY>" \
      https://api.gor-incinerator.com/assets/WALLET_ADDRESS
 ```
 
@@ -61,14 +61,14 @@ curl -H "x-api-key: REDACTED_USER_API_KEY" \
 ```bash
 curl -X POST \
      -H "Content-Type: application/json" \
-     -H "x-api-key: REDACTED_USER_API_KEY" \
+     -H "x-api-key: <YOUR_USER_API_KEY>" \
      -d '{"wallet":"ADDRESS","accounts":["ACC1"],"maxAccounts":14}' \
      https://api.gor-incinerator.com/build-burn-tx
 ```
 
 ### Get Reconciliation (Admin)
 ```bash
-curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
+curl -H "x-api-key: <YOUR_ADMIN_API_KEY>" \
      "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
 ```
 

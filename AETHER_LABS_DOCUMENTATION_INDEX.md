@@ -119,8 +119,8 @@
 
 | Item | Value |
 |------|-------|
-| **User API Key** | `REDACTED_USER_API_KEY` |
-| **Admin API Key** | `REDACTED_ADMIN_API_KEY` |
+| **User API Key** | `<YOUR_USER_API_KEY>` |
+| **Admin API Key** | `<YOUR_ADMIN_API_KEY>` |
 | **Vault Address** | `DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD` |
 | **API Base URL** | `https://gor-incinerator-api.gor-incinerator.workers.dev` |
 | **Network** | Gorbagana (GOR) |
@@ -178,8 +178,8 @@ Example (5 accounts):
 ### Step 2: Store Credentials Securely
 ```bash
 # In your .env file (NEVER commit):
-AETHER_LABS_USER_API_KEY="REDACTED_USER_API_KEY"
-AETHER_LABS_ADMIN_API_KEY="REDACTED_ADMIN_API_KEY"
+AETHER_LABS_USER_API_KEY="<YOUR_USER_API_KEY>"
+AETHER_LABS_ADMIN_API_KEY="<YOUR_ADMIN_API_KEY>"
 AETHER_LABS_VAULT_ADDRESS="DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD"
 GOR_INCINERATOR_API_BASE="https://gor-incinerator-api.gor-incinerator.workers.dev"
 ```

@@ -60,7 +60,7 @@ ENVIRONMENT = "production"
 ### Frontend Configuration (frontend/.env)
 ```
 VITE_API_BASE_URL=https://api.gor-incinerator.com
-VITE_API_KEY=REDACTED_USER_API_KEY
+VITE_API_KEY=<YOUR_USER_API_KEY>
 VITE_MODE=api
 VITE_GOR_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
 VITE_GOR_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
@@ -77,7 +77,7 @@ curl https://gor-incinerator-api.gor-incinerator.workers.dev/
 ### Next: Test with API Key
 To test the `/assets` endpoint:
 ```bash
-curl -H "x-api-key: REDACTED_USER_API_KEY" \
+curl -H "x-api-key: <YOUR_USER_API_KEY>" \
    https://gor-incinerator-api.gor-incinerator.workers.dev/assets/YOUR_WALLET_ADDRESS
 ```
 

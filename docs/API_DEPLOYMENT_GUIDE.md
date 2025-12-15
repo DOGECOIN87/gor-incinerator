@@ -65,7 +65,7 @@ node generate-api-key.js --partner "Aether Labs"
   Length:      72 characters
 
   API Key:
-  gorincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
+  <YOUR_API_KEY>
 
 ═══════════════════════════════════════════════════════════════════════
 ```
@@ -152,7 +152,7 @@ wrangler secret put API_KEY
 
 When prompted, paste the API key generated for Gorbag Wallet:
 ```
-gorincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
+<YOUR_API_KEY>
 ```
 
 ### 4.2 Set Admin API Key

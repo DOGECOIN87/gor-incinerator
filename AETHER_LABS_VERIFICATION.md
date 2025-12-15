@@ -53,8 +53,8 @@ Tables:
 
 **Status:** Secure and Enforced
 ```
-User API Key: REDACTED_USER_API_KEY
-Admin API Key: REDACTED_ADMIN_API_KEY
+User API Key: <YOUR_USER_API_KEY>
+Admin API Key: <YOUR_ADMIN_API_KEY>
 
 Tests:
 ✅ Missing key returns HTTP 401

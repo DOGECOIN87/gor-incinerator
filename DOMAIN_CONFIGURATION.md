@@ -80,7 +80,7 @@ Update `frontend/.env`:
 
 ```bash
 VITE_API_BASE_URL=https://api.gor-incinerator.com
-VITE_API_KEY=REDACTED_USER_API_KEY
+VITE_API_KEY=<YOUR_USER_API_KEY>
 VITE_GOR_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
 VITE_GOR_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
 VITE_MODE=api
@@ -146,7 +146,7 @@ A/AAAA | @ (gor-incinerator.com) | [pages-ip]                        | Active
 curl https://api.gor-incinerator.com/
 
 # With authentication
-curl -H "x-api-key: REDACTED_USER_API_KEY" \
+curl -H "x-api-key: <YOUR_USER_API_KEY>" \
    https://api.gor-incinerator.com/assets/YOUR_WALLET
 ```
 

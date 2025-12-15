@@ -101,12 +101,12 @@
 
 **User API Key** (for frontend and standard requests):
 ```
-REDACTED_USER_API_KEY
+<YOUR_USER_API_KEY>
 ```
 
 **Admin API Key** (for reconciliation and admin tasks only):
 ```
-REDACTED_ADMIN_API_KEY
+<YOUR_ADMIN_API_KEY>
 ```
 
 ## 🚀 Getting Started With Next Steps

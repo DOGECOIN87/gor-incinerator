@@ -88,7 +88,7 @@ Fund Type: Accumulated service fees from rent reclamation
 #### User API Key (Frontend Access)
 ```
 Key ID: gorincin_user_key_v1
-API Key: REDACTED_USER_API_KEY
+API Key: <YOUR_USER_API_KEY>
 Scope: User transaction building, assets lookup
 Rate Limit: 1000 requests/hour per user
 Expires: No expiration (partnership ongoing)
@@ -97,7 +97,7 @@ Expires: No expiration (partnership ongoing)
 #### Admin API Key (Reporting & Reconciliation)
 ```
 Key ID: gorincin_admin_key_aether_v1
-API Key: REDACTED_ADMIN_API_KEY
+API Key: <YOUR_ADMIN_API_KEY>
 Scope: Reconciliation reports, transaction history, fee auditing
 Rate Limit: 100 requests/hour
 Expires: No expiration (partnership ongoing)
@@ -162,7 +162,7 @@ Response:
 }
 
 Example:
-curl -H "x-api-key: REDACTED_USER_API_KEY" \
+curl -H "x-api-key: <YOUR_USER_API_KEY>" \
   https://gor-incinerator-api.gor-incinerator.workers.dev/assets/wallet_address
 ```
 
@@ -201,7 +201,7 @@ Response:
 
 Example:
 curl -X POST \
-  -H "x-api-key: REDACTED_USER_API_KEY" \
+  -H "x-api-key: <YOUR_USER_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
     "wallet": "user_wallet",
@@ -253,7 +253,7 @@ Response:
 }
 
 Example:
-curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
+curl -H "x-api-key: <YOUR_ADMIN_API_KEY>" \
   "https://gor-incinerator-api.gor-incinerator.workers.dev/reconciliation/report?start=2025-12-01&end=2025-12-31"
 ```
 
@@ -361,7 +361,7 @@ AETHER LABS can verify their fee accumulation at any time using the admin API:
 #!/bin/bash
 # Verify AETHER LABS fees for a specific period
 
-ADMIN_KEY="REDACTED_ADMIN_API_KEY"
+ADMIN_KEY="<YOUR_ADMIN_API_KEY>"
 START_DATE="2025-12-01"
 END_DATE="2025-12-31"
 
@@ -488,7 +488,7 @@ API Mode: Backend integration (using API endpoints)
 // Example integration in Gorbag Wallet
 
 const API_BASE = "https://gor-incinerator-api.gor-incinerator.workers.dev";
-const USER_API_KEY = "REDACTED_USER_API_KEY";
+const USER_API_KEY = "<YOUR_USER_API_KEY>";
 
 // Get user's burnable accounts
 async function getAssets(walletAddress) {
@@ -516,7 +516,7 @@ async function buildBurnTx(walletAddress, accounts) {
 Store these keys securely in your infrastructure:
 ```bash
 # .env (secured - never commit)
-AETHER_LABS_ADMIN_API_KEY="REDACTED_ADMIN_API_KEY"
+AETHER_LABS_ADMIN_API_KEY="<YOUR_ADMIN_API_KEY>"
 AETHER_LABS_VAULT_ADDRESS="DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD"
 GOR_INCINERATOR_API_BASE="https://gor-incinerator-api.gor-incinerator.workers.dev"
 ```
@@ -526,7 +526,7 @@ GOR_INCINERATOR_API_BASE="https://gor-incinerator-api.gor-incinerator.workers.de
 #!/bin/bash
 # Reconciliation script (run daily)
 
-ADMIN_KEY="REDACTED_ADMIN_API_KEY"
+ADMIN_KEY="<YOUR_ADMIN_API_KEY>"
 API_BASE="https://gor-incinerator-api.gor-incinerator.workers.dev"
 
 # Get yesterday's date
@@ -548,7 +548,7 @@ echo "$(date): AETHER LABS share for $START_DATE = $AETHER_SHARE GOR" >> reconci
 Use the admin API to verify fees accumulated:
 ```bash
 # Weekly verification script
-curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
+curl -H "x-api-key: <YOUR_ADMIN_API_KEY>" \
   "https://gor-incinerator-api.gor-incinerator.workers.dev/reconciliation/report?start=2025-12-01&end=2025-12-31" \
   | jq '.summary | {totalFees, aetherLabsShare: .aetherLabsShare, gorIncineratorShare: .gorIncineratorShare}'
 ```
