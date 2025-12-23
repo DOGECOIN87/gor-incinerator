@@ -152,12 +152,23 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       }
 
       // Add fee transfer to Gor-Incinerator vault (100% for direct mode)
-      if (serviceFee > 0) {
+      // Calculate fee based on actual accounts being closed (not all scanned accounts)
+      const actualFee = accountsToClose.length * RENT_PER_ACCOUNT * FEE_PERCENTAGE;
+      const feeInLamports = Math.floor(actualFee * 1e9);
+
+      console.log("[Fee Debug]", {
+        accountsToClose: accountsToClose.length,
+        actualFee,
+        feeInLamports,
+        vault: GOR_INCINERATOR_VAULT
+      });
+
+      if (feeInLamports > 0) {
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: new PublicKey(GOR_INCINERATOR_VAULT),
-            lamports: Math.floor(serviceFee * 1e9), // Convert GOR to lamports
+            lamports: feeInLamports,
           })
         );
       }
