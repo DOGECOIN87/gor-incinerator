@@ -20,8 +20,7 @@ const FEE_PERCENTAGE = 0.05; // 5%
 // Gorbagana Token Program ID (different from Solana)
 const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
-// Fee vault addresses (50/50 split)
-const AETHER_LABS_VAULT = "DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD";
+// Fee vault address (100% to Gor-Incinerator for direct mode)
 const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
 
 // Blacklist of important tokens that should never be closed
@@ -152,25 +151,13 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         );
       }
 
-      // Add fee transfer instructions (50/50 split to both vaults)
+      // Add fee transfer to Gor-Incinerator vault (100% for direct mode)
       if (serviceFee > 0) {
-        const halfFee = Math.floor((serviceFee * 1e9) / 2); // Convert GOR to lamports and split
-
-        // Transfer to Aether Labs vault
-        instructions.push(
-          SystemProgram.transfer({
-            fromPubkey: publicKey,
-            toPubkey: new PublicKey(AETHER_LABS_VAULT),
-            lamports: halfFee,
-          })
-        );
-
-        // Transfer to Gor-Incinerator vault
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: new PublicKey(GOR_INCINERATOR_VAULT),
-            lamports: halfFee,
+            lamports: Math.floor(serviceFee * 1e9), // Convert GOR to lamports
           })
         );
       }
