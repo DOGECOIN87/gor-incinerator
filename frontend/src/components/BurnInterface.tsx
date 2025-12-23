@@ -23,11 +23,40 @@ const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 // Fee vault address (100% to Gor-Incinerator for direct mode)
 const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
 
+const DEFAULT_GOR_RPC_URL = "https://rpc.trashscan.io";
+const GORBAGANA_RPC_HINTS = ["gorbagana", "trashscan", "api.gorbagana.com"];
+
 // Blacklist of important tokens that should never be closed
 const BLACKLIST = [
   "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
 ];
+
+const getWalletRpcEndpoint = (connection: unknown): string | undefined => {
+  if (!connection || typeof connection !== "object") {
+    return undefined;
+  }
+
+  const maybeConnection = connection as { rpcEndpoint?: string; _rpcEndpoint?: string };
+  return maybeConnection.rpcEndpoint || maybeConnection._rpcEndpoint;
+};
+
+const isGorbaganaRpc = (endpoint: string): boolean =>
+  GORBAGANA_RPC_HINTS.some((hint) => endpoint.includes(hint));
+
+const resolveRpcEndpoint = (connection: unknown): string => {
+  const envRpc = import.meta.env.VITE_GOR_RPC_URL;
+  if (envRpc) {
+    return envRpc;
+  }
+
+  const walletRpc = getWalletRpcEndpoint(connection);
+  if (walletRpc && isGorbaganaRpc(walletRpc)) {
+    return walletRpc;
+  }
+
+  return DEFAULT_GOR_RPC_URL;
+};
 
 export default function BurnInterface({ walletConnected, walletAddress, onConnectWallet }: BurnInterfaceProps) {
   const [loading, setLoading] = useState(false);
@@ -57,15 +86,17 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       }
 
       // @ts-ignore
-      const connection = window.backpack.connection;
+      const walletConnection = window.backpack.connection;
       // @ts-ignore
       const publicKey = window.backpack.publicKey;
 
       // Import PublicKey for programId
-      const { PublicKey } = await import("@solana/web3.js");
+      const { Connection, PublicKey } = await import("@solana/web3.js");
+      const rpcEndpoint = resolveRpcEndpoint(walletConnection);
+      const rpcConnection = new Connection(rpcEndpoint, { commitment: "processed" });
 
       // Fetch all token accounts
-      const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+      const tokenAccounts = await rpcConnection.getParsedTokenAccountsByOwner(
         publicKey,
         { programId: new PublicKey(TOKEN_PROGRAM_ID) }
       );
@@ -115,23 +146,26 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       }
 
       // @ts-ignore
-      const connection = window.backpack.connection;
+      const walletConnection = window.backpack.connection;
       // @ts-ignore
       const publicKey = window.backpack.publicKey;
+      const rpcEndpoint = resolveRpcEndpoint(walletConnection);
 
       // Import required Solana libraries
       const { 
+        Connection,
         TransactionMessage, 
         VersionedTransaction,
         ComputeBudgetProgram,
         SystemProgram,
         PublicKey
       } = await import("@solana/web3.js");
+      const rpcConnection = new Connection(rpcEndpoint, { commitment: "processed" });
       
       const { createCloseAccountInstruction } = await import("@solana/spl-token");
 
       // Get latest blockhash
-      const { blockhash } = await connection.getLatestBlockhash("processed");
+      const { blockhash, lastValidBlockHeight } = await rpcConnection.getLatestBlockhash("processed");
 
       // Build instructions
       const instructions = [
@@ -182,14 +216,35 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
 
       const transaction = new VersionedTransaction(message);
 
-      // Sign and send transaction via Backpack
+      let signature: string;
+
+      // Prefer signing locally and sending via the configured Gorbagana RPC
       // @ts-ignore
-      const signature = await window.backpack.signAndSendTransaction(transaction);
+      if (typeof window.backpack.signTransaction === "function") {
+        // @ts-ignore
+        const signedTransaction = await window.backpack.signTransaction(transaction);
+        signature = await rpcConnection.sendRawTransaction(signedTransaction.serialize());
+      } else {
+        const walletRpc = getWalletRpcEndpoint(walletConnection);
+        if (!walletRpc || !isGorbaganaRpc(walletRpc)) {
+          throw new Error("Backpack RPC is not on Gorbagana. Please switch your wallet RPC and try again.");
+        }
+
+        // @ts-ignore
+        signature = await window.backpack.signAndSendTransaction(transaction);
+      }
       
       setTxSignature(signature);
       
       // Wait for confirmation
-      await connection.confirmTransaction(signature, "processed");
+      await rpcConnection.confirmTransaction(
+        {
+          signature,
+          blockhash,
+          lastValidBlockHeight,
+        },
+        "processed"
+      );
       
       setBurnComplete(true);
     } catch (err) {
