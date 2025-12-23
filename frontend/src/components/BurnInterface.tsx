@@ -25,6 +25,7 @@ const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
 
 const DEFAULT_GOR_RPC_URL = "https://rpc.trashscan.io";
 const GORBAGANA_RPC_HINTS = ["gorbagana", "trashscan", "api.gorbagana.com"];
+const LAMPORTS_PER_GOR = 1_000_000_000;
 
 // Blacklist of important tokens that should never be closed
 const BLACKLIST = [
@@ -175,6 +176,25 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
 
       // Add close account instructions (max 14 per transaction)
       const accountsToClose = accounts.slice(0, 14);
+      if (accountsToClose.length === 0) {
+        throw new Error("No eligible accounts to close");
+      }
+
+      const accountPubkeys = accountsToClose.map((account) => new PublicKey(account.pubkey));
+      const accountInfos = await rpcConnection.getMultipleAccountsInfo(accountPubkeys, "processed");
+      const totalRentLamports = accountInfos.reduce((sum, info, index) => {
+        if (!info) {
+          throw new Error(`Account not found: ${accountsToClose[index].pubkey}`);
+        }
+        return sum + info.lamports;
+      }, 0);
+      const feeInLamports = Math.floor(totalRentLamports * FEE_PERCENTAGE);
+      const youReceiveLamports = totalRentLamports - feeInLamports;
+
+      setTotalRent(totalRentLamports / LAMPORTS_PER_GOR);
+      setServiceFee(feeInLamports / LAMPORTS_PER_GOR);
+      setYouReceive(youReceiveLamports / LAMPORTS_PER_GOR);
+
       for (const account of accountsToClose) {
         instructions.push(
           createCloseAccountInstruction(
@@ -185,23 +205,29 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         );
       }
 
-      // Add fee transfer to Gor-Incinerator vault (100% for direct mode)
-      // Calculate fee based on actual accounts being closed (not all scanned accounts)
-      const actualFee = accountsToClose.length * RENT_PER_ACCOUNT * FEE_PERCENTAGE;
-      const feeInLamports = Math.floor(actualFee * 1e9);
-
       console.log("[Fee Debug]", {
         accountsToClose: accountsToClose.length,
-        actualFee,
+        totalRentLamports,
         feeInLamports,
         vault: GOR_INCINERATOR_VAULT
       });
 
       if (feeInLamports > 0) {
+        const vaultPubkey = new PublicKey(GOR_INCINERATOR_VAULT);
+        const vaultInfo = await rpcConnection.getAccountInfo(vaultPubkey, "processed");
+        if (vaultInfo && vaultInfo.data.length > 0) {
+          const minVaultBalance = await rpcConnection.getMinimumBalanceForRentExemption(
+            vaultInfo.data.length
+          );
+          if (vaultInfo.lamports + feeInLamports < minVaultBalance) {
+            throw new Error("Fee vault is not rent-exempt. Contact support.");
+          }
+        }
+
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
-            toPubkey: new PublicKey(GOR_INCINERATOR_VAULT),
+            toPubkey: vaultPubkey,
             lamports: feeInLamports,
           })
         );
@@ -215,6 +241,12 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       }).compileToV0Message();
 
       const transaction = new VersionedTransaction(message);
+      const feeEstimate = await rpcConnection.getFeeForMessage(message);
+      const networkFeeLamports = feeEstimate.value ?? 0;
+      const walletBalanceLamports = await rpcConnection.getBalance(publicKey, "processed");
+      if (walletBalanceLamports + totalRentLamports < feeInLamports + networkFeeLamports) {
+        throw new Error("Insufficient GOR to cover fees. Keep a small balance in your wallet.");
+      }
 
       let signature: string;
 
@@ -249,6 +281,18 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       setBurnComplete(true);
     } catch (err) {
       console.error("Error burning accounts:", err);
+
+      if (err && typeof err === "object") {
+        const sendTxError = err as { getLogs?: () => Promise<string[]> };
+        if (typeof sendTxError.getLogs === "function") {
+          try {
+            const logs = await sendTxError.getLogs();
+            console.error("Transaction logs:", logs);
+          } catch (logError) {
+            console.error("Failed to fetch transaction logs:", logError);
+          }
+        }
+      }
       
       let errorMessage = "Failed to burn accounts";
       
