@@ -20,6 +20,9 @@ const FEE_PERCENTAGE = 0.05; // 5%
 // Gorbagana Token Program ID (different from Solana)
 const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
+// Fee vault address (100% to Gor-Incinerator for direct mode)
+const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
+
 // Blacklist of important tokens that should never be closed
 const BLACKLIST = [
   "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
@@ -148,13 +151,12 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         );
       }
 
-      // Add fee transfer if configured
-      const feeRecipient = import.meta.env.VITE_FEE_RECIPIENT;
-      if (feeRecipient && serviceFee > 0) {
+      // Add fee transfer to Gor-Incinerator vault (100% for direct mode)
+      if (serviceFee > 0) {
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
-            toPubkey: new PublicKey(feeRecipient),
+            toPubkey: new PublicKey(GOR_INCINERATOR_VAULT),
             lamports: Math.floor(serviceFee * 1e9), // Convert GOR to lamports
           })
         );

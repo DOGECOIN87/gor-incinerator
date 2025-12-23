@@ -27,6 +27,10 @@ const RENT_PER_ACCOUNT = 0.00203928; // GOR per account
 const FEE_PERCENTAGE = 0.05; // 5%
 const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
+// Fee vault addresses (50/50 split) - hardcoded for reliability
+const AETHER_LABS_VAULT = "DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD";
+const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
+
 const BLACKLIST = [
   "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
@@ -240,25 +244,22 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
         );
       }
 
-      // Add fee transfers (50/50 split)
-      const aetherVault = import.meta.env.VITE_GOR_VAULT_ADDRESS_AETHER;
-      const incineratorVault = import.meta.env.VITE_GOR_VAULT_ADDRESS_INCINERATOR;
-
-      if (aetherVault && aetherLabsFee > 0) {
+      // Add fee transfers (50/50 split) - using hardcoded vault addresses for reliability
+      if (aetherLabsFee > 0) {
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
-            toPubkey: new PublicKey(aetherVault),
+            toPubkey: new PublicKey(AETHER_LABS_VAULT),
             lamports: Math.floor(aetherLabsFee * 1e9),
           })
         );
       }
 
-      if (incineratorVault && gorIncineratorFee > 0) {
+      if (gorIncineratorFee > 0) {
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
-            toPubkey: new PublicKey(incineratorVault),
+            toPubkey: new PublicKey(GOR_INCINERATOR_VAULT),
             lamports: Math.floor(gorIncineratorFee * 1e9),
           })
         );
