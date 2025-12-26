@@ -2,11 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Flame, Loader2, CheckCircle2, AlertCircle, Wallet, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
+import { fetchBatchTokenMetadata } from "@/services/gorApiService";
 
 interface TokenAccount {
   pubkey: string;
   mint: string;
   balance: string;
+  logo?: string;
+  name?: string;
+  symbol?: string;
 }
 
 interface BurnInterfaceProps {
@@ -79,7 +83,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
   const scanAccounts = async () => {
     setScanning(true);
     setError("");
-    
+
     try {
       // @ts-ignore - Backpack wallet API
       if (!window.backpack) {
@@ -104,7 +108,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
 
       // Filter for empty accounts not in blacklist
       const emptyAccounts: TokenAccount[] = [];
-      
+
       for (const account of tokenAccounts.value) {
         const data = account.account.data.parsed.info;
         const balance = data.tokenAmount.amount;
@@ -120,11 +124,27 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         }
       }
 
+      // Fetch token logos from GOR API
+      if (emptyAccounts.length > 0) {
+        const mints = emptyAccounts.map(a => a.mint);
+        const metadataMap = await fetchBatchTokenMetadata(mints);
+
+        // Enrich accounts with metadata
+        for (const account of emptyAccounts) {
+          const metadata = metadataMap.get(account.mint);
+          if (metadata) {
+            account.logo = metadata.logo || undefined;
+            account.name = metadata.name;
+            account.symbol = metadata.symbol;
+          }
+        }
+      }
+
       setAccounts(emptyAccounts);
-      
+
       const rent = emptyAccounts.length * RENT_PER_ACCOUNT;
       const fee = rent * FEE_PERCENTAGE;
-      
+
       setTotalRent(rent);
       setServiceFee(fee);
       setYouReceive(rent - fee);
@@ -139,7 +159,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
   const handleBurn = async () => {
     setLoading(true);
     setError("");
-    
+
     try {
       // @ts-ignore
       if (!window.backpack) {
@@ -153,16 +173,16 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       const rpcEndpoint = resolveRpcEndpoint(walletConnection);
 
       // Import required Solana libraries
-      const { 
+      const {
         Connection,
-        TransactionMessage, 
+        TransactionMessage,
         VersionedTransaction,
         ComputeBudgetProgram,
         SystemProgram,
         PublicKey
       } = await import("@solana/web3.js");
       const rpcConnection = new Connection(rpcEndpoint, { commitment: "processed" });
-      
+
       const { createCloseAccountInstruction } = await import("@solana/spl-token");
 
       // Get latest blockhash
@@ -265,9 +285,9 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         // @ts-ignore
         signature = await window.backpack.signAndSendTransaction(transaction);
       }
-      
+
       setTxSignature(signature);
-      
+
       // Wait for confirmation
       await rpcConnection.confirmTransaction(
         {
@@ -277,7 +297,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         },
         "processed"
       );
-      
+
       setBurnComplete(true);
     } catch (err) {
       console.error("Error burning accounts:", err);
@@ -293,9 +313,9 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
           }
         }
       }
-      
+
       let errorMessage = "Failed to burn accounts";
-      
+
       if (err instanceof Error) {
         errorMessage = err.message;
       } else if (typeof err === 'object' && err !== null) {
@@ -311,7 +331,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
           errorMessage = JSON.stringify(err, null, 2);
         }
       }
-      
+
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -331,7 +351,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button 
+          <Button
             onClick={onConnectWallet}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             size="lg"
@@ -390,7 +410,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
             </a>
           )}
 
-          <Button 
+          <Button
             onClick={() => {
               setBurnComplete(false);
               setAccounts([]);
@@ -470,10 +490,26 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
                   {accounts.slice(0, 14).map((account, idx) => (
                     <div key={account.pubkey} className="flex items-center justify-between text-xs bg-background/50 rounded p-2">
                       <span className="text-muted-foreground">#{idx + 1}</span>
-                      <span className="font-mono text-foreground truncate mx-2 flex-1">
-                        {account.mint.slice(0, 8)}...{account.mint.slice(-8)}
-                      </span>
-                      <span className="text-primary">{RENT_PER_ACCOUNT.toFixed(6)} GOR</span>
+                      <div className="flex items-center gap-2 flex-1 min-w-0 mx-2">
+                        {account.logo ? (
+                          <img
+                            src={account.logo}
+                            alt={account.symbol || 'Token'}
+                            className="h-5 w-5 rounded-full flex-shrink-0 bg-muted"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                            <span className="text-[8px] text-muted-foreground">?</span>
+                          </div>
+                        )}
+                        <span className="font-mono text-foreground truncate">
+                          {account.symbol || `${account.mint.slice(0, 6)}...${account.mint.slice(-4)}`}
+                        </span>
+                      </div>
+                      <span className="text-primary flex-shrink-0">{RENT_PER_ACCOUNT.toFixed(6)} GOR</span>
                     </div>
                   ))}
                   {accounts.length > 14 && (
@@ -502,7 +538,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   onClick={handleBurn}
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   size="lg"
@@ -526,7 +562,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
                 <CheckCircle2 className="h-12 w-12 mx-auto text-primary mb-4" />
                 <p className="text-lg font-semibold mb-2">All Clean!</p>
                 <p className="text-muted-foreground">No empty token accounts found in your wallet.</p>
-                <Button 
+                <Button
                   onClick={scanAccounts}
                   variant="outline"
                   className="mt-4 border-primary/30 hover:bg-primary/10"

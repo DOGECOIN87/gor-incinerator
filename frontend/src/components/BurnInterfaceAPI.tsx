@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Flame, Loader2, CheckCircle2, AlertCircle, Wallet, ExternalLink, Info } from "lucide-react";
 import { useState, useEffect } from "react";
 import { isApiModeEnabled, fetchAssets, buildBurnTransaction, deserializeTransaction } from "@/services/apiClient";
+import { fetchBatchTokenMetadata } from "@/services/gorApiService";
 
 interface TokenAccount {
   pubkey: string;
@@ -15,6 +16,9 @@ interface TokenAccount {
   balance: string;
   burnEligible?: boolean;
   estimatedRent?: number;
+  logo?: string;
+  name?: string;
+  symbol?: string;
 }
 
 interface BurnInterfaceProps {
@@ -62,16 +66,32 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
   const scanAccountsAPI = async () => {
     try {
       const response = await fetchAssets(walletAddress);
-      
-      setAccounts(response.accounts);
+
+      // Enrich accounts with token logos from GOR API
+      const accounts = response.accounts;
+      if (accounts.length > 0) {
+        const mints = accounts.map(a => a.mint);
+        const metadataMap = await fetchBatchTokenMetadata(mints);
+
+        for (const account of accounts) {
+          const metadata = metadataMap.get(account.mint);
+          if (metadata) {
+            account.logo = metadata.logo || undefined;
+            account.name = metadata.name;
+            account.symbol = metadata.symbol;
+          }
+        }
+      }
+
+      setAccounts(accounts);
       setTotalRent(response.summary.totalRent);
       setServiceFee(response.summary.serviceFee);
-      
+
       // Calculate 50/50 split
       const halfFee = response.summary.serviceFee / 2;
       setAetherLabsFee(halfFee);
       setGorIncineratorFee(halfFee);
-      
+
       setYouReceive(response.summary.youReceive);
     } catch (err) {
       console.error("Error scanning accounts via API:", err);
@@ -102,7 +122,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
       );
 
       const emptyAccounts: TokenAccount[] = [];
-      
+
       for (const account of tokenAccounts.value) {
         const data = account.account.data.parsed.info;
         const balance = data.tokenAmount.amount;
@@ -119,19 +139,34 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
         }
       }
 
+      // Fetch token logos from GOR API
+      if (emptyAccounts.length > 0) {
+        const mints = emptyAccounts.map(a => a.mint);
+        const metadataMap = await fetchBatchTokenMetadata(mints);
+
+        for (const account of emptyAccounts) {
+          const metadata = metadataMap.get(account.mint);
+          if (metadata) {
+            account.logo = metadata.logo || undefined;
+            account.name = metadata.name;
+            account.symbol = metadata.symbol;
+          }
+        }
+      }
+
       setAccounts(emptyAccounts);
-      
+
       const rent = emptyAccounts.length * RENT_PER_ACCOUNT;
       const fee = rent * FEE_PERCENTAGE;
-      
+
       setTotalRent(rent);
       setServiceFee(fee);
-      
+
       // 50/50 split
       const halfFee = fee / 2;
       setAetherLabsFee(halfFee);
       setGorIncineratorFee(halfFee);
-      
+
       setYouReceive(rent - fee);
     } catch (err) {
       console.error("Error scanning accounts directly:", err);
@@ -142,7 +177,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
   const scanAccounts = async () => {
     setScanning(true);
     setError("");
-    
+
     try {
       if (apiMode) {
         await scanAccountsAPI();
@@ -162,7 +197,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
   const handleBurnAPI = async () => {
     setLoading(true);
     setError("");
-    
+
     try {
       // @ts-ignore
       if (!window.backpack) {
@@ -182,13 +217,13 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
       // Sign and send via Backpack
       // @ts-ignore
       const signature = await window.backpack.signAndSendTransaction(transaction);
-      
+
       setTxSignature(signature);
-      
+
       // @ts-ignore
       const connection = window.backpack.connection;
       await connection.confirmTransaction(signature, "processed");
-      
+
       setBurnComplete(true);
     } catch (err) {
       console.error("Error burning accounts via API:", err);
@@ -204,7 +239,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
   const handleBurnDirect = async () => {
     setLoading(true);
     setError("");
-    
+
     try {
       // @ts-ignore
       if (!window.backpack) {
@@ -216,14 +251,14 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
       // @ts-ignore
       const publicKey = window.backpack.publicKey;
 
-      const { 
-        TransactionMessage, 
+      const {
+        TransactionMessage,
         VersionedTransaction,
         ComputeBudgetProgram,
         SystemProgram,
         PublicKey
       } = await import("@solana/web3.js");
-      
+
       const { createCloseAccountInstruction } = await import("@solana/spl-token");
 
       const { blockhash } = await connection.getLatestBlockhash("processed");
@@ -275,10 +310,10 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
 
       // @ts-ignore
       const signature = await window.backpack.signAndSendTransaction(transaction);
-      
+
       setTxSignature(signature);
       await connection.confirmTransaction(signature, "processed");
-      
+
       setBurnComplete(true);
     } catch (err) {
       console.error("Error burning accounts directly:", err);
@@ -309,7 +344,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button 
+          <Button
             onClick={onConnectWallet}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             size="lg"
@@ -459,6 +494,45 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
                 <div className="flex-1">
                   <p className="text-sm font-medium text-destructive">Error</p>
                   <p className="text-xs text-destructive/80 mt-1">{error}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Token Accounts List with Logos */}
+            {accounts.length > 0 && (
+              <div className="bg-muted/30 rounded-lg p-4 max-h-64 overflow-y-auto">
+                <p className="text-sm font-semibold mb-3">Token Accounts to Close:</p>
+                <div className="space-y-2">
+                  {accounts.slice(0, 14).map((account, idx) => (
+                    <div key={account.pubkey} className="flex items-center justify-between text-xs bg-background/50 rounded p-2">
+                      <span className="text-muted-foreground">#{idx + 1}</span>
+                      <div className="flex items-center gap-2 flex-1 min-w-0 mx-2">
+                        {account.logo ? (
+                          <img
+                            src={account.logo}
+                            alt={account.symbol || 'Token'}
+                            className="h-5 w-5 rounded-full flex-shrink-0 bg-muted"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                            <span className="text-[8px] text-muted-foreground">?</span>
+                          </div>
+                        )}
+                        <span className="font-mono text-foreground truncate">
+                          {account.symbol || `${account.mint.slice(0, 6)}...${account.mint.slice(-4)}`}
+                        </span>
+                      </div>
+                      <span className="text-primary flex-shrink-0">{RENT_PER_ACCOUNT.toFixed(6)} GOR</span>
+                    </div>
+                  ))}
+                  {accounts.length > 14 && (
+                    <p className="text-xs text-muted-foreground text-center pt-2">
+                      +{accounts.length - 14} more (will be processed in next transaction)
+                    </p>
+                  )}
                 </div>
               </div>
             )}
