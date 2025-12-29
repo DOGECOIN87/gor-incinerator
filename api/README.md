@@ -1,30 +1,69 @@
-## Gor-Incinerator API
+# ðŸ”¥ Gor-Incinerator API
 
-Cloudflare Workers backend for the GOR Token Incinerator. Provides protected API endpoints for token burning and rent reclamation on the Gorbagana blockchain.
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+
+> Cloudflare Workers backend for the GOR Token Incinerator. Burn empty token accounts and reclaim rent on the Gorbagana blockchain.
+
+---
+
+## ðŸ“‘ Table of Contents
+
+- [Features](#-features)
+- [API Endpoints](#-api-endpoints)
+  - [GET /assets/:wallet](#1-get-assetswallet)
+  - [POST /build-burn-tx](#2-post-build-burn-tx)
+  - [GET /reconciliation/report](#3-get-reconciliationreport)
+- [Development Setup](#-development-setup)
+- [Reconciliation](#-reconciliation)
+- [Security](#-security)
+- [Fee Structure](#-fee-structure)
+- [Testing](#-testing)
+- [Documentation](#-documentation)
+- [License](#-license)
+
+---
 
 ## ðŸš€ Features
 
-- **Protected API Endpoints** - API key authentication via `x-api-key` header
-- **Burn-Eligible Account Detection** - Automatic filtering of empty token accounts
-- **Rent Reclamation** - Recover rent from unused token accounts
-- **Transaction Logging** - Complete audit trail in Cloudflare D1 database
-- **Global Edge Deployment** - Low-latency responses from 270+ locations
+| Feature | Description |
+|---------|-------------|
+| **Protected API Endpoints** | API key authentication via `x-api-key` header |
+| **Burn-Eligible Detection** | Automatic filtering of empty token accounts |
+| **Rent Reclamation** | Recover rent from unused token accounts |
+| **Transaction Logging** | Complete audit trail in Cloudflare D1 database |
+| **Global Edge Deployment** | Low-latency responses from 270+ locations |
+
+---
 
 ## ðŸ“‹ API Endpoints
+
+**Base URL:** `https://api.gor-incinerator.com`
 
 ### 1. GET /assets/:wallet
 
 Returns all burn-eligible token accounts for a wallet.
 
-**Authentication**: Required (`x-api-key` header)
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `wallet` | path | Wallet public key to query |
 
-**Request**:
+**Authentication:** Required (`x-api-key` header)
+
+<details>
+<summary>ðŸ“¥ Request Example</summary>
+
 ```bash
 curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
   -H "x-api-key: your_api_key"
 ```
 
-**Response**:
+</details>
+
+<details>
+<summary>ðŸ“¤ Response Example</summary>
+
 ```json
 {
   "wallet": "ABC123...",
@@ -47,13 +86,25 @@ curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
 }
 ```
 
+</details>
+
+---
+
 ### 2. POST /build-burn-tx
 
 Builds an unsigned burn transaction.
 
-**Authentication**: Required (`x-api-key` header)
+| Field | Type | Description |
+|-------|------|-------------|
+| `wallet` | string | User's wallet public key |
+| `accounts` | string[] | Array of token account pubkeys to close |
+| `maxAccounts` | number | Max accounts per transaction (default: 14) |
 
-**Request**:
+**Authentication:** Required (`x-api-key` header)
+
+<details>
+<summary>ðŸ“¥ Request Example</summary>
+
 ```bash
 curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   -H "x-api-key: your_api_key" \
@@ -65,7 +116,11 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   }'
 ```
 
-**Response**:
+</details>
+
+<details>
+<summary>ðŸ“¤ Response Example</summary>
+
 ```json
 {
   "transaction": "base64_encoded_transaction",
@@ -78,29 +133,53 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 }
 ```
 
-**Transaction Flow**:
-1. Wallet calls `/build-burn-tx` with selected accounts
-2. API returns unsigned transaction
-3. Wallet signs transaction with user's private key
-4. Wallet broadcasts transaction to Gorbagana blockchain
-5. Transaction executes atomically:
-   - Closes empty token accounts
-   - Collects service fee
-   - Returns remaining rent to user
+</details>
+
+#### Transaction Flow
+
+```
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  1. Wallet calls /build-burn-tx with selected accounts          â”‚
+â”‚                            â†“                                    â”‚
+â”‚  2. API returns unsigned transaction                            â”‚
+â”‚                            â†“                                    â”‚
+â”‚  3. Wallet signs transaction with user's private key            â”‚
+â”‚                            â†“                                    â”‚
+â”‚  4. Wallet broadcasts transaction to Gorbagana blockchain       â”‚
+â”‚                            â†“                                    â”‚
+â”‚  5. Transaction executes atomically:                            â”‚
+â”‚     â€¢ Closes empty token accounts                               â”‚
+â”‚     â€¢ Collects service fee                                      â”‚
+â”‚     â€¢ Returns remaining rent to user                            â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+```
+
+---
 
 ### 3. GET /reconciliation/report
 
 Generates reconciliation report for date range.
 
-**Authentication**: Required (`x-api-key` header with admin privileges)
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `start` | query | Start date (YYYY-MM-DD) |
+| `end` | query | End date (YYYY-MM-DD) |
 
-**Request**:
+**Authentication:** Required (`x-api-key` header with admin privileges)
+
+<details>
+<summary>ðŸ“¥ Request Example</summary>
+
 ```bash
 curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: your_admin_api_key"
 ```
 
-**Response**:
+</details>
+
+<details>
+<summary>ðŸ“¤ Response Example</summary>
+
 ```json
 {
   "period": {
@@ -116,6 +195,10 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
   "transactions": [...]
 }
 ```
+
+</details>
+
+---
 
 ## ðŸ”§ Development Setup
 
@@ -162,8 +245,6 @@ wrangler secret put GOR_VAULT_ADDRESS
 
 ### Database Setup
 
-Create D1 database:
-
 ```bash
 # Create database
 wrangler d1 create gor-incinerator-logs
@@ -184,6 +265,8 @@ npm run deploy
 npm run tail
 ```
 
+---
+
 ## ðŸ“Š Reconciliation
 
 ### Using Bash Script
@@ -191,7 +274,6 @@ npm run tail
 ```bash
 cd scripts
 
-# Set admin API key
 export ADMIN_API_KEY=your_admin_api_key
 
 # Generate report for current month
@@ -206,10 +288,8 @@ export ADMIN_API_KEY=your_admin_api_key
 ```bash
 cd scripts
 
-# Set admin API key
 export ADMIN_API_KEY=your_admin_api_key
 
-# Install dependencies
 pip3 install requests
 
 # Generate report for current month
@@ -219,28 +299,41 @@ python3 reconciliation.py
 python3 reconciliation.py 2025-01-01 2025-01-31
 ```
 
-Both scripts generate:
+**Output formats:**
 - Console summary with statistics
 - JSON file with full transaction details
 - CSV export for spreadsheet analysis
 
+---
+
 ## ðŸ”’ Security
 
-- **API Key Authentication** - All endpoints require valid API key
-- **No Private Keys** - Backend never handles user private keys
-- **Secrets Management** - All sensitive data stored in Cloudflare Secrets
-- **CORS Protection** - Configurable origin restrictions
-- **Rate Limiting** - Built-in DDoS protection via Cloudflare
+| Feature | Description |
+|---------|-------------|
+| **API Key Authentication** | All endpoints require valid API key |
+| **No Private Keys** | Backend never handles user private keys |
+| **Secrets Management** | All sensitive data stored in Cloudflare Secrets |
+| **CORS Protection** | Configurable origin restrictions |
+| **Rate Limiting** | Built-in DDoS protection via Cloudflare |
+
+---
 
 ## ðŸ“ Fee Structure
 
-- **Total Service Fee**: 5% of reclaimed rent
-- **User Receives**: 95% of reclaimed rent
+| Component | Percentage |
+|-----------|------------|
+| Service Fee | 5% |
+| **User Receives** | **95%** |
 
-**Example**:
-- 14 accounts closed = 0.02854992 GOR reclaimed
-- Service fee = 0.00142750 GOR (5%)
-- User receives = 0.02712242 GOR (95%)
+**Example Calculation:**
+
+```
+14 accounts closed = 0.02854992 GOR reclaimed
+â”œâ”€â”€ Service fee    = 0.00142750 GOR (5%)
+â””â”€â”€ User receives  = 0.02712242 GOR (95%)
+```
+
+---
 
 ## ðŸ§ª Testing
 
@@ -271,19 +364,35 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
   -H "x-api-key: YOUR_ADMIN_API_KEY"
 ```
 
+---
+
 ## ðŸ“– Documentation
 
-- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
-- [Cloudflare D1 Docs](https://developers.cloudflare.com/d1/)
-- [Solana Web3.js Docs](https://solana-labs.github.io/solana-web3.js/)
-- [Gorbagana Blockchain](https://gorbagana.com)
+| Resource | Link |
+|----------|------|
+| Cloudflare Workers | [developers.cloudflare.com/workers](https://developers.cloudflare.com/workers/) |
+| Cloudflare D1 | [developers.cloudflare.com/d1](https://developers.cloudflare.com/d1/) |
+| Solana Web3.js | [solana-labs.github.io/solana-web3.js](https://solana-labs.github.io/solana-web3.js/) |
+| Gorbagana Blockchain | [gorbagana.com](https://gorbagana.com) |
+
+---
 
 ## ðŸ“„ License
 
-ISC License
+This project is licensed under the [ISC License](LICENSE).
+
+---
 
 ## ðŸ”— Links
 
-- **API**: https://api.gor-incinerator.com
-- **Frontend**: https://gor-incinerator.com
-- **GitHub**: https://github.com/DOGECOIN87/gor-incinerator
+<p align="center">
+  <a href="https://api.gor-incinerator.com"><strong>API</strong></a> â€¢
+  <a href="https://gor-incinerator.com"><strong>Frontend</strong></a> â€¢
+  <a href="https://github.com/DOGECOIN87/gor-incinerator"><strong>GitHub</strong></a>
+</p>
+
+---
+
+<p align="center">
+  Made with ðŸ”¥ for the Gorbagana ecosystem
+</p>
