@@ -1,4 +1,4 @@
-# ðŸ”¥ Gor-Incinerator API
+# Gor-Incinerator API
 
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -8,24 +8,24 @@
 
 ---
 
-## ðŸ“‘ Table of Contents
+## Table of Contents
 
-- [Features](#-features)
-- [API Endpoints](#-api-endpoints)
+- [Features](#features)
+- [API Endpoints](#api-endpoints)
   - [GET /assets/:wallet](#1-get-assetswallet)
   - [POST /build-burn-tx](#2-post-build-burn-tx)
   - [GET /reconciliation/report](#3-get-reconciliationreport)
-- [Development Setup](#-development-setup)
-- [Reconciliation](#-reconciliation)
-- [Security](#-security)
-- [Fee Structure](#-fee-structure)
-- [Testing](#-testing)
-- [Documentation](#-documentation)
-- [License](#-license)
+- [Development Setup](#development-setup)
+- [Reconciliation](#reconciliation)
+- [Security](#security)
+- [Fee Structure](#fee-structure)
+- [Testing](#testing)
+- [Documentation](#documentation)
+- [License](#license)
 
 ---
 
-## ðŸš€ Features
+## Features
 
 | Feature | Description |
 |---------|-------------|
@@ -37,7 +37,7 @@
 
 ---
 
-## ðŸ“‹ API Endpoints
+## API Endpoints
 
 **Base URL:** `https://api.gor-incinerator.com`
 
@@ -52,7 +52,7 @@ Returns all burn-eligible token accounts for a wallet.
 **Authentication:** Required (`x-api-key` header)
 
 <details>
-<summary>ðŸ“¥ Request Example</summary>
+<summary>Request Example</summary>
 
 ```bash
 curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
@@ -62,7 +62,7 @@ curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
 </details>
 
 <details>
-<summary>ðŸ“¤ Response Example</summary>
+<summary>Response Example</summary>
 
 ```json
 {
@@ -103,7 +103,7 @@ Builds an unsigned burn transaction.
 **Authentication:** Required (`x-api-key` header)
 
 <details>
-<summary>ðŸ“¥ Request Example</summary>
+<summary>Request Example</summary>
 
 ```bash
 curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
@@ -119,7 +119,7 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 </details>
 
 <details>
-<summary>ðŸ“¤ Response Example</summary>
+<summary>Response Example</summary>
 
 ```json
 {
@@ -138,20 +138,22 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 #### Transaction Flow
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  1. Wallet calls /build-burn-tx with selected accounts          â”‚
-â”‚                            â†“                                    â”‚
-â”‚  2. API returns unsigned transaction                            â”‚
-â”‚                            â†“                                    â”‚
-â”‚  3. Wallet signs transaction with user's private key            â”‚
-â”‚                            â†“                                    â”‚
-â”‚  4. Wallet broadcasts transaction to Gorbagana blockchain       â”‚
-â”‚                            â†“                                    â”‚
-â”‚  5. Transaction executes atomically:                            â”‚
-â”‚     â€¢ Closes empty token accounts                               â”‚
-â”‚     â€¢ Collects service fee                                      â”‚
-â”‚     â€¢ Returns remaining rent to user                            â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+1. Wallet calls /build-burn-tx with selected accounts
+              |
+              v
+2. API returns unsigned transaction
+              |
+              v
+3. Wallet signs transaction with user's private key
+              |
+              v
+4. Wallet broadcasts transaction to Gorbagana blockchain
+              |
+              v
+5. Transaction executes atomically:
+   - Closes empty token accounts
+   - Collects service fee
+   - Returns remaining rent to user
 ```
 
 ---
@@ -168,7 +170,7 @@ Generates reconciliation report for date range.
 **Authentication:** Required (`x-api-key` header with admin privileges)
 
 <details>
-<summary>ðŸ“¥ Request Example</summary>
+<summary>Request Example</summary>
 
 ```bash
 curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
@@ -178,7 +180,7 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
 </details>
 
 <details>
-<summary>ðŸ“¤ Response Example</summary>
+<summary>Response Example</summary>
 
 ```json
 {
@@ -200,7 +202,7 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
 
 ---
 
-## ðŸ”§ Development Setup
+## Development Setup
 
 ### Prerequisites
 
@@ -267,7 +269,7 @@ npm run tail
 
 ---
 
-## ðŸ“Š Reconciliation
+## Reconciliation
 
 ### Using Bash Script
 
@@ -306,7 +308,7 @@ python3 reconciliation.py 2025-01-01 2025-01-31
 
 ---
 
-## ðŸ”’ Security
+## Security
 
 | Feature | Description |
 |---------|-------------|
@@ -318,7 +320,7 @@ python3 reconciliation.py 2025-01-01 2025-01-31
 
 ---
 
-## ðŸ“ Fee Structure
+## Fee Structure
 
 | Component | Percentage |
 |-----------|------------|
@@ -335,7 +337,7 @@ python3 reconciliation.py 2025-01-01 2025-01-31
 
 ---
 
-## ðŸ§ª Testing
+## Testing
 
 ### Test GET /assets/:wallet
 
@@ -366,7 +368,7 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
 
 ---
 
-## ðŸ“– Documentation
+## Documentation
 
 | Resource | Link |
 |----------|------|
@@ -377,22 +379,14 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
 
 ---
 
-## ðŸ“„ License
+## License
 
 This project is licensed under the [ISC License](LICENSE).
 
 ---
 
-## ðŸ”— Links
-
 <p align="center">
-  <a href="https://api.gor-incinerator.com"><strong>API</strong></a> â€¢
-  <a href="https://gor-incinerator.com"><strong>Frontend</strong></a> â€¢
+  <a href="https://api.gor-incinerator.com"><strong>API</strong></a> &bull;
+  <a href="https://gor-incinerator.com"><strong>Frontend</strong></a> &bull;
   <a href="https://github.com/DOGECOIN87/gor-incinerator"><strong>GitHub</strong></a>
-</p>
-
----
-
-<p align="center">
-  Made with ðŸ”¥ for the Gorbagana ecosystem
 </p>
