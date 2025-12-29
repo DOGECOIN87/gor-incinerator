@@ -1,69 +1,69 @@
-# Gor-Incinerator API
+<p align="center">
+  <img src="https://i.ibb.co/bqsvvFv/Logo.png" alt="Gor-Incinerator Logo" width="200">
+</p>
 
-[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+<h1 align="center">Gor-Incinerator</h1>
 
-> Cloudflare Workers backend for the GOR Token Incinerator. Burn empty token accounts and reclaim rent on the Gorbagana blockchain.
+<p align="center">
+  <strong>Token Account Cleanup Service for the Gorbagana Blockchain</strong>
+</p>
 
----
-
-## Table of Contents
-
-- [Features](#features)
-- [API Endpoints](#api-endpoints)
-  - [GET /assets/:wallet](#1-get-assetswallet)
-  - [POST /build-burn-tx](#2-post-build-burn-tx)
-  - [GET /reconciliation/report](#3-get-reconciliationreport)
-- [Development Setup](#development-setup)
-- [Reconciliation](#reconciliation)
-- [Security](#security)
-- [Fee Structure](#fee-structure)
-- [Testing](#testing)
-- [Documentation](#documentation)
-- [License](#license)
+<p align="center">
+  <a href="https://api.gor-incinerator.com"><img src="https://img.shields.io/badge/API-Live-success" alt="API Status"></a>
+  <a href="https://gorbagana.com"><img src="https://img.shields.io/badge/Blockchain-Gorbagana-blue" alt="Gorbagana"></a>
+</p>
 
 ---
 
-## Features
-
-| Feature | Description |
-|---------|-------------|
-| **Protected API Endpoints** | API key authentication via `x-api-key` header |
-| **Burn-Eligible Detection** | Automatic filtering of empty token accounts |
-| **Rent Reclamation** | Recover rent from unused token accounts |
-| **Transaction Logging** | Complete audit trail in Cloudflare D1 database |
-| **Global Edge Deployment** | Low-latency responses from 270+ locations |
+Gor-Incinerator helps users reclaim rent from empty token accounts on the Gorbagana blockchain. Our service provides a simple, secure way to clean up unused token accounts and recover locked GOR.
 
 ---
 
-## API Endpoints
+## What We Do
+
+When you interact with tokens on Gorbagana, each token account requires a small rent deposit (~0.002 GOR). Over time, these empty accounts accumulate and lock up your funds.
+
+**Gor-Incinerator solves this by:**
+
+- Scanning your wallet for empty token accounts
+- Building secure transactions to close them
+- Returning 95% of the reclaimed rent directly to you
+
+---
+
+## How It Works
+
+```
+Connect Wallet  â†’  Scan Accounts  â†’  Select & Burn  â†’  Receive GOR
+```
+
+1. **Scan** - We identify all empty token accounts in your wallet
+2. **Select** - Choose which accounts to close (up to 14 per transaction)
+3. **Sign** - Approve the transaction with your wallet
+4. **Receive** - Get 95% of the rent returned instantly
+
+Your private keys never leave your wallet. All transactions are signed locally.
+
+---
+
+## API Integration
+
+We offer API access for wallets and applications looking to integrate token cleanup functionality.
 
 **Base URL:** `https://api.gor-incinerator.com`
 
-### 1. GET /assets/:wallet
+### Endpoints
 
-Returns all burn-eligible token accounts for a wallet.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/assets/:wallet` | Get burn-eligible accounts for a wallet |
+| `POST` | `/build-burn-tx` | Build an unsigned burn transaction |
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `wallet` | path | Wallet public key to query |
+### GET /assets/:wallet
 
-**Authentication:** Required (`x-api-key` header)
+Retrieve all empty token accounts eligible for burning.
 
-<details>
-<summary>Request Example</summary>
-
-```bash
-curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
-  -H "x-api-key: your_api_key"
-```
-
-</details>
-
-<details>
-<summary>Response Example</summary>
-
+**Response:**
 ```json
 {
   "wallet": "ABC123...",
@@ -71,7 +71,6 @@ curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
     {
       "pubkey": "DEF456...",
       "mint": "GHI789...",
-      "balance": "0",
       "burnEligible": true,
       "estimatedRent": 0.00203928
     }
@@ -86,41 +85,20 @@ curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
 }
 ```
 
-</details>
+### POST /build-burn-tx
 
----
+Build an unsigned transaction for closing selected accounts.
 
-### 2. POST /build-burn-tx
-
-Builds an unsigned burn transaction.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `wallet` | string | User's wallet public key |
-| `accounts` | string[] | Array of token account pubkeys to close |
-| `maxAccounts` | number | Max accounts per transaction (default: 14) |
-
-**Authentication:** Required (`x-api-key` header)
-
-<details>
-<summary>Request Example</summary>
-
-```bash
-curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
-  -H "x-api-key: your_api_key" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "wallet": "ABC123...",
-    "accounts": ["DEF456...", "GHI789..."],
-    "maxAccounts": 14
-  }'
+**Request:**
+```json
+{
+  "wallet": "ABC123...",
+  "accounts": ["DEF456...", "GHI789..."],
+  "maxAccounts": 14
+}
 ```
 
-</details>
-
-<details>
-<summary>Response Example</summary>
-
+**Response:**
 ```json
 {
   "transaction": "base64_encoded_transaction",
@@ -133,178 +111,23 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 }
 ```
 
-</details>
-
-#### Transaction Flow
-
-```
-1. Wallet calls /build-burn-tx with selected accounts
-              |
-              v
-2. API returns unsigned transaction
-              |
-              v
-3. Wallet signs transaction with user's private key
-              |
-              v
-4. Wallet broadcasts transaction to Gorbagana blockchain
-              |
-              v
-5. Transaction executes atomically:
-   - Closes empty token accounts
-   - Collects service fee
-   - Returns remaining rent to user
-```
+API access requires authentication. Contact us for integration details.
 
 ---
 
-### 3. GET /reconciliation/report
+## Fee Structure
 
-Generates reconciliation report for date range.
+| | |
+|---|---|
+| **Service Fee** | 5% of reclaimed rent |
+| **You Receive** | 95% of reclaimed rent |
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `start` | query | Start date (YYYY-MM-DD) |
-| `end` | query | End date (YYYY-MM-DD) |
-
-**Authentication:** Required (`x-api-key` header with admin privileges)
-
-<details>
-<summary>Request Example</summary>
-
-```bash
-curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
-  -H "x-api-key: your_admin_api_key"
-```
-
-</details>
-
-<details>
-<summary>Response Example</summary>
-
-```json
-{
-  "period": {
-    "start": "2025-01-01",
-    "end": "2025-01-31"
-  },
-  "summary": {
-    "totalTransactions": 1250,
-    "totalAccountsClosed": 15000,
-    "totalRent": 30.5892,
-    "totalFees": 1.52946
-  },
-  "transactions": [...]
-}
-```
-
-</details>
-
----
-
-## Development Setup
-
-### Prerequisites
-
-- Node.js 18+
-- Wrangler CLI (`npm install -g wrangler`)
-- Cloudflare account
-
-### Installation
-
-```bash
-cd api
-npm install
-```
-
-### Local Development
-
-```bash
-# Run local dev server
-npm run dev
-
-# Test endpoint
-curl http://localhost:8787/health
-```
-
-### Environment Variables
-
-Set secrets via Wrangler CLI:
-
-```bash
-# API key for authentication
-wrangler secret put API_KEY
-
-# Admin API key for reconciliation
-wrangler secret put ADMIN_API_KEY
-
-# Gorbagana RPC URL
-wrangler secret put GOR_RPC_URL
-
-# Fee recipient vault address
-wrangler secret put GOR_VAULT_ADDRESS
-```
-
-### Database Setup
-
-```bash
-# Create database
-wrangler d1 create gor-incinerator-logs
-
-# Copy database_id to wrangler.toml
-
-# Apply migrations
-wrangler d1 execute gor-incinerator-logs --file=./migrations/0001_initial_schema.sql
-```
-
-### Deployment
-
-```bash
-# Deploy to production
-npm run deploy
-
-# View logs
-npm run tail
-```
-
----
-
-## Reconciliation
-
-### Using Bash Script
-
-```bash
-cd scripts
-
-export ADMIN_API_KEY=your_admin_api_key
-
-# Generate report for current month
-./reconciliation.sh
-
-# Generate report for specific date range
-./reconciliation.sh 2025-01-01 2025-01-31
-```
-
-### Using Python Script
-
-```bash
-cd scripts
-
-export ADMIN_API_KEY=your_admin_api_key
-
-pip3 install requests
-
-# Generate report for current month
-python3 reconciliation.py
-
-# Generate report for specific date range
-python3 reconciliation.py 2025-01-01 2025-01-31
-```
-
-**Output formats:**
-- Console summary with statistics
-- JSON file with full transaction details
-- CSV export for spreadsheet analysis
+**Example:**
+| Accounts Closed | Total Rent | Service Fee | You Receive |
+|-----------------|------------|-------------|-------------|
+| 14 | 0.02855 GOR | 0.00143 GOR | 0.02712 GOR |
+| 50 | 0.10196 GOR | 0.00510 GOR | 0.09686 GOR |
+| 100 | 0.20393 GOR | 0.01020 GOR | 0.19373 GOR |
 
 ---
 
@@ -312,81 +135,52 @@ python3 reconciliation.py 2025-01-01 2025-01-31
 
 | Feature | Description |
 |---------|-------------|
-| **API Key Authentication** | All endpoints require valid API key |
-| **No Private Keys** | Backend never handles user private keys |
-| **Secrets Management** | All sensitive data stored in Cloudflare Secrets |
-| **CORS Protection** | Configurable origin restrictions |
-| **Rate Limiting** | Built-in DDoS protection via Cloudflare |
+| **Non-Custodial** | We never have access to your private keys |
+| **Client-Side Signing** | All transactions are signed in your wallet |
+| **Atomic Transactions** | Operations complete fully or not at all |
+| **Global Infrastructure** | Deployed on Cloudflare's edge network (270+ locations) |
+| **DDoS Protected** | Enterprise-grade protection built-in |
 
 ---
 
-## Fee Structure
+## For Partners
 
-| Component | Percentage |
-|-----------|------------|
-| Service Fee | 5% |
-| **User Receives** | **95%** |
+We offer white-label and integration solutions for:
 
-**Example Calculation:**
+- **Wallet Providers** - Add token cleanup as a native feature
+- **DeFi Platforms** - Help users optimize their accounts
+- **Portfolio Trackers** - Display reclaimable rent to users
 
-```
-14 accounts closed = 0.02854992 GOR reclaimed
-â”œâ”€â”€ Service fee    = 0.00142750 GOR (5%)
-â””â”€â”€ User receives  = 0.02712242 GOR (95%)
-```
+### Partnership Benefits
 
----
-
-## Testing
-
-### Test GET /assets/:wallet
-
-```bash
-curl -X GET "https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS" \
-  -H "x-api-key: YOUR_API_KEY"
-```
-
-### Test POST /build-burn-tx
-
-```bash
-curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
-  -H "x-api-key: YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "wallet": "YOUR_WALLET_ADDRESS",
-    "accounts": ["ACCOUNT_1", "ACCOUNT_2"],
-    "maxAccounts": 14
-  }'
-```
-
-### Test Reconciliation
-
-```bash
-curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
-  -H "x-api-key: YOUR_ADMIN_API_KEY"
-```
+- Custom API access and rate limits
+- Technical integration support
+- Revenue sharing opportunities
+- Co-marketing possibilities
 
 ---
 
-## Documentation
+## Links
 
-| Resource | Link |
-|----------|------|
-| Cloudflare Workers | [developers.cloudflare.com/workers](https://developers.cloudflare.com/workers/) |
-| Cloudflare D1 | [developers.cloudflare.com/d1](https://developers.cloudflare.com/d1/) |
-| Solana Web3.js | [solana-labs.github.io/solana-web3.js](https://solana-labs.github.io/solana-web3.js/) |
-| Gorbagana Blockchain | [gorbagana.com](https://gorbagana.com) |
+| | |
+|---|---|
+| **Website** | [gor-incinerator.com](https://gor-incinerator.com) |
+| **API** | [api.gor-incinerator.com](https://api.gor-incinerator.com) |
+| **Gorbagana** | [gorbagana.com](https://gorbagana.com) |
 
 ---
 
-## License
+## Contact
 
-This project is licensed under the [ISC License](LICENSE).
+Interested in integrating Gor-Incinerator or exploring a partnership?
+
+**Get in touch** - [Open an Issue](https://github.com/DOGECOIN87/gor-incinerator/issues) or reach out through our website.
 
 ---
 
 <p align="center">
-  <a href="https://api.gor-incinerator.com"><strong>API</strong></a> &bull;
-  <a href="https://gor-incinerator.com"><strong>Frontend</strong></a> &bull;
-  <a href="https://github.com/DOGECOIN87/gor-incinerator"><strong>GitHub</strong></a>
+  <img src="https://i.ibb.co/bqsvvFv/Logo.png" alt="Gor-Incinerator" width="80">
+  <br>
+  <strong>Gor-Incinerator</strong><br>
+  Reclaim Your GOR
 </p>
