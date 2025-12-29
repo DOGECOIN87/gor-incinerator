@@ -1,17 +1,16 @@
 ## Gor-Incinerator API
 
-Cloudflare Workers backend for Gorbag Wallet integration. Provides protected API endpoints for token burning with automatic 50/50 fee splitting between Aether Labs and Gor-incinerator.
+Cloudflare Workers backend for the GOR Token Incinerator. Provides protected API endpoints for token burning and rent reclamation on the Gorbagana blockchain.
 
-## 🚀 Features
+## ðŸš€ Features
 
 - **Protected API Endpoints** - API key authentication via `x-api-key` header
 - **Burn-Eligible Account Detection** - Automatic filtering of empty token accounts
-- **50/50 Fee Splitting** - Real-time fee distribution to both vault addresses
+- **Rent Reclamation** - Recover rent from unused token accounts
 - **Transaction Logging** - Complete audit trail in Cloudflare D1 database
-- **Monthly Reconciliation** - Built-in reporting for fee verification
 - **Global Edge Deployment** - Low-latency responses from 270+ locations
 
-## 📋 API Endpoints
+## ðŸ“‹ API Endpoints
 
 ### 1. GET /assets/:wallet
 
@@ -50,7 +49,7 @@ curl -X GET "https://api.gor-incinerator.com/assets/ABC123..." \
 
 ### 2. POST /build-burn-tx
 
-Builds an unsigned burn transaction with fee splits.
+Builds an unsigned burn transaction.
 
 **Authentication**: Required (`x-api-key` header)
 
@@ -73,10 +72,6 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   "accountsToClose": 14,
   "totalRent": 0.02854992,
   "serviceFee": 0.00142750,
-  "feeBreakdown": {
-    "aetherLabs": 0.00071375,
-    "gorIncinerator": 0.00071375
-  },
   "youReceive": 0.02712242,
   "blockhash": "ABC123...",
   "requiresSignatures": ["ABC123..."]
@@ -85,14 +80,13 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 
 **Transaction Flow**:
 1. Wallet calls `/build-burn-tx` with selected accounts
-2. API returns unsigned transaction with fee splits
+2. API returns unsigned transaction
 3. Wallet signs transaction with user's private key
 4. Wallet broadcasts transaction to Gorbagana blockchain
 5. Transaction executes atomically:
    - Closes empty token accounts
-   - Transfers 2.5% fee to Aether Labs vault
-   - Transfers 2.5% fee to Gor-incinerator vault
-   - Returns 95% rent to user
+   - Collects service fee
+   - Returns remaining rent to user
 
 ### 3. GET /reconciliation/report
 
@@ -117,15 +111,13 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
     "totalTransactions": 1250,
     "totalAccountsClosed": 15000,
     "totalRent": 30.5892,
-    "totalFees": 1.52946,
-    "aetherLabsShare": 0.76473,
-    "gorIncineratorShare": 0.76473
+    "totalFees": 1.52946
   },
   "transactions": [...]
 }
 ```
 
-## 🔧 Development Setup
+## ðŸ”§ Development Setup
 
 ### Prerequisites
 
@@ -155,7 +147,7 @@ curl http://localhost:8787/health
 Set secrets via Wrangler CLI:
 
 ```bash
-# API key for Gorbag Wallet
+# API key for authentication
 wrangler secret put API_KEY
 
 # Admin API key for reconciliation
@@ -164,9 +156,8 @@ wrangler secret put ADMIN_API_KEY
 # Gorbagana RPC URL
 wrangler secret put GOR_RPC_URL
 
-# Vault addresses (50/50 split)
-wrangler secret put GOR_VAULT_ADDRESS_AETHER
-wrangler secret put GOR_VAULT_ADDRESS_INCINERATOR
+# Fee recipient vault address
+wrangler secret put GOR_VAULT_ADDRESS
 ```
 
 ### Database Setup
@@ -193,7 +184,7 @@ npm run deploy
 npm run tail
 ```
 
-## 📊 Reconciliation
+## ðŸ“Š Reconciliation
 
 ### Using Bash Script
 
@@ -233,7 +224,7 @@ Both scripts generate:
 - JSON file with full transaction details
 - CSV export for spreadsheet analysis
 
-## 🔒 Security
+## ðŸ”’ Security
 
 - **API Key Authentication** - All endpoints require valid API key
 - **No Private Keys** - Backend never handles user private keys
@@ -241,21 +232,17 @@ Both scripts generate:
 - **CORS Protection** - Configurable origin restrictions
 - **Rate Limiting** - Built-in DDoS protection via Cloudflare
 
-## 📝 Fee Structure
+## ðŸ“ Fee Structure
 
 - **Total Service Fee**: 5% of reclaimed rent
-- **Aether Labs Share**: 2.5% (50% of service fee)
-- **Gor-incinerator Share**: 2.5% (50% of service fee)
 - **User Receives**: 95% of reclaimed rent
 
 **Example**:
 - 14 accounts closed = 0.02854992 GOR reclaimed
 - Service fee = 0.00142750 GOR (5%)
-- Aether Labs = 0.00071375 GOR (2.5%)
-- Gor-incinerator = 0.00071375 GOR (2.5%)
 - User receives = 0.02712242 GOR (95%)
 
-## 🧪 Testing
+## ðŸ§ª Testing
 
 ### Test GET /assets/:wallet
 
@@ -284,30 +271,18 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
   -H "x-api-key: YOUR_ADMIN_API_KEY"
 ```
 
-## 📖 Documentation
+## ðŸ“– Documentation
 
 - [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
 - [Cloudflare D1 Docs](https://developers.cloudflare.com/d1/)
 - [Solana Web3.js Docs](https://solana-labs.github.io/solana-web3.js/)
 - [Gorbagana Blockchain](https://gorbagana.com)
 
-## 🤝 Contract Compliance
-
-This API fulfills all requirements from the partnership agreement:
-
-✅ **Protected API Endpoints** - API key authentication  
-✅ **GET /assets/:wallet** - Burn-eligible account detection  
-✅ **POST /build-burn-tx** - Transaction building with fee splits  
-✅ **Gorbagana Blockchain Only** - RPC configured for Gorbagana  
-✅ **Logging & Analytics** - Complete transaction tracking in D1  
-✅ **5% Fee with 50/50 Split** - Real-time fee distribution  
-✅ **Monthly Reconciliation** - Built-in reporting tools  
-
-## 📄 License
+## ðŸ“„ License
 
 ISC License
 
-## 🔗 Links
+## ðŸ”— Links
 
 - **API**: https://api.gor-incinerator.com
 - **Frontend**: https://gor-incinerator.com
