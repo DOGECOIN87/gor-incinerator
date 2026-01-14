@@ -165,8 +165,8 @@ We offer white-label and integration solutions for:
 | | |
 |---|---|
 | **Website** | [gor-incinerator.com](https://gor-incinerator.com) |
-| **API** | [api.gor-incinerator.com](https://api.gor-incinerator.com) |
-| **Gorbagana** | [gorbagana.com](https://gorbagana.com) |
+| **API** | |
+| **Gorbagana** | [gorbagana.wtf](https://gorbagana.wtf) |
 
 ---
 
