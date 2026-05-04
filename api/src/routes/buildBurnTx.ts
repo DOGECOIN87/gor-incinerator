@@ -12,7 +12,7 @@ import {
 import { createCloseAccountInstruction } from "@solana/spl-token";
 import { Env, BuildBurnTxRequest, BuildBurnTxResponse, ValidationError } from "../types";
 import { createConnection, validateWalletAddress, validateAccountAddresses } from "../services/blockchainService";
-import { calculateFee, createFeeInstructions, lamportsToGor } from "../services/feeService";
+import { calculateFee, createFeeInstructions, lamportsToCook } from "../services/feeService";
 import { logTransaction } from "../services/databaseService";
 
 /**
@@ -41,7 +41,7 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
     // Validate account addresses
     const accountPubkeys = validateAccountAddresses(body.accounts);
 
-    // Limit to max 14 accounts per transaction (Gorbagana compute limit)
+    // Limit to max 14 accounts per transaction (Cookie Chain compute limit)
     const maxAccounts = body.maxAccounts || 14;
     if (maxAccounts > 14) {
       throw new ValidationError("maxAccounts cannot exceed 14");
@@ -53,8 +53,8 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
     // Calculate fees
     const feeCalc = calculateFee(accountCount);
 
-    // Create connection to Gorbagana RPC
-    const connection = createConnection(env.GOR_RPC_URL);
+    // Create connection to Cookie Chain RPC
+    const connection = createConnection(env.COOK_RPC_URL);
 
     // Get latest blockhash
     const { blockhash } = await connection.getLatestBlockhash("processed");
@@ -81,8 +81,8 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
     const feeInstructions = createFeeInstructions(
       accountCount,
       wallet,
-      env.GOR_VAULT_ADDRESS_AETHER,
-      env.GOR_VAULT_ADDRESS_INCINERATOR
+      env.COOK_VAULT_ADDRESS_AETHER,
+      env.COOK_VAULT_ADDRESS_INCINERATOR
     );
     instructions.push(...feeInstructions);
 
@@ -103,23 +103,23 @@ export async function handleBuildBurnTx(request: Request, env: Env): Promise<Res
     await logTransaction(env.DB, {
       wallet: body.wallet,
       accountsClosed: accountCount,
-      totalRent: lamportsToGor(feeCalc.totalRent),
-      serviceFee: lamportsToGor(feeCalc.serviceFee),
-      aetherLabsFee: lamportsToGor(feeCalc.aetherLabsFee),
-      gorIncineratorFee: lamportsToGor(feeCalc.gorIncineratorFee),
+      totalRent: lamportsToCook(feeCalc.totalRent),
+      serviceFee: lamportsToCook(feeCalc.serviceFee),
+      aetherLabsFee: lamportsToCook(feeCalc.aetherLabsFee),
+      cookIncineratorFee: lamportsToCook(feeCalc.cookIncineratorFee),
     });
 
     // Build response
     const response: BuildBurnTxResponse = {
       transaction: serializedTx,
       accountsToClose: accountCount,
-      totalRent: lamportsToGor(feeCalc.totalRent),
-      serviceFee: lamportsToGor(feeCalc.serviceFee),
+      totalRent: lamportsToCook(feeCalc.totalRent),
+      serviceFee: lamportsToCook(feeCalc.serviceFee),
       feeBreakdown: {
-        aetherLabs: lamportsToGor(feeCalc.aetherLabsFee),
-        gorIncinerator: lamportsToGor(feeCalc.gorIncineratorFee),
+        aetherLabs: lamportsToCook(feeCalc.aetherLabsFee),
+        cookIncinerator: lamportsToCook(feeCalc.cookIncineratorFee),
       },
-      youReceive: lamportsToGor(feeCalc.netAmount),
+      youReceive: lamportsToCook(feeCalc.netAmount),
       blockhash,
       requiresSignatures: [body.wallet],
     };

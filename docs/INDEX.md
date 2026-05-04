@@ -1,4 +1,4 @@
-# Gor Incinerator - Documentation Index
+# Cook Incinerator - Documentation Index
 
 ## Quick Links
 
@@ -21,7 +21,7 @@
 
 3. **[Blockchain Separation Guide](BLOCKCHAIN_SEPARATION_GUIDE.md)**
    - How RPC_URL determines which blockchain to use
-   - Same wallet on Solana vs Gorbagana
+   - Same wallet on Solana vs Cookie Chain
    - Network isolation and safety guarantees
 
 4. **[Fee Integration Guide](FEE_INTEGRATION_GUIDE.md)**
@@ -75,7 +75,7 @@
 ### Setup and Installation
 ```bash
 # 1. Clone repository
-git clone https://github.com/DOGECOIN87/gor-incinerator.com
+git clone https://github.com/DOGECOIN87/cook-incinerator.com
 
 # 2. Install dependencies
 npm install
@@ -117,14 +117,14 @@ npm run build
 npm run burn
 
 # With custom env file
-cp .env.gorbagana .env && npm run burn
+cp .env.cookie chain .env && npm run burn
 ```
 
 ## Key Concepts
 
 ### 1. Blockchain Selection
 The `RPC_URL` in your `.env` file determines which blockchain you're operating on:
-- Gorbagana: `https://rpc.gorbagana.com`
+- Cookie Chain: `https://rpc.cookiescan.io`
 - Solana: `https://api.mainnet-beta.solana.com`
 
 See: [Blockchain Separation Guide](BLOCKCHAIN_SEPARATION_GUIDE.md)
@@ -170,7 +170,7 @@ Results logged and displayed
 ## File Organization
 
 ```
-gor-incinerator.com/
+cook-incinerator.com/
 ├── src/              # Backend TypeScript code
 ├── frontend/         # React UI components
 ├── docs/             # Documentation (you are here)
@@ -188,8 +188,8 @@ See: [Project Structure](../PROJECT_STRUCTURE.md)
 - All guides in this directory
 
 ### Code
-- GitHub: https://github.com/DOGECOIN87/gor-incinerator.com
-- Issues: https://github.com/DOGECOIN87/gor-incinerator.com/issues
+- GitHub: https://github.com/DOGECOIN87/cook-incinerator.com
+- Issues: https://github.com/DOGECOIN87/cook-incinerator.com/issues
 
 ### Configuration
 - Example: [../.env.example](../.env.example)

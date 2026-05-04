@@ -1,6 +1,6 @@
 # Deployment Files Reference
 
-This document lists all files created or modified during the Gor-Incinerator deployment.
+This document lists all files created or modified during the Cook-Incinerator deployment.
 
 ## 📋 Summary
 
@@ -17,31 +17,31 @@ This document lists all files created or modified during the Gor-Incinerator dep
 - **Status**: KEEP PRIVATE - Never commit to git
 - **Contains**: All API keys and RPC URLs
 - **Protected**: Added to `.gitignore`
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/.env.secrets`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/.env.secrets`
 
 #### `frontend/.env` (🆕 CREATED)
 - **Purpose**: Frontend environment configuration for API mode
 - **Status**: Safe to commit (no secrets)
 - **Contains**: API base URL, user API key reference, vault addresses
 - **Mode**: Set to "api" for backend integration
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/frontend/.env`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/frontend/.env`
 
 ### API Directory
 
 #### `api/wrangler.toml` (♻️ MODIFIED)
 - **Changes**: 
-  - Updated database name to `gor-incinerator-logs-2`
+  - Updated database name to `cook-incinerator-logs-2`
   - Updated database ID: `54456de5-7083-46c2-a69b-4164d5de2dff`
   - Removed CPU limit configuration (Free plan incompatible)
   - Cleaned up placeholder values
   - Added comments noting secrets are configured
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/api/wrangler.toml`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/api/wrangler.toml`
 
 ### Root .gitignore (♻️ MODIFIED)
 - **Changes**: Enhanced secret protection section
 - **Added**: `.env.secrets` to protected files
 - **Purpose**: Prevent accidental commits of sensitive data
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/.gitignore`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/.gitignore`
 
 ## 📚 Documentation Files (Created)
 
@@ -57,7 +57,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   7. Troubleshooting guide
 - **Length**: ~300 lines
 - **Target**: Complete setup walkthrough
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/ENVIRONMENT_SETUP.md`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/ENVIRONMENT_SETUP.md`
 
 ### `QUICK_REFERENCE.md` (🆕 CREATED)
 - **Type**: Quick reference card
@@ -72,7 +72,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   8. Documentation links
 - **Length**: ~120 lines
 - **Target**: Fast lookup for developers
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/QUICK_REFERENCE.md`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/QUICK_REFERENCE.md`
 
 ### `DEPLOYMENT_COMPLETE.md` (🆕 CREATED)
 - **Type**: Detailed deployment summary
@@ -87,7 +87,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   8. Support resources
 - **Length**: ~250 lines
 - **Target**: Post-deployment review
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/DEPLOYMENT_COMPLETE.md`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/DEPLOYMENT_COMPLETE.md`
 
 ### `DEPLOYMENT_CHECKLIST.md` (🆕 CREATED)
 - **Type**: Task tracking and verification
@@ -102,7 +102,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   8. Support resources
 - **Length**: ~180 lines
 - **Target**: Task management and verification
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/DEPLOYMENT_CHECKLIST.md`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/DEPLOYMENT_CHECKLIST.md`
 
 ## 🔧 Script Files (Created)
 
@@ -115,7 +115,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   - Provides error handling
   - Gives deployment guidance
 - **Usage**: `./setup-secrets.sh`
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/setup-secrets.sh`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/setup-secrets.sh`
 
 ### `api/TEST_API.sh` (🆕 CREATED)
 - **Purpose**: API endpoint testing script
@@ -126,7 +126,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   4. Reconciliation test
   5. Authentication error tests
 - **Usage**: `./api/TEST_API.sh`
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/api/TEST_API.sh`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/api/TEST_API.sh`
 
 ## 📊 Build Output
 
@@ -138,7 +138,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
   - CSS bundle (~5.70 kB gzip)
   - JavaScript bundles (~391+ kB gzip)
 - **Ready for**: Deployment to web hosting
-- **Location**: `/home/mattrick/Gor-Incinerator.com/gor-incinerator/frontend/dist/`
+- **Location**: `/home/mattrick/Cook-Incinerator.com/cook-incinerator/frontend/dist/`
 
 ## 🔐 Sensitive Data
 
@@ -154,7 +154,7 @@ This document lists all files created or modified during the Gor-Incinerator dep
 ## 📍 File Structure
 
 ```
-gor-incinerator/
+cook-incinerator/
 ├── .env.secrets ..................... (🆕) Secrets config
 ├── .gitignore ....................... (♻️) Updated
 ├── ENVIRONMENT_SETUP.md ............. (🆕) Full guide

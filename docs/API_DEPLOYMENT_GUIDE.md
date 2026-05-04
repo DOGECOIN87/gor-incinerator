@@ -1,6 +1,6 @@
-# API Deployment Guide - Gor-Incinerator
+# API Deployment Guide - Cook-Incinerator
 
-Complete step-by-step guide for deploying the Gor-Incinerator API to Cloudflare Workers.
+Complete step-by-step guide for deploying the Cook-Incinerator API to Cloudflare Workers.
 
 ## 📋 Prerequisites
 
@@ -10,10 +10,10 @@ Before starting deployment, ensure you have:
 - [x] Node.js 18+ installed
 - [x] Wrangler CLI installed (`npm install -g wrangler`)
 - [x] Git repository access
-- [x] API key generated for Gorbag Wallet
+- [x] API key generated for Cookbag Wallet
 - [x] Admin API key generated for reconciliation
-- [x] Gorbagana RPC URL
-- [x] Vault addresses (Aether Labs + Gor-incinerator)
+- [x] Cookie Chain RPC URL
+- [x] Vault addresses (Aether Labs + Cook-incinerator)
 
 ---
 
@@ -22,8 +22,8 @@ Before starting deployment, ensure you have:
 ### 1.1 Clone Repository
 
 ```bash
-git clone https://github.com/DOGECOIN87/gor-incinerator.git
-cd gor-incinerator/api
+git clone https://github.com/DOGECOIN87/cook-incinerator.git
+cd cook-incinerator/api
 ```
 
 ### 1.2 Install Dependencies
@@ -46,7 +46,7 @@ node --version  # Should be 18+
 
 ## 🔑 Step 2: Generate API Keys
 
-### 2.1 Generate API Key for Gorbag Wallet
+### 2.1 Generate API Key for Cookbag Wallet
 
 ```bash
 cd scripts
@@ -65,7 +65,7 @@ node generate-api-key.js --partner "Aether Labs"
   Length:      72 characters
 
   API Key:
-  gorincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
+  cookincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
 
 ═══════════════════════════════════════════════════════════════════════
 ```
@@ -75,7 +75,7 @@ node generate-api-key.js --partner "Aether Labs"
 ### 2.2 Generate Admin API Key
 
 ```bash
-node generate-api-key.js --partner "Gor-Incinerator Admin"
+node generate-api-key.js --partner "Cook-Incinerator Admin"
 ```
 
 **⚠️ IMPORTANT**: Save this admin key securely. It's for reconciliation access only.
@@ -87,17 +87,17 @@ node generate-api-key.js --partner "Gor-Incinerator Admin"
 ### 3.1 Create D1 Database
 
 ```bash
-cd /home/ubuntu/gor-incinerator/api
-wrangler d1 create gor-incinerator-logs
+cd /home/ubuntu/cook-incinerator/api
+wrangler d1 create cook-incinerator-logs
 ```
 
 **Output:**
 ```
-✅ Successfully created DB 'gor-incinerator-logs'
+✅ Successfully created DB 'cook-incinerator-logs'
 
 [[d1_databases]]
 binding = "DB"
-database_name = "gor-incinerator-logs"
+database_name = "cook-incinerator-logs"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 ```
 
@@ -108,19 +108,19 @@ Copy the `database_id` from the output and update `wrangler.toml`:
 ```toml
 [[d1_databases]]
 binding = "DB"
-database_name = "gor-incinerator-logs"
+database_name = "cook-incinerator-logs"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # ← Paste your ID here
 ```
 
 ### 3.3 Apply Database Migration
 
 ```bash
-wrangler d1 execute gor-incinerator-logs --file=./migrations/0001_initial_schema.sql
+wrangler d1 execute cook-incinerator-logs --file=./migrations/0001_initial_schema.sql
 ```
 
 **Output:**
 ```
-🌀 Executing on gor-incinerator-logs (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx):
+🌀 Executing on cook-incinerator-logs (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx):
 🌀 To execute on your local development database, pass the --local flag to 'wrangler d1 execute'
 🚣 Executed 6 commands in 0.123ms
 ```
@@ -128,7 +128,7 @@ wrangler d1 execute gor-incinerator-logs --file=./migrations/0001_initial_schema
 ### 3.4 Verify Database Schema
 
 ```bash
-wrangler d1 execute gor-incinerator-logs --command "SELECT name FROM sqlite_master WHERE type='table';"
+wrangler d1 execute cook-incinerator-logs --command "SELECT name FROM sqlite_master WHERE type='table';"
 ```
 
 **Expected Output:**
@@ -150,9 +150,9 @@ wrangler d1 execute gor-incinerator-logs --command "SELECT name FROM sqlite_mast
 wrangler secret put API_KEY
 ```
 
-When prompted, paste the API key generated for Gorbag Wallet:
+When prompted, paste the API key generated for Cookbag Wallet:
 ```
-gorincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
+cookincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
 ```
 
 ### 4.2 Set Admin API Key
@@ -163,21 +163,21 @@ wrangler secret put ADMIN_API_KEY
 
 Paste the admin API key generated earlier.
 
-### 4.3 Set Gorbagana RPC URL
+### 4.3 Set Cookie Chain RPC URL
 
 ```bash
-wrangler secret put GOR_RPC_URL
+wrangler secret put COOK_RPC_URL
 ```
 
-Enter the Gorbagana RPC endpoint:
+Enter the Cookie Chain RPC endpoint:
 ```
-https://rpc.gorbagana.com
+https://rpc.cookiescan.io
 ```
 
 ### 4.4 Set Aether Labs Vault Address
 
 ```bash
-wrangler secret put GOR_VAULT_ADDRESS_AETHER
+wrangler secret put COOK_VAULT_ADDRESS_AETHER
 ```
 
 Enter the Aether Labs vault address (to be provided by Aether Labs):
@@ -185,13 +185,13 @@ Enter the Aether Labs vault address (to be provided by Aether Labs):
 AetherLabsVault111111111111111111111111111
 ```
 
-### 4.5 Set Gor-Incinerator Vault Address
+### 4.5 Set Cook-Incinerator Vault Address
 
 ```bash
-wrangler secret put GOR_VAULT_ADDRESS_INCINERATOR
+wrangler secret put COOK_VAULT_ADDRESS_INCINERATOR
 ```
 
-Enter your Gor-incinerator vault address:
+Enter your Cook-incinerator vault address:
 ```
 IncineratorVault11111111111111111111111111
 ```
@@ -214,15 +214,15 @@ wrangler secret list
     "type": "secret_text"
   },
   {
-    "name": "GOR_RPC_URL",
+    "name": "COOK_RPC_URL",
     "type": "secret_text"
   },
   {
-    "name": "GOR_VAULT_ADDRESS_AETHER",
+    "name": "COOK_VAULT_ADDRESS_AETHER",
     "type": "secret_text"
   },
   {
-    "name": "GOR_VAULT_ADDRESS_INCINERATOR",
+    "name": "COOK_VAULT_ADDRESS_INCINERATOR",
     "type": "secret_text"
   }
 ]
@@ -253,7 +253,7 @@ curl http://localhost:8787/health
 **Expected Response:**
 ```json
 {
-  "service": "Gor-Incinerator API",
+  "service": "Cook-Incinerator API",
   "version": "1.0.0",
   "status": "healthy",
   "endpoints": [
@@ -299,20 +299,20 @@ npm run deploy
 ⛅️ wrangler 3.x.x
 ------------------
 Total Upload: xx.xx KiB / gzip: xx.xx KiB
-Uploaded gor-incinerator-api (x.xx sec)
-Published gor-incinerator-api (x.xx sec)
-  https://gor-incinerator-api.YOUR_SUBDOMAIN.workers.dev
+Uploaded cook-incinerator-api (x.xx sec)
+Published cook-incinerator-api (x.xx sec)
+  https://cook-incinerator-api.YOUR_SUBDOMAIN.workers.dev
 ```
 
 ### 6.2 Test Production Deployment
 
 ```bash
 # Test health endpoint
-curl https://gor-incinerator-api.YOUR_SUBDOMAIN.workers.dev/health
+curl https://cook-incinerator-api.YOUR_SUBDOMAIN.workers.dev/health
 
 # Test with API key
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://gor-incinerator-api.YOUR_SUBDOMAIN.workers.dev/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+  https://cook-incinerator-api.YOUR_SUBDOMAIN.workers.dev/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 ```
 
 ---
@@ -322,10 +322,10 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ### 7.1 Add Custom Domain in Cloudflare Dashboard
 
 1. Go to **Cloudflare Dashboard** → **Workers & Pages**
-2. Click on **gor-incinerator-api**
+2. Click on **cook-incinerator-api**
 3. Go to **Settings** → **Domains & Routes**
 4. Click **Add Custom Domain**
-5. Enter: `api.gor-incinerator.com`
+5. Enter: `api.cook-incinerator.com`
 6. Click **Add Domain**
 
 ### 7.2 Verify DNS Configuration
@@ -333,13 +333,13 @@ curl -H "x-api-key: YOUR_API_KEY" \
 Cloudflare will automatically create the necessary DNS records. Verify:
 
 ```bash
-dig api.gor-incinerator.com
+dig api.cook-incinerator.com
 ```
 
 ### 7.3 Test Custom Domain
 
 ```bash
-curl https://api.gor-incinerator.com/health
+curl https://api.cook-incinerator.com/health
 ```
 
 ---
@@ -359,7 +359,7 @@ wrangler tail
 ### 8.2 Check Metrics in Dashboard
 
 1. Go to **Cloudflare Dashboard** → **Workers & Pages**
-2. Click on **gor-incinerator-api**
+2. Click on **cook-incinerator-api**
 3. View **Metrics** tab for:
    - Requests per second
    - Success rate
@@ -383,21 +383,21 @@ wrangler tail
 
 ```bash
 # Health check
-curl https://api.gor-incinerator.com/health
+curl https://api.cook-incinerator.com/health
 
 # Get assets
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.gor-incinerator.com/assets/WALLET_ADDRESS
+  https://api.cook-incinerator.com/assets/WALLET_ADDRESS
 
 # Build transaction
-curl -X POST https://api.gor-incinerator.com/build-burn-tx \
+curl -X POST https://api.cook-incinerator.com/build-burn-tx \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"wallet": "WALLET", "accounts": ["ACCOUNT"]}'
 
 # Reconciliation (admin only)
 curl -H "x-api-key: YOUR_ADMIN_API_KEY" \
-  "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
+  "https://api.cook-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
 ```
 
 ### 9.2 Test Error Handling
@@ -405,12 +405,12 @@ curl -H "x-api-key: YOUR_ADMIN_API_KEY" \
 ```bash
 # Test invalid API key
 curl -H "x-api-key: invalid" \
-  https://api.gor-incinerator.com/assets/WALLET_ADDRESS
+  https://api.cook-incinerator.com/assets/WALLET_ADDRESS
 # Expected: 401 Unauthorized
 
 # Test invalid wallet
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.gor-incinerator.com/assets/invalid
+  https://api.cook-incinerator.com/assets/invalid
 # Expected: 400 Bad Request
 ```
 
@@ -420,7 +420,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 # Make 101 requests in quick succession
 for i in {1..101}; do
   curl -H "x-api-key: YOUR_API_KEY" \
-    https://api.gor-incinerator.com/health
+    https://api.cook-incinerator.com/health
 done
 # Last request should return 429 (if rate limiting is implemented)
 ```
@@ -433,10 +433,10 @@ done
 
 Create a document with:
 
-1. **API Base URL**: `https://api.gor-incinerator.com`
-2. **API Key**: `gorincin_[generated_key]`
+1. **API Base URL**: `https://api.cook-incinerator.com`
+2. **API Key**: `cookincin_[generated_key]`
 3. **Rate Limit**: 100 requests per minute
-4. **Integration Guide**: Link to `GORBAG_WALLET_INTEGRATION.md`
+4. **Integration Guide**: Link to `COOKBAG_WALLET_INTEGRATION.md`
 5. **Support Contact**: GitHub Issues or email
 
 ### 10.2 Internal Documentation
@@ -444,7 +444,7 @@ Create a document with:
 Document for your team:
 
 1. **Admin API Key**: (stored securely)
-2. **Vault Addresses**: Both Aether Labs and Gor-incinerator
+2. **Vault Addresses**: Both Aether Labs and Cook-incinerator
 3. **Cloudflare Account**: Login details
 4. **Database ID**: D1 database identifier
 5. **Deployment Process**: This guide
@@ -488,7 +488,7 @@ wrangler secret delete SECRET_NAME
 # api/migrations/0002_add_new_field.sql
 
 # Apply migration
-wrangler d1 execute gor-incinerator-logs --file=./migrations/0002_add_new_field.sql
+wrangler d1 execute cook-incinerator-logs --file=./migrations/0002_add_new_field.sql
 ```
 
 ---
@@ -522,7 +522,7 @@ wrangler d1 list
 cat wrangler.toml | grep database_id
 
 # Re-apply migrations
-wrangler d1 execute gor-incinerator-logs --file=./migrations/0001_initial_schema.sql
+wrangler d1 execute cook-incinerator-logs --file=./migrations/0001_initial_schema.sql
 ```
 
 ### Issue: Secrets not working
@@ -651,11 +651,11 @@ wrangler tail
 
 | Variable | Type | Description | Example |
 |----------|------|-------------|---------|
-| `API_KEY` | Secret | API key for Gorbag Wallet | `gorincin_abc123...` |
-| `ADMIN_API_KEY` | Secret | Admin key for reconciliation | `gorincin_xyz789...` |
-| `GOR_RPC_URL` | Secret | Gorbagana RPC endpoint | `https://rpc.gorbagana.com` |
-| `GOR_VAULT_ADDRESS_AETHER` | Secret | Aether Labs vault address | `AetherVault111...` |
-| `GOR_VAULT_ADDRESS_INCINERATOR` | Secret | Gor-incinerator vault | `IncineratorVault111...` |
+| `API_KEY` | Secret | API key for Cookbag Wallet | `cookincin_abc123...` |
+| `ADMIN_API_KEY` | Secret | Admin key for reconciliation | `cookincin_xyz789...` |
+| `COOK_RPC_URL` | Secret | Cookie Chain RPC endpoint | `https://rpc.cookiescan.io` |
+| `COOK_VAULT_ADDRESS_AETHER` | Secret | Aether Labs vault address | `AetherVault111...` |
+| `COOK_VAULT_ADDRESS_INCINERATOR` | Secret | Cook-incinerator vault | `IncineratorVault111...` |
 | `ENVIRONMENT` | Variable | Environment name | `production` |
 
 ---

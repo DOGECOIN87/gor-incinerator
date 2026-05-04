@@ -1,14 +1,14 @@
 openapi: 3.0.3
 info:
-  title: Gor-Incinerator API
+  title: Cook-Incinerator API
   description: |
-    Protected API for token burning service on Gorbagana blockchain.
+    Protected API for token burning service on Cookie Chain blockchain.
     
     ## Features
     - Burn-eligible asset detection
     - Unsigned transaction building with automatic fee splits
     - Monthly reconciliation reporting
-    - 50/50 revenue split between Aether Labs and Gor-incinerator
+    - 50/50 revenue split between Aether Labs and Cook-incinerator
     
     ## Authentication
     All endpoints (except health check) require an API key in the `x-api-key` header.
@@ -19,14 +19,14 @@ info:
     
   version: 1.0.0
   contact:
-    name: Gor-Incinerator Support
-    url: https://github.com/DOGECOIN87/gor-incinerator
+    name: Cook-Incinerator Support
+    url: https://github.com/DOGECOIN87/cook-incinerator
   license:
     name: ISC
     url: https://opensource.org/licenses/ISC
 
 servers:
-  - url: https://api.gor-incinerator.com
+  - url: https://api.cook-incinerator.com
     description: Production server
   - url: http://localhost:8787
     description: Local development server
@@ -59,7 +59,7 @@ paths:
                 properties:
                   service:
                     type: string
-                    example: Gor-Incinerator API
+                    example: Cook-Incinerator API
                   version:
                     type: string
                     example: 1.0.0
@@ -88,7 +88,7 @@ paths:
         - name: wallet
           in: path
           required: true
-          description: Base58-encoded Gorbagana wallet address
+          description: Base58-encoded Cookie Chain wallet address
           schema:
             type: string
             example: 8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
@@ -135,7 +135,7 @@ paths:
         The transaction includes:
         - Close account instructions for selected token accounts
         - Transfer instruction for Aether Labs fee (2.5%)
-        - Transfer instruction for Gor-incinerator fee (2.5%)
+        - Transfer instruction for Cook-incinerator fee (2.5%)
         - User receives 95% of reclaimed rent
       operationId: buildBurnTransaction
       security:
@@ -240,7 +240,7 @@ components:
       type: apiKey
       in: header
       name: x-api-key
-      description: API key for authentication (format gorincin_[64_hex_chars])
+      description: API key for authentication (format cookincin_[64_hex_chars])
     AdminApiKeyAuth:
       type: apiKey
       in: header
@@ -272,7 +272,7 @@ components:
         mint:
           type: string
           description: Token mint address
-          example: GorTokenMint111111111111111111111111111111
+          example: CookTokenMint111111111111111111111111111111
         balance:
           type: string
           description: Token balance (always "0" for burn-eligible)
@@ -284,7 +284,7 @@ components:
         estimatedRent:
           type: number
           format: double
-          description: Estimated rent in GOR
+          description: Estimated rent in COOK
           example: 0.00203928
 
     AssetsSummary:
@@ -301,17 +301,17 @@ components:
         totalRent:
           type: number
           format: double
-          description: Total rent that can be reclaimed (in GOR)
+          description: Total rent that can be reclaimed (in COOK)
           example: 0.03058920
         serviceFee:
           type: number
           format: double
-          description: Total 5% service fee (in GOR)
+          description: Total 5% service fee (in COOK)
           example: 0.00152946
         youReceive:
           type: number
           format: double
-          description: Net amount user receives after fees (in GOR)
+          description: Net amount user receives after fees (in COOK)
           example: 0.02905974
 
     BuildBurnTxRequest:
@@ -354,19 +354,19 @@ components:
         totalRent:
           type: number
           format: double
-          description: Total rent to be reclaimed (in GOR)
+          description: Total rent to be reclaimed (in COOK)
           example: 0.02854992
         serviceFee:
           type: number
           format: double
-          description: Total 5% service fee (in GOR)
+          description: Total 5% service fee (in COOK)
           example: 0.00142750
         feeBreakdown:
           $ref: '#/components/schemas/FeeBreakdown'
         youReceive:
           type: number
           format: double
-          description: Net amount user receives after fees (in GOR)
+          description: Net amount user receives after fees (in COOK)
           example: 0.02712242
         blockhash:
           type: string
@@ -388,10 +388,10 @@ components:
           format: double
           description: Aether Labs share (2.5% of total rent)
           example: 0.00071375
-        gorIncinerator:
+        cookIncinerator:
           type: number
           format: double
-          description: Gor-incinerator share (2.5% of total rent)
+          description: Cook-incinerator share (2.5% of total rent)
           example: 0.00071375
 
     ReconciliationResponse:
@@ -434,22 +434,22 @@ components:
         totalRent:
           type: number
           format: double
-          description: Total rent reclaimed (in GOR)
+          description: Total rent reclaimed (in COOK)
           example: 30.5892
         totalFees:
           type: number
           format: double
-          description: Total service fees collected (in GOR)
+          description: Total service fees collected (in COOK)
           example: 1.52946
         aetherLabsShare:
           type: number
           format: double
-          description: Total amount for Aether Labs (in GOR)
+          description: Total amount for Aether Labs (in COOK)
           example: 0.76473
-        gorIncineratorShare:
+        cookIncineratorShare:
           type: number
           format: double
-          description: Total amount for Gor-incinerator (in GOR)
+          description: Total amount for Cook-incinerator (in COOK)
           example: 0.76473
 
     TransactionRecord:
@@ -475,22 +475,22 @@ components:
         totalRent:
           type: number
           format: double
-          description: Total rent reclaimed (in GOR)
+          description: Total rent reclaimed (in COOK)
           example: 0.0203928
         serviceFee:
           type: number
           format: double
-          description: Service fee collected (in GOR)
+          description: Service fee collected (in COOK)
           example: 0.00101964
         aetherLabsFee:
           type: number
           format: double
-          description: Aether Labs share (in GOR)
+          description: Aether Labs share (in COOK)
           example: 0.00050982
-        gorIncineratorFee:
+        cookIncineratorFee:
           type: number
           format: double
-          description: Gor-incinerator share (in GOR)
+          description: Cook-incinerator share (in COOK)
           example: 0.00050982
         txHash:
           type: string

@@ -33,8 +33,8 @@ ls -la frontend/dist/
 
 1. Push your repository to GitHub (if not already done)
    ```bash
-   cd /home/mattrick/Gor-Incinerator.com/gor-incinerator
-   git remote add origin https://github.com/YOUR_USERNAME/gor-incinerator.git
+   cd /home/mattrick/Cook-Incinerator.com/cook-incinerator
+   git remote add origin https://github.com/YOUR_USERNAME/cook-incinerator.git
    git branch -M main
    git push -u origin main
    ```
@@ -68,7 +68,7 @@ After deployment:
 
 1. In Pages project settings
 2. Go to **Custom domain**
-3. Add your domain (e.g., `gor-incinerator.com`)
+3. Add your domain (e.g., `cook-incinerator.com`)
 4. Update DNS CNAME if needed
 
 #### 4. Update Frontend Configuration
@@ -78,7 +78,7 @@ After deployment, update your `frontend/.env` if you have a custom domain:
 ```bash
 VITE_API_BASE_URL=https://api.your-domain.com
 # Or use the Cloudflare Pages URL:
-VITE_API_BASE_URL=https://gor-incinerator-api.gor-incinerator.workers.dev
+VITE_API_BASE_URL=https://cook-incinerator-api.cook-incinerator.workers.dev
 ```
 
 Then rebuild:
@@ -96,7 +96,7 @@ Redeploy the new build to Cloudflare Pages.
 Before deploying to production, test locally:
 
 ```bash
-cd /home/mattrick/Gor-Incinerator.com/gor-incinerator/frontend
+cd /home/mattrick/Cook-Incinerator.com/cook-incinerator/frontend
 npm run dev
 ```
 
@@ -162,11 +162,11 @@ frontend/dist/
 Your `frontend/.env` contains:
 
 ```
-VITE_API_BASE_URL=https://api.gor-incinerator.com
+VITE_API_BASE_URL=https://api.cook-incinerator.com
 VITE_API_KEY=REDACTED_USER_API_KEY
 VITE_MODE=api
-VITE_GOR_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
-VITE_GOR_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
+VITE_COOK_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
+VITE_COOK_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
 ```
 
 **Important**: This file contains non-sensitive config and the user API key (safe to deploy).

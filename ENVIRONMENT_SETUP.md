@@ -1,10 +1,10 @@
-# Gor-Incinerator Environment Setup Guide
+# Cook-Incinerator Environment Setup Guide
 
-This guide walks you through setting up your Gor-Incinerator deployment with all required secrets and environment variables.
+This guide walks you through setting up your Cook-Incinerator deployment with all required secrets and environment variables.
 
 ## Overview
 
-Your Gor-Incinerator deployment requires:
+Your Cook-Incinerator deployment requires:
 - **API Keys**: For authentication to the backend API
 - **Cloudflare Worker Secrets**: For the deployed backend
 - **Frontend Environment Variables**: For the React frontend in API mode
@@ -16,7 +16,7 @@ Two API keys have been generated for your deployment:
 
 | Purpose | Partner Name | API Key | Key ID |
 |---------|-------------|---------|--------|
-| User API Key | Gorbag Wallet | `REDACTED_USER_API_KEY` | `2ee20e3c` |
+| User API Key | Cookbag Wallet | `REDACTED_USER_API_KEY` | `2ee20e3c` |
 | Admin Key | Admin | `REDACTED_ADMIN_API_KEY` | `11c539f5` |
 
 **IMPORTANT**: 
@@ -56,13 +56,13 @@ wrangler secret put API_KEY
 wrangler secret put ADMIN_API_KEY
 # Paste: REDACTED_ADMIN_API_KEY
 
-wrangler secret put GOR_RPC_URL
-# Paste: https://rpc.gorbagana.wtf
+wrangler secret put COOK_RPC_URL
+# Paste: https://rpc.cookiescan.io
 
-wrangler secret put GOR_VAULT_ADDRESS_AETHER
+wrangler secret put COOK_VAULT_ADDRESS_AETHER
 # Paste: DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
 
-wrangler secret put GOR_VAULT_ADDRESS_INCINERATOR
+wrangler secret put COOK_VAULT_ADDRESS_INCINERATOR
 # Paste: BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
 ```
 
@@ -70,7 +70,7 @@ wrangler secret put GOR_VAULT_ADDRESS_INCINERATOR
 
 The fee distribution is split 50/50 between:
 - **Aether Labs Vault**: `DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD`
-- **Gor-Incinerator Vault**: `BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG`
+- **Cook-Incinerator Vault**: `BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG`
 
 ## Step 2: Frontend Environment Variables
 
@@ -78,10 +78,10 @@ The frontend `.env` file has been created at `frontend/.env` with API mode confi
 
 **Current values**:
 ```
-VITE_API_BASE_URL=https://api.gor-incinerator.com
+VITE_API_BASE_URL=https://api.cook-incinerator.com
 VITE_API_KEY=REDACTED_USER_API_KEY
-VITE_GOR_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
-VITE_GOR_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
+VITE_COOK_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
+VITE_COOK_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
 VITE_MODE=api
 ```
 
@@ -95,21 +95,21 @@ VITE_MODE=api
 
 1. Create a D1 database in the Cloudflare dashboard:
    ```bash
-   wrangler d1 create gor-incinerator-logs
+   wrangler d1 create cook-incinerator-logs
    ```
 
 2. Copy the returned database ID and update `api/wrangler.toml`:
    ```toml
    [[d1_databases]]
    binding = "DB"
-   database_name = "gor-incinerator-logs"
+   database_name = "cook-incinerator-logs"
    database_id = "YOUR_DATABASE_ID"
    ```
 
 3. Apply the initial migration:
    ```bash
    cd api
-   wrangler d1 execute gor-incinerator-logs --file ./migrations/0001_initial_schema.sql
+   wrangler d1 execute cook-incinerator-logs --file ./migrations/0001_initial_schema.sql
    ```
 
 ## Step 4: Deploy
@@ -147,7 +147,7 @@ npm run dev
 ### Test Health Endpoint
 
 ```bash
-curl https://api.gor-incinerator.com/health
+curl https://api.cook-incinerator.com/health
 ```
 
 Expected response: `{"status":"ok","timestamp":"2025-...","environment":"production"}`
@@ -156,7 +156,7 @@ Expected response: `{"status":"ok","timestamp":"2025-...","environment":"product
 
 ```bash
 curl -H "x-api-key: REDACTED_USER_API_KEY" \
-   https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS
+   https://api.cook-incinerator.com/assets/YOUR_WALLET_ADDRESS
 ```
 
 ### Build a Burn Transaction
@@ -166,14 +166,14 @@ curl -X POST \
      -H "Content-Type: application/json" \
    -H "x-api-key: REDACTED_USER_API_KEY" \
      -d '{"wallet":"YOUR_WALLET_ADDRESS","accounts":["ACC1","ACC2"],"maxAccounts":14}' \
-     https://api.gor-incinerator.com/build-burn-tx
+     https://api.cook-incinerator.com/build-burn-tx
 ```
 
 ### Generate Reconciliation Report (Admin Only)
 
 ```bash
 curl -H "x-api-key: REDACTED_ADMIN_API_KEY" \
-   "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
+   "https://api.cook-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31"
 ```
 
 ## Files Created/Modified

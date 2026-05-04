@@ -1,29 +1,29 @@
 <p align="center">
-  <img src="https://i.ibb.co/bqsvvFv/Logo.png" alt="Gor-Incinerator Logo" width="200">
+  <img src="https://i.ibb.co/bqsvvFv/Logo.png" alt="Cook-Incinerator Logo" width="200">
 </p>
 
-<h1 align="center">Gor-Incinerator</h1>
+<h1 align="center">Cook-Incinerator</h1>
 
 <p align="center">
-  <strong>Token Account Cleanup Service for the Gorbagana Blockchain</strong>
+  <strong>Token Account Cleanup Service for the Cookie Chain Blockchain</strong>
 </p>
 
 <p align="center">
-  <a href="https://api.gor-incinerator.com"><img src="https://img.shields.io/badge/API-Live-success" alt="API Status"></a>
-  <a href="https://gorbagana.com"><img src="https://img.shields.io/badge/Blockchain-Gorbagana-blue" alt="Gorbagana"></a>
+  <a href="https://api.cook-incinerator.com"><img src="https://img.shields.io/badge/API-Live-success" alt="API Status"></a>
+  <a href="https://cookie chain.com"><img src="https://img.shields.io/badge/Blockchain-Cookie Chain-blue" alt="Cookie Chain"></a>
 </p>
 
 ---
 
-Gor-Incinerator helps users reclaim rent from empty token accounts on the Gorbagana blockchain. Our service provides a simple, secure way to clean up unused token accounts and recover locked GOR.
+Cook-Incinerator helps users reclaim rent from empty token accounts on the Cookie Chain blockchain. Our service provides a simple, secure way to clean up unused token accounts and recover locked COOK.
 
 ---
 
 ## What We Do
 
-When you interact with tokens on Gorbagana, each token account requires a small rent deposit (~0.002 GOR). Over time, these empty accounts accumulate and lock up your funds.
+When you interact with tokens on Cookie Chain, each token account requires a small rent deposit (~0.002 COOK). Over time, these empty accounts accumulate and lock up your funds.
 
-**Gor-Incinerator solves this by:**
+**Cook-Incinerator solves this by:**
 
 - Scanning your wallet for empty token accounts
 - Building secure transactions to close them
@@ -34,7 +34,7 @@ When you interact with tokens on Gorbagana, each token account requires a small 
 ## How It Works
 
 ```
-Connect Wallet  â†’  Scan Accounts  â†’  Select & Burn  â†’  Receive GOR
+Connect Wallet  â†’  Scan Accounts  â†’  Select & Burn  â†’  Receive COOK
 ```
 
 1. **Scan** - We identify all empty token accounts in your wallet
@@ -50,7 +50,7 @@ Your private keys never leave your wallet. All transactions are signed locally.
 
 We offer API access for wallets and applications looking to integrate token cleanup functionality.
 
-**Base URL:** `https://api.gor-incinerator.com`
+**Base URL:** `https://api.cook-incinerator.com`
 
 ### Endpoints
 
@@ -125,9 +125,9 @@ API access requires authentication. Contact us for integration details.
 **Example:**
 | Accounts Closed | Total Rent | Service Fee | You Receive |
 |-----------------|------------|-------------|-------------|
-| 14 | 0.02855 GOR | 0.00143 GOR | 0.02712 GOR |
-| 50 | 0.10196 GOR | 0.00510 GOR | 0.09686 GOR |
-| 100 | 0.20393 GOR | 0.01020 GOR | 0.19373 GOR |
+| 14 | 0.02855 COOK | 0.00143 COOK | 0.02712 COOK |
+| 50 | 0.10196 COOK | 0.00510 COOK | 0.09686 COOK |
+| 100 | 0.20393 COOK | 0.01020 COOK | 0.19373 COOK |
 
 ---
 
@@ -164,23 +164,23 @@ We offer white-label and integration solutions for:
 
 | | |
 |---|---|
-| **Website** | [gor-incinerator.com](https://gor-incinerator.com) |
-| **API** | [api.gor-incinerator.com](https://api.gor-incinerator.com) |
-| **Gorbagana** | [gorbagana.com](https://gorbagana.com) |
+| **Website** | [cook-incinerator.com](https://cook-incinerator.com) |
+| **API** | [api.cook-incinerator.com](https://api.cook-incinerator.com) |
+| **Cookie Chain** | [cookie chain.com](https://cookie chain.com) |
 
 ---
 
 ## Contact
 
-Interested in integrating Gor-Incinerator or exploring a partnership?
+Interested in integrating Cook-Incinerator or exploring a partnership?
 
-**Get in touch** - [Open an Issue](https://github.com/DOGECOIN87/gor-incinerator/issues) or reach out through our website.
+**Get in touch** - [Open an Issue](https://github.com/DOGECOIN87/cook-incinerator/issues) or reach out through our website.
 
 ---
 
 <p align="center">
-  <img src="https://i.ibb.co/bqsvvFv/Logo.png" alt="Gor-Incinerator" width="80">
+  <img src="https://i.ibb.co/bqsvvFv/Logo.png" alt="Cook-Incinerator" width="80">
   <br>
-  <strong>Gor-Incinerator</strong><br>
-  Reclaim Your GOR
+  <strong>Cook-Incinerator</strong><br>
+  Reclaim Your COOK
 </p>

@@ -1,4 +1,4 @@
-# Gor Incinerator - Marketing Copy Guide
+# Cook Incinerator - Marketing Copy Guide
 
 ## Brand Voice
 
@@ -19,19 +19,19 @@
 ## Taglines
 
 ### Primary Tagline
-**"Reclaim Your GOR. Keep 95%."**
+**"Reclaim Your COOK. Keep 95%."**
 
 ### Alternative Taglines
-- "The Easiest Way to Burn on Gorbagana"
+- "The Easiest Way to Burn on Cookie Chain"
 - "Professional Token Burning. Industry-Low Fees."
 - "5% Fee. 95% Yours. 100% Simple."
 - "Burn Smart. Save More."
-- "Your GOR. Your Wallet. Our Service."
+- "Your COOK. Your Wallet. Our Service."
 
 ## Value Propositions
 
 ### Main Value Prop
-**"The easiest way to reclaim rent from empty token accounts on Gorbagana. Professional service with transparent 5% fee - you keep 95%."**
+**"The easiest way to reclaim rent from empty token accounts on Cookie Chain. Professional service with transparent 5% fee - you keep 95%."**
 
 ### Supporting Value Props
 1. **Lowest Fees**: "Only 5% vs 15%+ from competitors"
@@ -44,8 +44,8 @@
 
 ### For Landing Page Hero
 ```
-Headline: Reclaim Your GOR Instantly
-Subheadline: The easiest way to close empty token accounts on Gorbagana. 
+Headline: Reclaim Your COOK Instantly
+Subheadline: The easiest way to close empty token accounts on Cookie Chain. 
 Professional service with transparent 5% fee. Connect with Backpack wallet 
 and start burning.
 
@@ -56,12 +56,12 @@ CTA: Start Burning Now
 ```
 Industry-Low 5% Fee
 Transparent 5% service fee - the lowest in the industry. Unlike competitors 
-charging 15%+, you keep 95% of your reclaimed GOR. All fees shown upfront 
+charging 15%+, you keep 95% of your reclaimed COOK. All fees shown upfront 
 before you confirm.
 
 Backpack Wallet Ready
 Seamlessly integrated with Backpack wallet - the only wallet supporting 
-Gorbagana network. One-click connection and instant transactions.
+Cookie Chain network. One-click connection and instant transactions.
 
 Lightning Fast
 Close up to 14 token accounts in a single transaction with over 90% success 
@@ -75,15 +75,15 @@ from accidental loss.
 ### For How It Works Section
 ```
 Step 1: Connect Backpack Wallet
-Install Backpack wallet extension and connect to Gorbagana network. 
+Install Backpack wallet extension and connect to Cookie Chain network. 
 Don't have Backpack? Download here.
 
 Step 2: Review Your Accounts
-See all empty token accounts and estimated GOR to reclaim. View the 5% 
+See all empty token accounts and estimated COOK to reclaim. View the 5% 
 service fee and exact amount you'll receive.
 
 Step 3: Confirm & Burn
-Approve the transaction in your Backpack wallet and reclaim your GOR. 
+Approve the transaction in your Backpack wallet and reclaim your COOK. 
 Transaction completes in seconds.
 ```
 
@@ -91,7 +91,7 @@ Transaction completes in seconds.
 
 ### vs Competitors
 ```
-Why Choose Gor Incinerator?
+Why Choose Cook Incinerator?
 
 ✓ 5% Fee vs 15%+ from competitors
 ✓ Web interface vs command line tools
@@ -99,7 +99,7 @@ Why Choose Gor Incinerator?
 ✓ >90% success rate
 ✓ Professional support
 
-Save 10%+ on every transaction by choosing Gor Incinerator.
+Save 10%+ on every transaction by choosing Cook Incinerator.
 ```
 
 ### vs DIY Solutions
@@ -112,7 +112,7 @@ DIY Command Line:
 - No support
 - Time-consuming
 
-Gor Incinerator:
+Cook Incinerator:
 - No technical knowledge needed
 - One-click operation
 - Professional support
@@ -127,58 +127,58 @@ Worth the 5% fee? Absolutely.
 
 **Launch Announcement**
 ```
-🔥 Introducing Gor Incinerator
+🔥 Introducing Cook Incinerator
 
-The easiest way to reclaim rent from empty token accounts on #Gorbagana
+The easiest way to reclaim rent from empty token accounts on #Cookie Chain
 
 ✓ Only 5% fee (you keep 95%)
 ✓ Backpack wallet integration
 ✓ >90% success rate
 ✓ No technical knowledge needed
 
-Start burning: gor-incinerator.com
+Start burning: cook-incinerator.com
 
-#GOR #Crypto #DeFi
+#COOK #Crypto #DeFi
 ```
 
 **Feature Highlight**
 ```
 💰 Why pay 15% when you can pay 5%?
 
-Gor Incinerator offers the lowest fees in the industry for token burning 
-on #Gorbagana
+Cook Incinerator offers the lowest fees in the industry for token burning 
+on #Cookie Chain
 
-You keep 95% of your reclaimed GOR
+You keep 95% of your reclaimed COOK
 Transparent pricing
 No hidden fees
 
-Try it now: gor-incinerator.com
+Try it now: cook-incinerator.com
 ```
 
 **User Benefit**
 ```
-🎯 Reclaimed 0.0285 GOR from 14 empty accounts
+🎯 Reclaimed 0.0285 COOK from 14 empty accounts
 
-With Gor Incinerator:
-- Service fee: 0.00143 GOR (5%)
-- You receive: 0.0271 GOR
+With Cook Incinerator:
+- Service fee: 0.00143 COOK (5%)
+- You receive: 0.0271 COOK
 
 With competitors:
-- Service fee: 0.00428 GOR (15%)
-- You receive: 0.0242 GOR
+- Service fee: 0.00428 COOK (15%)
+- You receive: 0.0242 COOK
 
-Save 0.00285 GOR per transaction! 💰
+Save 0.00285 COOK per transaction! 💰
 ```
 
 ### Reddit Posts
 
-**r/Gorbagana Introduction**
+**r/Cookie Chain Introduction**
 ```
-Title: [Tool] Gor Incinerator - Easy Token Burning with 5% Fee
+Title: [Tool] Cook Incinerator - Easy Token Burning with 5% Fee
 
-Hey Gorbagana community!
+Hey Cookie Chain community!
 
-I've been using Gor Incinerator to clean up my wallet and wanted to share. 
+I've been using Cook Incinerator to clean up my wallet and wanted to share. 
 It's the easiest way to close empty token accounts and reclaim rent.
 
 Key features:
@@ -188,10 +188,10 @@ Key features:
 - >90% success rate
 - Closes up to 14 accounts per transaction
 
-Just closed 14 accounts and reclaimed 0.0271 GOR (after 5% fee). 
+Just closed 14 accounts and reclaimed 0.0271 COOK (after 5% fee). 
 Super easy and fast.
 
-Check it out: gor-incinerator.com
+Check it out: cook-incinerator.com
 
 Not affiliated, just a happy user!
 ```
@@ -200,19 +200,19 @@ Not affiliated, just a happy user!
 
 **Community Announcement**
 ```
-🔥 New Tool Alert: Gor Incinerator
+🔥 New Tool Alert: Cook Incinerator
 
 Tired of empty token accounts cluttering your wallet? 
 
-Gor Incinerator makes it easy to reclaim your rent:
+Cook Incinerator makes it easy to reclaim your rent:
 
 ✅ Connect Backpack wallet
 ✅ Review accounts & fees
-✅ Burn & reclaim GOR
+✅ Burn & reclaim COOK
 
 Only 5% service fee - you keep 95%!
 
-Try it: https://gor-incinerator.com
+Try it: https://cook-incinerator.com
 
 Questions? Ask away! 👇
 ```
@@ -221,12 +221,12 @@ Questions? Ask away! 👇
 
 ### Welcome Email
 ```
-Subject: Welcome to Gor Incinerator! 🔥
+Subject: Welcome to Cook Incinerator! 🔥
 
 Hi there,
 
-Thanks for visiting Gor Incinerator - the easiest way to reclaim rent 
-from empty token accounts on Gorbagana.
+Thanks for visiting Cook Incinerator - the easiest way to reclaim rent 
+from empty token accounts on Cookie Chain.
 
 Here's what makes us different:
 
@@ -237,13 +237,13 @@ Here's what makes us different:
 
 Ready to start?
 1. Install Backpack wallet (if you haven't already)
-2. Visit gor-incinerator.com
+2. Visit cook-incinerator.com
 3. Connect and burn!
 
 Questions? Just reply to this email.
 
 Happy burning!
-The Gor Incinerator Team
+The Cook Incinerator Team
 ```
 
 ### Feature Update Email
@@ -252,7 +252,7 @@ Subject: New Feature: Real-Time Fee Calculator
 
 Hi,
 
-We've just added a real-time fee calculator to Gor Incinerator!
+We've just added a real-time fee calculator to Cook Incinerator!
 
 Now you can see exactly how much you'll receive before confirming 
 any transaction:
@@ -265,19 +265,19 @@ any transaction:
 As always, we're committed to transparency and the lowest fees in 
 the industry.
 
-Try it now: gor-incinerator.com
+Try it now: cook-incinerator.com
 
 Best,
-The Gor Incinerator Team
+The Cook Incinerator Team
 ```
 
 ## Website Copy
 
 ### Homepage Above the Fold
 ```
-Reclaim Your GOR Instantly
+Reclaim Your COOK Instantly
 
-The easiest way to close empty token accounts on Gorbagana and recover 
+The easiest way to close empty token accounts on Cookie Chain and recover 
 your rent. Professional service with transparent 5% fee. Connect with 
 Backpack wallet and start burning.
 
@@ -295,12 +295,12 @@ You Keep: 95%
 Hidden Fees: 0
 
 Example Transaction:
-14 empty accounts = 0.0285 GOR reclaimed
-Service fee (5%) = 0.00143 GOR
-You receive = 0.0271 GOR
+14 empty accounts = 0.0285 COOK reclaimed
+Service fee (5%) = 0.00143 COOK
+You receive = 0.0271 COOK
 
 Compare to competitors charging 15%+
-You save 0.00285 GOR per transaction!
+You save 0.00285 COOK per transaction!
 
 [Start Burning Now]
 ```
@@ -310,8 +310,8 @@ You save 0.00285 GOR per transaction!
 Frequently Asked Questions
 
 Q: How much does it cost?
-A: Only 5% of the rent you reclaim. If you reclaim 0.0285 GOR, the fee 
-is 0.00143 GOR, and you receive 0.0271 GOR.
+A: Only 5% of the rent you reclaim. If you reclaim 0.0285 COOK, the fee 
+is 0.00143 COOK, and you receive 0.0271 COOK.
 
 Q: Is it safe?
 A: Yes! We only close empty accounts. Your tokens are never at risk.
@@ -330,7 +330,7 @@ hassle - worth the 5% fee.
 
 ### Trust Signals
 ```
-Trusted by the Gorbagana Community
+Trusted by the Cookie Chain Community
 
 ✓ >90% transaction success rate
 ✓ Open source code on GitHub
@@ -345,11 +345,11 @@ Trusted by the Gorbagana Community
 
 ### Google Ads
 
-**Headline 1**: Reclaim GOR | 5% Fee | Gor Incinerator
-**Headline 2**: Easy Token Burning for Gorbagana
+**Headline 1**: Reclaim COOK | 5% Fee | Cook Incinerator
+**Headline 2**: Easy Token Burning for Cookie Chain
 **Headline 3**: You Keep 95% | Professional Service
 
-**Description 1**: Close empty token accounts on Gorbagana. Only 5% fee 
+**Description 1**: Close empty token accounts on Cookie Chain. Only 5% fee 
 vs 15%+ from competitors. Backpack wallet integration.
 
 **Description 2**: Professional token burning service. >90% success rate. 
@@ -359,14 +359,14 @@ No technical knowledge needed. Start in seconds.
 
 **Banner Copy**:
 ```
-Reclaim Your GOR
+Reclaim Your COOK
 5% Fee | You Keep 95%
-gor-incinerator.com
+cook-incinerator.com
 ```
 
 **Square Ad**:
 ```
-💰 Gor Incinerator
+💰 Cook Incinerator
 
 Close empty token accounts
 Reclaim your rent
@@ -383,20 +383,20 @@ You Keep 95%
 ```
 FOR IMMEDIATE RELEASE
 
-Gor Incinerator Launches Professional Token Burning Service for 
-Gorbagana Network
+Cook Incinerator Launches Professional Token Burning Service for 
+Cookie Chain Network
 
 New service offers industry-low 5% fee and seamless Backpack wallet 
 integration
 
-[CITY, DATE] - Gor Incinerator, a new professional token burning service 
-for the Gorbagana blockchain, officially launched today. The service 
-provides the easiest way for Gorbagana users to reclaim rent from empty 
+[CITY, DATE] - Cook Incinerator, a new professional token burning service 
+for the Cookie Chain blockchain, officially launched today. The service 
+provides the easiest way for Cookie Chain users to reclaim rent from empty 
 token accounts with an industry-low 5% service fee.
 
-"We saw a need for a user-friendly, professional service in the Gorbagana 
+"We saw a need for a user-friendly, professional service in the Cookie Chain 
 ecosystem," said [Founder Name]. "While DIY tools exist, they require 
-technical knowledge and command line usage. Gor Incinerator makes token 
+technical knowledge and command line usage. Cook Incinerator makes token 
 burning accessible to everyone."
 
 Key features include:
@@ -406,12 +406,12 @@ Key features include:
 - >90% transaction success rate
 - Batch processing of up to 14 accounts per transaction
 
-The service is now available at gor-incinerator.com.
+The service is now available at cook-incinerator.com.
 
-About Gor Incinerator:
-Gor Incinerator is a professional token burning service for the Gorbagana 
+About Cook Incinerator:
+Cook Incinerator is a professional token burning service for the Cookie Chain 
 blockchain network. The company is committed to providing transparent, 
-affordable, and easy-to-use tools for the Gorbagana community.
+affordable, and easy-to-use tools for the Cookie Chain community.
 
 Contact:
 [Contact Information]
@@ -421,7 +421,7 @@ Contact:
 
 ### Primary CTAs
 - "Start Burning Now"
-- "Reclaim Your GOR"
+- "Reclaim Your COOK"
 - "Connect Wallet"
 - "Try It Free" (first transaction)
 - "Get Started"
@@ -434,7 +434,7 @@ Contact:
 - "Check FAQ"
 
 ### Urgency CTAs
-- "Reclaim Your GOR Today"
+- "Reclaim Your COOK Today"
 - "Start Saving Now"
 - "Don't Wait - Burn Now"
 - "Clean Your Wallet Today"
@@ -458,7 +458,7 @@ your private keys."
 
 ### "Why not use [competitor]?"
 **Response**: "Great question! [Competitor] charges 15%+ in fees. With 
-Gor Incinerator, you keep 95% of your reclaimed GOR. That's 10%+ more 
+Cook Incinerator, you keep 95% of your reclaimed COOK. That's 10%+ more 
 in your pocket on every transaction."
 
 ## Seasonal/Event Copy
@@ -479,7 +479,7 @@ Valid for first transaction only
 ```
 🎊 1,000 Transactions Milestone!
 
-Thanks to the Gorbagana community for your trust!
+Thanks to the Cookie Chain community for your trust!
 
 To celebrate:
 - All transactions this week: 4% fee
@@ -491,7 +491,7 @@ To celebrate:
 ## Conclusion
 
 This marketing copy guide provides a comprehensive foundation for all 
-Gor Incinerator communications. Remember to:
+Cook Incinerator communications. Remember to:
 
 - Always emphasize the 5% fee advantage
 - Highlight ease of use and Backpack integration
@@ -504,4 +504,4 @@ brand voice and key messages.
 
 ---
 
-**Gor Incinerator** - Professional token burning for Gorbagana. 🔥
+**Cook Incinerator** - Professional token burning for Cookie Chain. 🔥

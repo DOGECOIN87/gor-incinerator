@@ -1,16 +1,16 @@
-# Gor Incinerator - Deployment Guide
+# Cook Incinerator - Deployment Guide
 
 ## Overview
 
-This guide covers deploying Gor Incinerator as a production service for the Gorbagana blockchain network.
+This guide covers deploying Cook Incinerator as a production service for the Cookie Chain blockchain network.
 
 ## Prerequisites
 
 ### Required
 - Node.js 16+ and npm
-- Gorbagana RPC endpoint access
+- Cookie Chain RPC endpoint access
 - Fee recipient wallet (for collecting service fees)
-- Domain name (e.g., gor-incinerator.com)
+- Domain name (e.g., cook-incinerator.com)
 - Web hosting service (Vercel, Netlify, or similar)
 
 ### Recommended
@@ -25,17 +25,17 @@ This guide covers deploying Gor Incinerator as a production service for the Gorb
 Create a `.env.production` file:
 
 ```bash
-# Gorbagana Network
-RPC_URL=https://rpc.gorbagana.com
+# Cookie Chain Network
+RPC_URL=https://rpc.cookiescan.io
 
 # Service Fee Configuration (Required for business)
 FEE_RECIPIENT=YOUR_WALLET_ADDRESS_HERE
 FEE_PERCENTAGE=5
 
 # Frontend Configuration
-VITE_APP_TITLE=Gor Incinerator
+VITE_APP_TITLE=Cook Incinerator
 VITE_APP_LOGO=/logo.png
-VITE_RPC_URL=https://rpc.gorbagana.com
+VITE_RPC_URL=https://rpc.cookiescan.io
 
 # Analytics (Optional)
 VITE_ANALYTICS_ENDPOINT=https://analytics.yourdomain.com
@@ -119,7 +119,7 @@ npm run build
 ```nginx
 server {
     listen 80;
-    server_name gor-incinerator.com;
+    server_name cook-incinerator.com;
     
     # Redirect to HTTPS
     return 301 https://$server_name$request_uri;
@@ -127,12 +127,12 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name gor-incinerator.com;
+    server_name cook-incinerator.com;
     
     ssl_certificate /path/to/cert.pem;
     ssl_certificate_key /path/to/key.pem;
     
-    root /var/www/gor-incinerator/dist;
+    root /var/www/cook-incinerator/dist;
     index index.html;
     
     location / {
@@ -148,7 +148,7 @@ server {
 
 3. **Deploy Files**
 ```bash
-scp -r dist/* user@server:/var/www/gor-incinerator/
+scp -r dist/* user@server:/var/www/cook-incinerator/
 ```
 
 ## Backend Service (Optional)
@@ -157,19 +157,19 @@ If you want to run the backend as a service for monitoring or automation:
 
 ### Systemd Service
 
-Create `/etc/systemd/system/gor-incinerator.service`:
+Create `/etc/systemd/system/cook-incinerator.service`:
 
 ```ini
 [Unit]
-Description=Gor Incinerator Service
+Description=Cook Incinerator Service
 After=network.target
 
 [Service]
 Type=simple
-User=gorincinerator
-WorkingDirectory=/opt/gor-incinerator
+User=cookincinerator
+WorkingDirectory=/opt/cook-incinerator
 Environment="NODE_ENV=production"
-EnvironmentFile=/opt/gor-incinerator/.env
+EnvironmentFile=/opt/cook-incinerator/.env
 ExecStart=/usr/bin/node dist/burn.js
 Restart=on-failure
 RestartSec=10
@@ -180,8 +180,8 @@ WantedBy=multi-user.target
 
 Enable and start:
 ```bash
-sudo systemctl enable gor-incinerator
-sudo systemctl start gor-incinerator
+sudo systemctl enable cook-incinerator
+sudo systemctl start cook-incinerator
 ```
 
 ## Monitoring & Analytics
@@ -401,8 +401,8 @@ Optimize existing infrastructure:
 
 Monitor:
 - Total transactions processed
-- Total fees collected (in GOR)
-- GOR to USD conversion
+- Total fees collected (in COOK)
+- COOK to USD conversion
 - Monthly revenue trends
 
 ## Legal & Compliance
@@ -458,7 +458,7 @@ Maintain:
 ### Launch
 
 - [ ] Announce on social media
-- [ ] Submit to Gorbagana community
+- [ ] Submit to Cookie Chain community
 - [ ] Monitor initial transactions
 - [ ] Respond to user feedback
 - [ ] Track key metrics
@@ -498,15 +498,15 @@ Maintain:
 - [Main README](../README.md)
 
 ### External Resources
-- Gorbagana Documentation
+- Cookie Chain Documentation
 - Backpack Wallet Docs
 - Solana Web3.js Docs
 
 ## Support
 
 For deployment assistance:
-- GitHub Issues: https://github.com/DOGECOIN87/gor-incinerator.com/issues
-- Email: support@gor-incinerator.com (if configured)
+- GitHub Issues: https://github.com/DOGECOIN87/cook-incinerator.com/issues
+- Email: support@cook-incinerator.com (if configured)
 
 ---
 

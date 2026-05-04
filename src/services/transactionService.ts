@@ -19,7 +19,7 @@ import { TransactionError, NetworkError } from "../utils/errors";
 import { Config } from "../config";
 import { FeeService } from "./feeService";
 
-// Gorbagana Token Program ID (different from Solana)
+// Cookie Chain Token Program ID (different from Solana)
 const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
 /**

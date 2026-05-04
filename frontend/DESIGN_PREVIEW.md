@@ -13,13 +13,13 @@ The frontend has been redesigned to match the reference images with a dark green
 ### Layout Changes
 
 1. **Navigation**
-   - Simplified header with "Gor Incinerator." branding
+   - Simplified header with "Cook Incinerator." branding
    - Minimal navigation links (Burn, About, Features, GitHub)
    - Connect wallet button on the right
 
 2. **Hero Section**
    - Two-column layout (text left, visual right)
-   - Large "Reclaim Your GOR Effortlessly" headline
+   - Large "Reclaim Your COOK Effortlessly" headline
    - Gradient text effect on "Effortlessly"
    - Large animated trash can icon (replacing the 3D model from reference)
    - Floating animation effect
@@ -36,7 +36,7 @@ The frontend has been redesigned to match the reference images with a dark green
 
 5. **Two-Column Info Section**
    - "Recent Activity" card on the left
-   - "Why Gor Incinerator" card on the right
+   - "Why Cook Incinerator" card on the right
    - Matches the Events/Trending layout from reference
 
 6. **Features Section**

@@ -2,7 +2,7 @@
 
 /**
  * API Key Generation Script
- * Generates secure API keys in format: gorincin_[32_char_random]
+ * Generates secure API keys in format: cookincin_[32_char_random]
  * 
  * Usage:
  *   node generate-api-key.js
@@ -21,8 +21,8 @@ function generateAPIKey(partner = 'default') {
   const randomBytes = crypto.randomBytes(32);
   const randomHex = randomBytes.toString('hex');
   
-  // Create API key in format: gorincin_[random]
-  const apiKey = `gorincin_${randomHex}`;
+  // Create API key in format: cookincin_[random]
+  const apiKey = `cookincin_${randomHex}`;
   
   // Generate creation timestamp
   const createdAt = new Date().toISOString();
@@ -35,7 +35,7 @@ function generateAPIKey(partner = 'default') {
     apiKey,
     partner,
     createdAt,
-    format: 'gorincin_[64_hex_chars]',
+    format: 'cookincin_[64_hex_chars]',
     length: apiKey.length,
   };
 }
@@ -113,7 +113,7 @@ function main() {
   console.log('      wrangler secret put ADMIN_API_KEY');
   console.log();
   console.log('   4. Test the API key:');
-  console.log('      curl -H "x-api-key: YOUR_API_KEY" https://api.gor-incinerator.com/health');
+  console.log('      curl -H "x-api-key: YOUR_API_KEY" https://api.cook-incinerator.com/health');
   console.log();
   console.log('═══════════════════════════════════════════════════════════════════════');
   console.log();

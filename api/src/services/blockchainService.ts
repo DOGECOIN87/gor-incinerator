@@ -1,15 +1,15 @@
 /**
- * Blockchain service for Gorbagana RPC interactions
+ * Blockchain service for Cookie Chain RPC interactions
  * Handles fetching token accounts and building transactions
  */
 
 import { Connection, PublicKey } from "@solana/web3.js";
 import { TokenAccount, ParsedTokenAccountData, BlockchainError } from "../types";
-import { RENT_PER_ACCOUNT, lamportsToGor } from "./feeService";
+import { RENT_PER_ACCOUNT, lamportsToCook } from "./feeService";
 import { AccountLayout, MintLayout } from "@solana/spl-token";
 
 /**
- * Gorbagana Token Program ID (same as Solana)
+ * Cookie Chain Token Program ID (same as Solana)
  */
 export const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
@@ -110,7 +110,7 @@ export async function getAccountInfo(
 
 
 /**
- * Create connection to Gorbagana RPC
+ * Create connection to Cookie Chain RPC
  * @param rpcUrl - RPC endpoint URL
  * @returns Connection instance
  */
@@ -216,7 +216,7 @@ export async function enrichTokenAccounts(
       balance,
       decimals,
       burnEligible,
-      estimatedRent: lamportsToGor(RENT_PER_ACCOUNT),
+      estimatedRent: lamportsToCook(RENT_PER_ACCOUNT),
       authComment,
     });
   }

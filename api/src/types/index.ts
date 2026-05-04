@@ -1,6 +1,6 @@
 /**
- * Type definitions for Gor-Incinerator API
- * Cloudflare Workers backend for Gorbag Wallet integration
+ * Type definitions for Cook-Incinerator API
+ * Cloudflare Workers backend for Cookbag Wallet integration
  */
 
 import { PublicKey } from "@solana/web3.js";
@@ -16,9 +16,9 @@ export interface Env {
   // Secrets (set via wrangler secret put)
   API_KEY: string;
   ADMIN_API_KEY: string;
-  GOR_RPC_URL: string;
-  GOR_VAULT_ADDRESS_AETHER: string;
-  GOR_VAULT_ADDRESS_INCINERATOR: string;
+  COOK_RPC_URL: string;
+  COOK_VAULT_ADDRESS_AETHER: string;
+  COOK_VAULT_ADDRESS_INCINERATOR: string;
   
   // Environment variables
   ENVIRONMENT: string;
@@ -37,7 +37,7 @@ export interface TokenAccount {
   balance: string;
   decimals: number; // Added for clarity in /assets response
   burnEligible: boolean;
-  estimatedRent: number; // in GOR
+  estimatedRent: number; // in COOK
   authComment?: string; // Added for debugging/clarity of eligibility
 }
 
@@ -47,9 +47,9 @@ export interface TokenAccount {
 export interface AssetsSummary {
   totalAccounts: number;
   burnEligible: number;
-  totalRent: number; // in GOR
-  serviceFee: number; // in GOR (5% of totalRent)
-  youReceive: number; // in GOR (95% of totalRent)
+  totalRent: number; // in COOK
+  serviceFee: number; // in COOK (5% of totalRent)
+  youReceive: number; // in COOK (95% of totalRent)
 }
 
 /**
@@ -75,7 +75,7 @@ export interface BuildBurnTxRequest {
  */
 export interface FeeBreakdown {
   aetherLabs: number; // 2.5% in lamports
-  gorIncinerator: number; // 2.5% in lamports
+  cookIncinerator: number; // 2.5% in lamports
 }
 
 /**
@@ -84,10 +84,10 @@ export interface FeeBreakdown {
 export interface BuildBurnTxResponse {
   transaction: string; // Base64 encoded serialized transaction
   accountsToClose: number;
-  totalRent: number; // in GOR
-  serviceFee: number; // in GOR (5% total)
+  totalRent: number; // in COOK
+  serviceFee: number; // in COOK (5% total)
   feeBreakdown: FeeBreakdown; // Split by party
-  youReceive: number; // in GOR
+  youReceive: number; // in COOK
   blockhash: string;
   requiresSignatures: string[]; // Array of pubkeys that need to sign
 }
@@ -114,10 +114,10 @@ export interface ReconciliationPeriod {
 export interface ReconciliationSummary {
   totalTransactions: number;
   totalAccountsClosed: number;
-  totalRent: number; // in GOR
-  totalFees: number; // in GOR
-  aetherLabsShare: number; // in GOR
-  gorIncineratorShare: number; // in GOR
+  totalRent: number; // in COOK
+  totalFees: number; // in COOK
+  aetherLabsShare: number; // in COOK
+  cookIncineratorShare: number; // in COOK
 }
 
 /**
@@ -131,7 +131,7 @@ export interface TransactionRecord {
   totalRent: number;
   serviceFee: number;
   aetherLabsFee: number;
-  gorIncineratorFee: number;
+  cookIncineratorFee: number;
   txHash: string | null;
   status: "pending" | "confirmed" | "failed";
   createdAt: string;
@@ -161,7 +161,7 @@ export interface TransactionRow {
   total_rent: number;
   service_fee: number;
   aether_labs_fee: number;
-  gor_incinerator_fee: number;
+  cook_incinerator_fee: number;
   tx_hash: string | null;
   status: string;
   created_at: string;
@@ -178,7 +178,7 @@ export interface FeeCalculation {
   totalRent: number; // in lamports
   serviceFee: number; // in lamports (5% of totalRent)
   aetherLabsFee: number; // in lamports (2.5% of totalRent)
-  gorIncineratorFee: number; // in lamports (2.5% of totalRent)
+  cookIncineratorFee: number; // in lamports (2.5% of totalRent)
   netAmount: number; // in lamports (95% of totalRent)
 }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Reconciliation script for Gor-Incinerator
-Generates monthly fee split reports for Aether Labs and Gor-incinerator
+Reconciliation script for Cook-Incinerator
+Generates monthly fee split reports for Aether Labs and Cook-incinerator
 
 Usage:
     python3 reconciliation.py 2025-01-01 2025-01-31
@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any
 
 # Configuration
-API_URL = os.getenv("API_URL", "https://api.gor-incinerator.com")
+API_URL = os.getenv("API_URL", "https://api.cook-incinerator.com")
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 
 # ANSI color codes
@@ -74,7 +74,7 @@ def display_report(data: Dict[str, Any]):
     summary = data["summary"]
     transactions = data["transactions"]
 
-    print(f"\n{Colors.GREEN}Gor-Incinerator Reconciliation Report{Colors.NC}")
+    print(f"\n{Colors.GREEN}Cook-Incinerator Reconciliation Report{Colors.NC}")
     print("=" * 50)
     print(f"Period: {period['start']} to {period['end']}")
     print()
@@ -83,14 +83,14 @@ def display_report(data: Dict[str, Any]):
     print("-" * 50)
     print(f"Total Transactions:    {summary['totalTransactions']}")
     print(f"Total Accounts Closed: {summary['totalAccountsClosed']}")
-    print(f"Total Rent Reclaimed:  {summary['totalRent']:.8f} GOR")
-    print(f"Total Fees Collected:  {summary['totalFees']:.8f} GOR")
+    print(f"Total Rent Reclaimed:  {summary['totalRent']:.8f} COOK")
+    print(f"Total Fees Collected:  {summary['totalFees']:.8f} COOK")
     print()
 
     print_info("Fee Split (50/50):")
     print("-" * 50)
-    print(f"Aether Labs Share:     {summary['aetherLabsShare']:.8f} GOR")
-    print(f"Gor-incinerator Share: {summary['gorIncineratorShare']:.8f} GOR")
+    print(f"Aether Labs Share:     {summary['aetherLabsShare']:.8f} COOK")
+    print(f"Cook-incinerator Share: {summary['cookIncineratorShare']:.8f} COOK")
     print()
 
     # Transaction status breakdown
@@ -119,13 +119,13 @@ def export_csv(data: Dict[str, Any], start_date: str, end_date: str):
 
     with open(filename, "w") as f:
         # Write header
-        f.write("ID,Timestamp,Wallet,Accounts Closed,Total Rent,Service Fee,Aether Labs Fee,Gor-incinerator Fee,TX Hash,Status\n")
+        f.write("ID,Timestamp,Wallet,Accounts Closed,Total Rent,Service Fee,Aether Labs Fee,Cook-incinerator Fee,TX Hash,Status\n")
         
         # Write data
         for tx in transactions:
             f.write(f"{tx['id']},{tx['timestamp']},{tx['wallet']},{tx['accountsClosed']},")
             f.write(f"{tx['totalRent']},{tx['serviceFee']},{tx['aetherLabsFee']},")
-            f.write(f"{tx['gorIncineratorFee']},{tx['txHash'] or ''},")
+            f.write(f"{tx['cookIncineratorFee']},{tx['txHash'] or ''},")
             f.write(f"{tx['status']}\n")
     
     print_success(f"CSV export saved to: {filename}")

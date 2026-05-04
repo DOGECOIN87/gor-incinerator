@@ -38,9 +38,9 @@ const FeeCalculator = ({ accountCount }: FeeCalculatorProps) => {
   
   return (
     <div className="fee-breakdown">
-      <div>Total Rent: {totalRent.toFixed(6)} GOR</div>
-      <div>Fee (5%): {feeAmount.toFixed(6)} GOR</div>
-      <div>You Receive: {userReceives.toFixed(6)} GOR</div>
+      <div>Total Rent: {totalRent.toFixed(6)} COOK</div>
+      <div>Fee (5%): {feeAmount.toFixed(6)} COOK</div>
+      <div>You Receive: {userReceives.toFixed(6)} COOK</div>
     </div>
   );
 };
@@ -71,7 +71,7 @@ Add these common questions:
 A: Yes! Simply omit the `FEE_RECIPIENT` from your .env file and no fees will be collected.
 
 **Q: Where does the fee go?**
-A: Fees support the development and maintenance of Gor Incinerator. The recipient address is: `CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL`
+A: Fees support the development and maintenance of Cook Incinerator. The recipient address is: `CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL`
 
 **Q: Can I adjust the fee percentage?**
 A: Yes! Set `FEE_PERCENTAGE` in your .env file to any value from 0 to 100.
@@ -122,7 +122,7 @@ In the "Get Started" section, update step 2:
       Create a .env file with your settings
     </CardDescription>
     <div className="code-block">
-      <code>RPC_URL=https://rpc.gorbagana.com</code>
+      <code>RPC_URL=https://rpc.cookiescan.io</code>
       <code>WALLET=[your,wallet,bytes]</code>
       <code># Optional - Enable 5% fee</code>
       <code>FEE_RECIPIENT=CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL</code>
@@ -178,10 +178,10 @@ When showing transaction results:
   {feeCollected > 0 && (
     <div className="fee-info">
       <div className="fee-collected">
-        Fee collected: {feeCollected.toFixed(6)} GOR ({feePercentage}%)
+        Fee collected: {feeCollected.toFixed(6)} COOK ({feePercentage}%)
       </div>
       <div className="user-received">
-        You received: {userReceived.toFixed(6)} GOR
+        You received: {userReceived.toFixed(6)} COOK
       </div>
     </div>
   )}
@@ -197,7 +197,7 @@ When showing transaction results:
 ## Marketing Copy Suggestions
 
 ### Hero Headline Options
-1. "Reclaim Your GOR with Optional 5% Fee"
+1. "Reclaim Your COOK with Optional 5% Fee"
 2. "Zero to 5% Fee - You Choose"
 3. "Transparent Fee Structure, Maximum Control"
 
@@ -244,7 +244,7 @@ interface BurnResponse {
 ### Disclosure Text
 Add to footer or terms:
 ```
-Fee Disclosure: Gor Incinerator charges an optional 5% fee on 
+Fee Disclosure: Cook Incinerator charges an optional 5% fee on 
 reclaimed rent to support development and maintenance. This fee 
 can be adjusted or disabled by the user. All fees are transparent 
 and logged. No hidden charges apply.
@@ -252,7 +252,7 @@ and logged. No hidden charges apply.
 
 ### User Agreement
 ```
-By using Gor Incinerator with fees enabled, you agree to the 
+By using Cook Incinerator with fees enabled, you agree to the 
 configured fee percentage being deducted from reclaimed rent 
 and transferred to the designated recipient address.
 ```
@@ -278,7 +278,7 @@ and transferred to the designated recipient address.
 - Configuration Guide: `.env.example`
 
 ### Contact for Questions
-- GitHub Issues: https://github.com/DOGECOIN87/gor-incinerator.com/issues
+- GitHub Issues: https://github.com/DOGECOIN87/cook-incinerator.com/issues
 - Fee Recipient: CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
 
 ---

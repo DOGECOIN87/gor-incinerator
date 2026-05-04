@@ -25,9 +25,9 @@ const mockEnv: Env = {
   DB: {} as any,
   API_KEY: 'test',
   ADMIN_API_KEY: 'test',
-  GOR_RPC_URL: 'test',
-  GOR_VAULT_ADDRESS_AETHER: 'AetherVault11111111111111111111111111111111',
-  GOR_VAULT_ADDRESS_INCINERATOR: 'IncineratorVault11111111111111111111111111',
+  COOK_RPC_URL: 'test',
+  COOK_VAULT_ADDRESS_AETHER: 'AetherVault11111111111111111111111111111111',
+  COOK_VAULT_ADDRESS_INCINERATOR: 'IncineratorVault11111111111111111111111111',
   ENVIRONMENT: 'test',
 };
 
@@ -35,20 +35,20 @@ const mockFeeCalc = {
   totalRent: 2039280, // 2 accounts * RENT_PER_ACCOUNT (in lamports)
   serviceFee: 101964, // 5% of totalRent
   aetherLabsFee: 50982,
-  gorIncineratorFee: 50982,
+  cookIncineratorFee: 50982,
   netAmount: 1937316,
 };
 
 const mockFeeInstructions: TransactionInstruction[] = [
   SystemProgram.transfer({
     fromPubkey: new PublicKey(MOCK_WALLET),
-    toPubkey: new PublicKey(mockEnv.GOR_VAULT_ADDRESS_AETHER),
+    toPubkey: new PublicKey(mockEnv.COOK_VAULT_ADDRESS_AETHER),
     lamports: mockFeeCalc.aetherLabsFee,
   }),
   SystemProgram.transfer({
     fromPubkey: new PublicKey(MOCK_WALLET),
-    toPubkey: new PublicKey(mockEnv.GOR_VAULT_ADDRESS_INCINERATOR),
-    lamports: mockFeeCalc.gorIncineratorFee,
+    toPubkey: new PublicKey(mockEnv.COOK_VAULT_ADDRESS_INCINERATOR),
+    lamports: mockFeeCalc.cookIncineratorFee,
   }),
 ];
 
@@ -117,7 +117,7 @@ describe('buildBurnTransaction', () => {
     // Verify response structure
     expect(response.accountsToClose).toBe(1);
     expect(response.blockhash).toBe(MOCK_BLOCKHASH);
-    expect(response.serviceFee).toBe(mockFeeCalc.serviceFee / 10**9); // Lamports to GOR
+    expect(response.serviceFee).toBe(mockFeeCalc.serviceFee / 10**9); // Lamports to COOK
   });
 
   // Test Case 3: Non-burnable non-empty account (wallet is NOT authority)

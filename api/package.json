@@ -1,7 +1,7 @@
 {
-  "name": "gor-incinerator-api",
+  "name": "cook-incinerator-api",
   "version": "1.0.0",
-  "description": "Cloudflare Workers API for Gor-incinerator - Protected endpoints for Gorbag Wallet integration",
+  "description": "Cloudflare Workers API for Cook-incinerator - Protected endpoints for Cookbag Wallet integration",
   "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
@@ -13,11 +13,11 @@
   "keywords": [
     "cloudflare",
     "workers",
-    "gorbagana",
+    "cookie chain",
     "blockchain",
     "api"
   ],
-  "author": "Gor Incinerator",
+  "author": "Cook Incinerator",
   "license": "ISC",
   "dependencies": {
     "@solana/spl-token": "^0.4.8",

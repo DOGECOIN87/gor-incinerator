@@ -1,13 +1,13 @@
-# Gor-Incinerator API Usage Examples
+# Cook-Incinerator API Usage Examples
 
-Complete examples for integrating with the Gor-Incinerator API.
+Complete examples for integrating with the Cook-Incinerator API.
 
 ## 🔑 Authentication
 
 All API requests require the `x-api-key` header:
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" https://api.gor-incinerator.com/health
+curl -H "x-api-key: YOUR_API_KEY" https://api.cook-incinerator.com/health
 ```
 
 ---
@@ -19,7 +19,7 @@ Fetch all burn-eligible token accounts for a wallet.
 ### cURL
 
 ```bash
-curl -X GET "https://api.gor-incinerator.com/assets/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU" \
+curl -X GET "https://api.cook-incinerator.com/assets/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json"
 ```
@@ -29,7 +29,7 @@ curl -X GET "https://api.gor-incinerator.com/assets/7xKXtg2CW87d97TXJSDpbD5jBkhe
 ```typescript
 async function fetchBurnEligibleAccounts(walletAddress: string) {
   const response = await fetch(
-    `https://api.gor-incinerator.com/assets/${walletAddress}`,
+    `https://api.cook-incinerator.com/assets/${walletAddress}`,
     {
       method: "GET",
       headers: {
@@ -50,9 +50,9 @@ async function fetchBurnEligibleAccounts(walletAddress: string) {
 // Usage
 const assets = await fetchBurnEligibleAccounts("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU");
 console.log(`Found ${assets.summary.burnEligible} burn-eligible accounts`);
-console.log(`Total rent: ${assets.summary.totalRent} GOR`);
-console.log(`Service fee: ${assets.summary.serviceFee} GOR`);
-console.log(`You receive: ${assets.summary.youReceive} GOR`);
+console.log(`Total rent: ${assets.summary.totalRent} COOK`);
+console.log(`Service fee: ${assets.summary.serviceFee} COOK`);
+console.log(`You receive: ${assets.summary.youReceive} COOK`);
 ```
 
 ### Python
@@ -62,7 +62,7 @@ import requests
 import os
 
 def fetch_burn_eligible_accounts(wallet_address):
-    url = f"https://api.gor-incinerator.com/assets/{wallet_address}"
+    url = f"https://api.cook-incinerator.com/assets/{wallet_address}"
     headers = {
         "Content-Type": "application/json",
         "x-api-key": os.getenv("API_KEY")
@@ -75,9 +75,9 @@ def fetch_burn_eligible_accounts(wallet_address):
 # Usage
 assets = fetch_burn_eligible_accounts("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU")
 print(f"Found {assets['summary']['burnEligible']} burn-eligible accounts")
-print(f"Total rent: {assets['summary']['totalRent']} GOR")
-print(f"Service fee: {assets['summary']['serviceFee']} GOR")
-print(f"You receive: {assets['summary']['youReceive']} GOR")
+print(f"Total rent: {assets['summary']['totalRent']} COOK")
+print(f"Service fee: {assets['summary']['serviceFee']} COOK")
+print(f"You receive: {assets['summary']['youReceive']} COOK")
 ```
 
 ### Response Example
@@ -120,7 +120,7 @@ Build an unsigned burn transaction with fee splits.
 ### cURL
 
 ```bash
-curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
+curl -X POST "https://api.cook-incinerator.com/build-burn-tx" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -143,7 +143,7 @@ async function buildBurnTransaction(
   accounts: string[]
 ) {
   const response = await fetch(
-    "https://api.gor-incinerator.com/build-burn-tx",
+    "https://api.cook-incinerator.com/build-burn-tx",
     {
       method: "POST",
       headers: {
@@ -195,11 +195,11 @@ const txData = await buildBurnTransaction(
 );
 
 console.log(`Closing ${txData.accountsToClose} accounts`);
-console.log(`Total rent: ${txData.totalRent} GOR`);
-console.log(`Service fee: ${txData.serviceFee} GOR`);
-console.log(`  → Aether Labs: ${txData.feeBreakdown.aetherLabs} GOR`);
-console.log(`  → Gor-incinerator: ${txData.feeBreakdown.gorIncinerator} GOR`);
-console.log(`You receive: ${txData.youReceive} GOR`);
+console.log(`Total rent: ${txData.totalRent} COOK`);
+console.log(`Service fee: ${txData.serviceFee} COOK`);
+console.log(`  → Aether Labs: ${txData.feeBreakdown.aetherLabs} COOK`);
+console.log(`  → Cook-incinerator: ${txData.feeBreakdown.cookIncinerator} COOK`);
+console.log(`You receive: ${txData.youReceive} COOK`);
 
 const signature = await signAndSendTransaction(txData, wallet);
 console.log(`Transaction: ${signature}`);
@@ -214,7 +214,7 @@ import base64
 from solders.transaction import VersionedTransaction
 
 def build_burn_transaction(wallet_address, accounts):
-    url = "https://api.gor-incinerator.com/build-burn-tx"
+    url = "https://api.cook-incinerator.com/build-burn-tx"
     headers = {
         "Content-Type": "application/json",
         "x-api-key": os.getenv("API_KEY")
@@ -239,11 +239,11 @@ tx_data = build_burn_transaction(
 )
 
 print(f"Closing {tx_data['accountsToClose']} accounts")
-print(f"Total rent: {tx_data['totalRent']} GOR")
-print(f"Service fee: {tx_data['serviceFee']} GOR")
-print(f"  → Aether Labs: {tx_data['feeBreakdown']['aetherLabs']} GOR")
-print(f"  → Gor-incinerator: {tx_data['feeBreakdown']['gorIncinerator']} GOR")
-print(f"You receive: {tx_data['youReceive']} GOR")
+print(f"Total rent: {tx_data['totalRent']} COOK")
+print(f"Service fee: {tx_data['serviceFee']} COOK")
+print(f"  → Aether Labs: {tx_data['feeBreakdown']['aetherLabs']} COOK")
+print(f"  → Cook-incinerator: {tx_data['feeBreakdown']['cookIncinerator']} COOK")
+print(f"You receive: {tx_data['youReceive']} COOK")
 
 # Deserialize transaction
 tx_bytes = base64.b64decode(tx_data['transaction'])
@@ -263,7 +263,7 @@ transaction = VersionedTransaction.from_bytes(tx_bytes)
   "serviceFee": 0.00020393,
   "feeBreakdown": {
     "aetherLabs": 0.00010196,
-    "gorIncinerator": 0.00010196
+    "cookIncinerator": 0.00010196
   },
   "youReceive": 0.00387463,
   "blockhash": "9sHcv6xwn9YkB8nxTUGKDwPwNnmqVp5oAXxU8Fdkm4J5",
@@ -282,7 +282,7 @@ Generate monthly reconciliation report (admin only).
 ### cURL
 
 ```bash
-curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+curl -X GET "https://api.cook-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
   -H "x-api-key: YOUR_ADMIN_API_KEY" \
   -H "Content-Type: application/json"
 ```
@@ -291,7 +291,7 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
 
 ```typescript
 async function getReconciliationReport(startDate: string, endDate: string) {
-  const url = new URL("https://api.gor-incinerator.com/reconciliation/report");
+  const url = new URL("https://api.cook-incinerator.com/reconciliation/report");
   url.searchParams.append("start", startDate);
   url.searchParams.append("end", endDate);
 
@@ -319,15 +319,15 @@ console.log(`Period: ${report.period.start} to ${report.period.end}`);
 console.log(`\nSummary:`);
 console.log(`  Total Transactions: ${report.summary.totalTransactions}`);
 console.log(`  Total Accounts Closed: ${report.summary.totalAccountsClosed}`);
-console.log(`  Total Rent: ${report.summary.totalRent} GOR`);
-console.log(`  Total Fees: ${report.summary.totalFees} GOR`);
+console.log(`  Total Rent: ${report.summary.totalRent} COOK`);
+console.log(`  Total Fees: ${report.summary.totalFees} COOK`);
 console.log(`\nFee Split:`);
-console.log(`  Aether Labs: ${report.summary.aetherLabsShare} GOR`);
-console.log(`  Gor-incinerator: ${report.summary.gorIncineratorShare} GOR`);
+console.log(`  Aether Labs: ${report.summary.aetherLabsShare} COOK`);
+console.log(`  Cook-incinerator: ${report.summary.cookIncineratorShare} COOK`);
 
 // Export to CSV
 const csv = [
-  "ID,Timestamp,Wallet,Accounts Closed,Total Rent,Service Fee,Aether Labs Fee,Gor-incinerator Fee,TX Hash,Status",
+  "ID,Timestamp,Wallet,Accounts Closed,Total Rent,Service Fee,Aether Labs Fee,Cook-incinerator Fee,TX Hash,Status",
   ...report.transactions.map((tx: any) =>
     [
       tx.id,
@@ -337,7 +337,7 @@ const csv = [
       tx.totalRent,
       tx.serviceFee,
       tx.aetherLabsFee,
-      tx.gorIncineratorFee,
+      tx.cookIncineratorFee,
       tx.txHash || "",
       tx.status,
     ].join(",")
@@ -356,7 +356,7 @@ import csv
 from datetime import datetime
 
 def get_reconciliation_report(start_date, end_date):
-    url = "https://api.gor-incinerator.com/reconciliation/report"
+    url = "https://api.cook-incinerator.com/reconciliation/report"
     params = {
         "start": start_date,
         "end": end_date
@@ -376,7 +376,7 @@ def export_to_csv(report, filename):
         writer.writerow([
             "ID", "Timestamp", "Wallet", "Accounts Closed",
             "Total Rent", "Service Fee", "Aether Labs Fee",
-            "Gor-incinerator Fee", "TX Hash", "Status"
+            "Cook-incinerator Fee", "TX Hash", "Status"
         ])
         
         for tx in report['transactions']:
@@ -388,7 +388,7 @@ def export_to_csv(report, filename):
                 tx['totalRent'],
                 tx['serviceFee'],
                 tx['aetherLabsFee'],
-                tx['gorIncineratorFee'],
+                tx['cookIncineratorFee'],
                 tx['txHash'] or '',
                 tx['status']
             ])
@@ -401,11 +401,11 @@ print(f"Period: {report['period']['start']} to {report['period']['end']}")
 print("\nSummary:")
 print(f"  Total Transactions: {report['summary']['totalTransactions']}")
 print(f"  Total Accounts Closed: {report['summary']['totalAccountsClosed']}")
-print(f"  Total Rent: {report['summary']['totalRent']} GOR")
-print(f"  Total Fees: {report['summary']['totalFees']} GOR")
+print(f"  Total Rent: {report['summary']['totalRent']} COOK")
+print(f"  Total Fees: {report['summary']['totalFees']} COOK")
 print("\nFee Split:")
-print(f"  Aether Labs: {report['summary']['aetherLabsShare']} GOR")
-print(f"  Gor-incinerator: {report['summary']['gorIncineratorShare']} GOR")
+print(f"  Aether Labs: {report['summary']['aetherLabsShare']} COOK")
+print(f"  Cook-incinerator: {report['summary']['cookIncineratorShare']} COOK")
 
 # Export to CSV
 export_to_csv(report, f"reconciliation_{report['period']['start']}_to_{report['period']['end']}.csv")
@@ -426,7 +426,7 @@ print("\nReport exported to CSV")
     "totalRent": 30.5892,
     "totalFees": 1.52946,
     "aetherLabsShare": 0.76473,
-    "gorIncineratorShare": 0.76473
+    "cookIncineratorShare": 0.76473
   },
   "transactions": [
     {
@@ -437,7 +437,7 @@ print("\nReport exported to CSV")
       "totalRent": 0.02854992,
       "serviceFee": 0.00142750,
       "aetherLabsFee": 0.00071375,
-      "gorIncineratorFee": 0.00071375,
+      "cookIncineratorFee": 0.00071375,
       "txHash": "5j7s8t9u0v1w2x3y4z5a6b7c8d9e0f1g2h3i4j5k6l7m8n9o0p1q2r3s4t5u6v7w8x9y0z",
       "status": "confirmed",
       "createdAt": "2025-01-15T10:29:55Z"
@@ -450,12 +450,12 @@ print("\nReport exported to CSV")
 
 ## 🔄 Complete Integration Example
 
-### Gorbag Wallet Integration
+### Cookbag Wallet Integration
 
 ```typescript
 import { Connection, VersionedTransaction, PublicKey } from "@solana/web3.js";
 
-class GorIncineratorClient {
+class CookIncineratorClient {
   private apiUrl: string;
   private apiKey: string;
 
@@ -511,11 +511,11 @@ class GorIncineratorClient {
     const txData = await this.buildBurnTransaction(walletAddress, accounts);
 
     console.log(`Burning ${txData.accountsToClose} accounts`);
-    console.log(`Total rent: ${txData.totalRent} GOR`);
-    console.log(`Service fee: ${txData.serviceFee} GOR`);
-    console.log(`  → Aether Labs: ${txData.feeBreakdown.aetherLabs} GOR`);
-    console.log(`  → Gor-incinerator: ${txData.feeBreakdown.gorIncinerator} GOR`);
-    console.log(`You receive: ${txData.youReceive} GOR`);
+    console.log(`Total rent: ${txData.totalRent} COOK`);
+    console.log(`Service fee: ${txData.serviceFee} COOK`);
+    console.log(`  → Aether Labs: ${txData.feeBreakdown.aetherLabs} COOK`);
+    console.log(`  → Cook-incinerator: ${txData.feeBreakdown.cookIncinerator} COOK`);
+    console.log(`You receive: ${txData.youReceive} COOK`);
 
     // 2. Deserialize transaction
     const txBuffer = Buffer.from(txData.transaction, "base64");
@@ -541,9 +541,9 @@ class GorIncineratorClient {
   }
 }
 
-// Usage in Gorbag Wallet
-const client = new GorIncineratorClient(
-  "https://api.gor-incinerator.com",
+// Usage in Cookbag Wallet
+const client = new CookIncineratorClient(
+  "https://api.cook-incinerator.com",
   process.env.API_KEY!
 );
 

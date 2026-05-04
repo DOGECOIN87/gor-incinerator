@@ -79,7 +79,7 @@ export async function handleReconciliationReport(request: Request, env: Env): Pr
         totalRent: summary.totalRent,
         totalFees: summary.totalFees,
         aetherLabsShare: summary.aetherLabsShare,
-        gorIncineratorShare: summary.gorIncineratorShare,
+        cookIncineratorShare: summary.cookIncineratorShare,
       },
       transactions,
     };

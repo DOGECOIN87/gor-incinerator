@@ -32,12 +32,12 @@ export default function Home() {
       <nav className="border-b border-border/50 backdrop-blur-sm sticky top-0 z-50 bg-background/80">
         <div className="container py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={APP_LOGO} alt="Gor Incinerator" className="h-10 w-10" />
-            <span className="text-xl font-bold gradient-text">Gor Incinerator</span>
+            <img src={APP_LOGO} alt="Cook Incinerator" className="h-10 w-10" />
+            <span className="text-xl font-bold gradient-text">Cook Incinerator</span>
           </div>
           <div className="flex items-center gap-4">
             <a 
-              href="https://github.com/DOGECOIN87/gor-incinerator.com" 
+              href="https://github.com/DOGECOIN87/cook-incinerator.com" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -83,12 +83,12 @@ export default function Home() {
               
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                 Reclaim Your{" "}
-                <span className="gradient-text">GOR</span>
+                <span className="gradient-text">COOK</span>
                 {" "}Instantly
               </h1>
               
               <p className="text-xl text-muted-foreground leading-relaxed">
-                The easiest way to close empty token accounts on <strong className="text-foreground">Gorbagana</strong> and 
+                The easiest way to close empty token accounts on <strong className="text-foreground">Cookie Chain</strong> and 
                 recover your rent. Professional service with transparent 5% fee. Connect with <strong className="text-foreground">Backpack wallet</strong> and start burning.
               </p>
               
@@ -129,7 +129,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-orange-500 rounded-3xl blur-3xl opacity-30 animate-pulse" />
                 <img 
                   src="/network-bg.jpg" 
-                  alt="Gorbagana Network" 
+                  alt="Cookie Chain Network" 
                   className="relative rounded-3xl border border-border/50 shadow-2xl"
                 />
               </div>
@@ -148,10 +148,10 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Why Choose <span className="gradient-text">Gor Incinerator</span>?
+              Why Choose <span className="gradient-text">Cook Incinerator</span>?
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              The most efficient way to manage your Gorbagana token accounts
+              The most efficient way to manage your Cookie Chain token accounts
             </p>
           </div>
 
@@ -163,7 +163,7 @@ export default function Home() {
                 </div>
                 <CardTitle>Industry-Low 5% Fee</CardTitle>
                 <CardDescription>
-                  Transparent 5% service fee - the lowest in the industry. Unlike competitors charging 15%+, you keep 95% of your reclaimed GOR. All fees shown upfront before you confirm.
+                  Transparent 5% service fee - the lowest in the industry. Unlike competitors charging 15%+, you keep 95% of your reclaimed COOK. All fees shown upfront before you confirm.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -199,7 +199,7 @@ export default function Home() {
                 </div>
                 <CardTitle>Backpack Wallet Ready</CardTitle>
                 <CardDescription>
-                  Seamlessly integrated with Backpack wallet - the only wallet supporting Gorbagana network. One-click connection and instant transactions.
+                  Seamlessly integrated with Backpack wallet - the only wallet supporting Cookie Chain network. One-click connection and instant transactions.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -211,7 +211,7 @@ export default function Home() {
                 </div>
                 <CardTitle>Lightning Fast</CardTitle>
                 <CardDescription>
-                  Optimized for Gorbagana's high-performance architecture. Complete transactions in seconds.
+                  Optimized for Cookie Chain's high-performance architecture. Complete transactions in seconds.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -223,7 +223,7 @@ export default function Home() {
                 </div>
                 <CardTitle>Maximize Returns</CardTitle>
                 <CardDescription>
-                  Recover rent from unused accounts and put your GOR back to work. Every bit counts.
+                  Recover rent from unused accounts and put your COOK back to work. Every bit counts.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -239,7 +239,7 @@ export default function Home() {
               How It <span className="gradient-text">Works</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Reclaim your GOR in 3 simple steps
+              Reclaim your COOK in 3 simple steps
             </p>
           </div>
 
@@ -253,7 +253,7 @@ export default function Home() {
                   <div className="flex-1">
                     <CardTitle className="mb-2">Connect Backpack Wallet</CardTitle>
                     <CardDescription className="text-base mb-4">
-                      Install Backpack wallet extension and connect to Gorbagana network
+                      Install Backpack wallet extension and connect to Cookie Chain network
                     </CardDescription>
                     <div className="space-y-3">
                       <Button 
@@ -284,7 +284,7 @@ export default function Home() {
                   <div className="flex-1">
                     <CardTitle className="mb-2">Review Your Accounts</CardTitle>
                     <CardDescription className="text-base mb-4">
-                      See all empty token accounts and estimated GOR to reclaim
+                      See all empty token accounts and estimated COOK to reclaim
                     </CardDescription>
                     <div className="bg-secondary/50 rounded-lg p-4 space-y-3">
                       <div className="flex justify-between items-center">
@@ -293,16 +293,16 @@ export default function Home() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-muted-foreground">Total rent to reclaim:</span>
-                        <span className="font-bold text-lg text-green-500">~0.0285 GOR</span>
+                        <span className="font-bold text-lg text-green-500">~0.0285 COOK</span>
                       </div>
                       <div className="border-t border-border/50 pt-3 mt-3">
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground">Service fee (5%):</span>
-                          <span className="font-semibold">~0.00143 GOR</span>
+                          <span className="font-semibold">~0.00143 COOK</span>
                         </div>
                         <div className="flex justify-between items-center mt-2">
                           <span className="text-sm font-semibold">You receive:</span>
-                          <span className="font-bold text-xl text-primary">~0.0271 GOR</span>
+                          <span className="font-bold text-xl text-primary">~0.0271 COOK</span>
                         </div>
                       </div>
                     </div>
@@ -320,7 +320,7 @@ export default function Home() {
                   <div className="flex-1">
                     <CardTitle className="mb-2">Confirm & Burn</CardTitle>
                     <CardDescription className="text-base mb-4">
-                      Approve the transaction in your Backpack wallet and reclaim your GOR
+                      Approve the transaction in your Backpack wallet and reclaim your COOK
                     </CardDescription>
                     <Button 
                       className="w-full bg-gradient-to-r from-primary via-accent to-orange-500 hover:opacity-90"
@@ -332,7 +332,7 @@ export default function Home() {
                     </Button>
                     <p className="text-sm text-muted-foreground mt-4">
                       <CheckCircle2 className="inline h-4 w-4 text-green-500 mr-1" />
-                      Transaction completes in seconds. Your GOR will be instantly available in your wallet.
+                      Transaction completes in seconds. Your COOK will be instantly available in your wallet.
                     </p>
                   </div>
                 </div>
@@ -353,12 +353,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Gorbagana Section */}
+      {/* About Cookie Chain Section */}
       <section className="py-20">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Why <span className="gradient-text">Gor Incinerator</span>?
+              Why <span className="gradient-text">Cook Incinerator</span>?
             </h2>
             <div className="grid md:grid-cols-2 gap-6 text-left mt-8">
               <Card className="bg-card/50 border-border/50">
@@ -368,7 +368,7 @@ export default function Home() {
                     Lowest Fees
                   </CardTitle>
                   <CardDescription className="text-base">
-                    Only 5% service fee compared to 15%+ from competitors. Save more of your reclaimed GOR.
+                    Only 5% service fee compared to 15%+ from competitors. Save more of your reclaimed COOK.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -379,7 +379,7 @@ export default function Home() {
                     Backpack Integration
                   </CardTitle>
                   <CardDescription className="text-base">
-                    Seamlessly works with Backpack wallet - the only wallet supporting Gorbagana network.
+                    Seamlessly works with Backpack wallet - the only wallet supporting Cookie Chain network.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -418,7 +418,7 @@ export default function Home() {
               Start <span className="gradient-text">Burning</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Connect your Backpack wallet and reclaim your GOR in seconds
+              Connect your Backpack wallet and reclaim your COOK in seconds
             </p>
           </div>
           <BurnInterface 
@@ -435,10 +435,10 @@ export default function Home() {
         <div className="container relative">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Ready to Reclaim Your GOR?
+              Ready to Reclaim Your COOK?
             </h2>
             <p className="text-xl text-muted-foreground">
-              Join thousands of Gorbagana users saving money with our professional token burning service
+              Join thousands of Cookie Chain users saving money with our professional token burning service
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg" className="bg-gradient-to-r from-primary via-accent to-orange-500 hover:opacity-90">
@@ -456,7 +456,7 @@ export default function Home() {
             </div>
             <p className="text-sm text-muted-foreground">
               <Shield className="inline h-4 w-4 mr-1" />
-              Trusted by the Gorbagana community • 5% service fee • You keep 95%
+              Trusted by the Cookie Chain community • 5% service fee • You keep 95%
             </p>
           </div>
         </div>
@@ -468,11 +468,11 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <img src={APP_LOGO} alt="Gor Incinerator" className="h-8 w-8" />
-                <span className="font-bold gradient-text">Gor Incinerator</span>
+                <img src={APP_LOGO} alt="Cook Incinerator" className="h-8 w-8" />
+                <span className="font-bold gradient-text">Cook Incinerator</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Professional token burning service for Gorbagana network
+                Professional token burning service for Cookie Chain network
               </p>
               <p className="text-xs text-muted-foreground">
                 5% service fee • Backpack wallet compatible
@@ -483,7 +483,7 @@ export default function Home() {
               <h3 className="font-semibold">Resources</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  <a href="https://github.com/DOGECOIN87/cook-incinerator.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                     GitHub Repository
                   </a>
                 </li>
@@ -493,7 +493,7 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.com/issues" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  <a href="https://github.com/DOGECOIN87/cook-incinerator.com/issues" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                     Report Issues
                   </a>
                 </li>
@@ -509,7 +509,7 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/DOGECOIN87/gor-incinerator.com/blob/master/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  <a href="https://github.com/DOGECOIN87/cook-incinerator.com/blob/master/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                     Contributing Guide
                   </a>
                 </li>
@@ -518,8 +518,8 @@ export default function Home() {
           </div>
           
           <div className="mt-12 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-            <p>© 2024 Gor Incinerator. Professional token burning service.</p>
-            <p className="mt-2">Serving the Gorbagana blockchain community with transparent 5% fees</p>
+            <p>© 2024 Cook Incinerator. Professional token burning service.</p>
+            <p className="mt-2">Serving the Cookie Chain blockchain community with transparent 5% fees</p>
           </div>
         </div>
       </footer>

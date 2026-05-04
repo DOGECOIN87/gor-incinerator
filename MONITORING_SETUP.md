@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers setting up comprehensive monitoring, logging, and alerting for your Gor-Incinerator deployment.
+This guide covers setting up comprehensive monitoring, logging, and alerting for your Cook-Incinerator deployment.
 
 ## Components to Monitor
 
@@ -20,7 +20,7 @@ This guide covers setting up comprehensive monitoring, logging, and alerting for
 View live logs from your Worker:
 
 ```bash
-cd /home/mattrick/Gor-Incinerator.com/gor-incinerator/api
+cd /home/mattrick/Cook-Incinerator.com/cook-incinerator/api
 npm run tail
 ```
 
@@ -33,7 +33,7 @@ This command streams all logs from your deployed Worker in real-time. Great for:
 ### 1.2 Cloudflare Dashboard Analytics
 
 1. Go to: https://dash.cloudflare.com/
-2. Navigate to: Workers & Pages → gor-incinerator-api
+2. Navigate to: Workers & Pages → cook-incinerator-api
 3. View **Analytics** tab showing:
    - Request count
    - Error rate
@@ -101,7 +101,7 @@ Monitor query performance and storage:
 ```bash
 # View database information
 cd api
-npx wrangler d1 info gor-incinerator-logs-2
+npx wrangler d1 info cook-incinerator-logs-2
 ```
 
 ### 2.2 Database Backups
@@ -110,10 +110,10 @@ Set up regular backups:
 
 ```bash
 # Create a manual backup
-npx wrangler d1 backup create gor-incinerator-logs-2
+npx wrangler d1 backup create cook-incinerator-logs-2
 
 # List backups
-npx wrangler d1 backup list gor-incinerator-logs-2
+npx wrangler d1 backup list cook-incinerator-logs-2
 ```
 
 **Recommended**: Set up daily backups using Cloudflare's backup feature.
@@ -193,7 +193,7 @@ Send errors to your own backend:
 
 ```typescript
 const logError = async (error: Error) => {
-  await fetch('https://api.gor-incinerator.com/logs', {
+  await fetch('https://api.cook-incinerator.com/logs', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -262,8 +262,8 @@ Use services to monitor your endpoints:
 
 1. Sign up: https://betteruptime.com
 2. Add monitors for:
-   - `https://api.gor-incinerator.com/`
-   - `https://gor-incinerator.com/`
+   - `https://api.cook-incinerator.com/`
+   - `https://cook-incinerator.com/`
 3. Set check interval: 5-15 minutes
 4. Configure alerts: Slack, Email, PagerDuty
 5. Enable status page for transparency
@@ -289,9 +289,9 @@ Create automated health checks:
 #!/bin/bash
 # health-check.sh
 
-API_URL="https://api.gor-incinerator.com"
-FRONTEND_URL="https://gor-incinerator.com"
-LOG_FILE="/var/log/gor-incinerator-health.log"
+API_URL="https://api.cook-incinerator.com"
+FRONTEND_URL="https://cook-incinerator.com"
+LOG_FILE="/var/log/cook-incinerator-health.log"
 
 check_endpoint() {
   local url=$1
@@ -331,7 +331,7 @@ Schedule with cron:
 Track important metrics:
 
 ```
-┌─ Gor-Incinerator Metrics ─────────────────┐
+┌─ Cook-Incinerator Metrics ─────────────────┐
 │                                            │
 │ Last 24 Hours:                             │
 │ • Total Requests: 1,234                    │
@@ -413,7 +413,7 @@ Track important metrics:
 
 2. Look for stack traces
 3. Check database connection:
-   npx wrangler d1 info gor-incinerator-logs-2
+   npx wrangler d1 info cook-incinerator-logs-2
 
 4. Check environment variables in Cloudflare dashboard
 5. Redeploy if needed:
@@ -437,13 +437,13 @@ Track important metrics:
 
 ```
 1. Check database size:
-   npx wrangler d1 info gor-incinerator-logs-2
+   npx wrangler d1 info cook-incinerator-logs-2
 
 2. Archive old transactions:
    DELETE FROM transactions WHERE created_at < date_sub(now(), interval 90 day);
 
 3. Backup data first:
-   npx wrangler d1 backup create gor-incinerator-logs-2
+   npx wrangler d1 backup create cook-incinerator-logs-2
 
 4. Monitor growth and plan scaling
 ```

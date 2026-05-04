@@ -57,6 +57,9 @@
   
   body {
     background-color: hsl(var(--background));
+    background-image: url('/cookies-bg.svg');
+    background-repeat: repeat;
+    background-size: 300px 300px;
     color: hsl(var(--foreground));
     font-family: 'Inter', sans-serif;
   }

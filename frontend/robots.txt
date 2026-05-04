@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gor-incinerator.com/sitemap.xml
+Sitemap: https://cook-incinerator.com/sitemap.xml

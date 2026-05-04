@@ -1,10 +1,10 @@
-# Gorbag Wallet Integration Guide
+# Cookbag Wallet Integration Guide
 
-Complete guide for integrating Gor-Incinerator API into Gorbag Wallet.
+Complete guide for integrating Cook-Incinerator API into Cookbag Wallet.
 
 ## 📋 Overview
 
-This guide provides step-by-step instructions for Aether Labs to integrate the Gor-Incinerator token burning service into Gorbag Wallet.
+This guide provides step-by-step instructions for Aether Labs to integrate the Cook-Incinerator token burning service into Cookbag Wallet.
 
 ### Partnership Benefits
 
@@ -19,12 +19,12 @@ This guide provides step-by-step instructions for Aether Labs to integrate the G
 ### API Key Format
 
 ```
-gorincin_[64_hexadecimal_characters]
+cookincin_[64_hexadecimal_characters]
 ```
 
 ### Example
 ```
-gorincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
+cookincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
 ```
 
 ### Usage
@@ -32,8 +32,8 @@ gorincin_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456
 Include the API key in the `x-api-key` header for all requests:
 
 ```bash
-curl -H "x-api-key: gorincin_YOUR_API_KEY" \
-  https://api.gor-incinerator.com/assets/WALLET_ADDRESS
+curl -H "x-api-key: cookincin_YOUR_API_KEY" \
+  https://api.cook-incinerator.com/assets/WALLET_ADDRESS
 ```
 
 ### Rate Limiting
@@ -47,7 +47,7 @@ curl -H "x-api-key: gorincin_YOUR_API_KEY" \
 ### Base URL
 
 ```
-https://api.gor-incinerator.com
+https://api.cook-incinerator.com
 ```
 
 ### 1. Health Check
@@ -60,13 +60,13 @@ https://api.gor-incinerator.com
 
 **Request**:
 ```bash
-curl https://api.gor-incinerator.com/health
+curl https://api.cook-incinerator.com/health
 ```
 
 **Response**:
 ```json
 {
-  "service": "Gor-Incinerator API",
+  "service": "Cook-Incinerator API",
   "version": "1.0.0",
   "status": "healthy",
   "endpoints": [
@@ -88,12 +88,12 @@ curl https://api.gor-incinerator.com/health
 **Description**: Returns all token accounts eligible for burning (zero balance accounts).
 
 **Parameters**:
-- `wallet` (path parameter) - Base58-encoded Gorbagana wallet address
+- `wallet` (path parameter) - Base58-encoded Cookie Chain wallet address
 
 **Request**:
 ```bash
-curl -X GET "https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP" \
-  -H "x-api-key: gorincin_YOUR_API_KEY"
+curl -X GET "https://api.cook-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP" \
+  -H "x-api-key: cookincin_YOUR_API_KEY"
 ```
 
 **Response** (200 OK):
@@ -103,7 +103,7 @@ curl -X GET "https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY
   "accounts": [
     {
       "pubkey": "DzP3K8vQZ2nM5xLrT9wY1jH4sB6cF8dE7gA2hN9pK3qR",
-      "mint": "GorTokenMint111111111111111111111111111111",
+      "mint": "CookTokenMint111111111111111111111111111111",
       "balance": "0",
       "burnEligible": true,
       "estimatedRent": 0.00203928
@@ -175,8 +175,8 @@ curl -X GET "https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY
 
 **Request**:
 ```bash
-curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
-  -H "x-api-key: gorincin_YOUR_API_KEY" \
+curl -X POST "https://api.cook-incinerator.com/build-burn-tx" \
+  -H "x-api-key: cookincin_YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "wallet": "8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP",
@@ -194,7 +194,7 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
   "serviceFee": 0.00142750,
   "feeBreakdown": {
     "aetherLabs": 0.00071375,
-    "gorIncinerator": 0.00071375
+    "cookIncinerator": 0.00071375
   },
   "youReceive": 0.02712242,
   "blockhash": "9xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP",
@@ -205,10 +205,10 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 **Field Descriptions**:
 - `transaction` - Base64-encoded unsigned transaction (ready for signing)
 - `accountsToClose` - Number of accounts included in transaction
-- `totalRent` - Total rent to be reclaimed (in GOR)
-- `serviceFee` - Total 5% service fee (in GOR)
-- `feeBreakdown` - Split between Aether Labs and Gor-incinerator
-- `youReceive` - Net amount user receives after fees (in GOR)
+- `totalRent` - Total rent to be reclaimed (in COOK)
+- `serviceFee` - Total 5% service fee (in COOK)
+- `feeBreakdown` - Split between Aether Labs and Cook-incinerator
+- `youReceive` - Net amount user receives after fees (in COOK)
 - `blockhash` - Recent blockhash used in transaction
 - `requiresSignatures` - Array of public keys that must sign
 
@@ -240,7 +240,7 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        GORBAG WALLET                            │
+│                        COOKBAG WALLET                            │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               │ 1. User clicks "Burn Tokens"
@@ -269,11 +269,11 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
                               │ 4. Wallet signs transaction
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  Wallet broadcasts to Gorbagana blockchain                      │
+│  Wallet broadcasts to Cookie Chain blockchain                      │
 │  Transaction executes atomically:                               │
 │  - Close token accounts                                         │
 │  - Transfer 2.5% to Aether Labs vault                          │
-│  - Transfer 2.5% to Gor-incinerator vault                      │
+│  - Transfer 2.5% to Cook-incinerator vault                      │
 │  - Return 95% to user                                           │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -297,15 +297,15 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 import { Connection, VersionedTransaction } from '@solana/web3.js';
 
 /**
- * Gor-Incinerator API Client
+ * Cook-Incinerator API Client
  */
-class GorIncineratorAPI {
+class CookIncineratorAPI {
   private apiKey: string;
   private baseURL: string;
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
-    this.baseURL = 'https://api.gor-incinerator.com';
+    this.baseURL = 'https://api.cook-incinerator.com';
   }
 
   /**
@@ -361,7 +361,7 @@ class GorIncineratorAPI {
  * Example: Burn tokens flow
  */
 async function burnTokensFlow(
-  apiClient: GorIncineratorAPI,
+  apiClient: CookIncineratorAPI,
   connection: Connection,
   walletAddress: string,
   signTransaction: (tx: VersionedTransaction) => Promise<VersionedTransaction>
@@ -372,9 +372,9 @@ async function burnTokensFlow(
     const assetsData = await apiClient.getAssets(walletAddress);
     
     console.log(`Found ${assetsData.summary.burnEligible} eligible accounts`);
-    console.log(`Total rent: ${assetsData.summary.totalRent} GOR`);
-    console.log(`Service fee: ${assetsData.summary.serviceFee} GOR`);
-    console.log(`You receive: ${assetsData.summary.youReceive} GOR`);
+    console.log(`Total rent: ${assetsData.summary.totalRent} COOK`);
+    console.log(`Service fee: ${assetsData.summary.serviceFee} COOK`);
+    console.log(`You receive: ${assetsData.summary.youReceive} COOK`);
 
     // Step 2: Get user confirmation (implement your UI logic here)
     const userConfirmed = true; // Replace with actual user confirmation
@@ -395,8 +395,8 @@ async function burnTokensFlow(
 
     console.log(`Transaction will close ${txData.accountsToClose} accounts`);
     console.log(`Fee breakdown:`);
-    console.log(`  - Aether Labs: ${txData.feeBreakdown.aetherLabs} GOR`);
-    console.log(`  - Gor-incinerator: ${txData.feeBreakdown.gorIncinerator} GOR`);
+    console.log(`  - Aether Labs: ${txData.feeBreakdown.aetherLabs} COOK`);
+    console.log(`  - Cook-incinerator: ${txData.feeBreakdown.cookIncinerator} COOK`);
 
     // Step 4: Deserialize and sign transaction
     console.log('Signing transaction...');
@@ -414,7 +414,7 @@ async function burnTokensFlow(
 
     console.log('✅ Success!');
     console.log(`Transaction: ${signature}`);
-    console.log(`Rent reclaimed: ${txData.youReceive} GOR`);
+    console.log(`Rent reclaimed: ${txData.youReceive} COOK`);
 
     return {
       signature,
@@ -429,8 +429,8 @@ async function burnTokensFlow(
 }
 
 // Usage
-const apiClient = new GorIncineratorAPI('gorincin_YOUR_API_KEY');
-const connection = new Connection('https://rpc.gorbagana.com');
+const apiClient = new CookIncineratorAPI('cookincin_YOUR_API_KEY');
+const connection = new Connection('https://rpc.cookiescan.io');
 
 // Call in your wallet's burn tokens handler
 // await burnTokensFlow(apiClient, connection, userWallet, signTransaction);
@@ -444,15 +444,15 @@ const connection = new Connection('https://rpc.gorbagana.com');
 
 ```bash
 # 1. Test health endpoint
-curl https://api.gor-incinerator.com/health
+curl https://api.cook-incinerator.com/health
 
 # 2. Test get assets (replace with your API key and wallet)
-curl -X GET "https://api.gor-incinerator.com/assets/YOUR_WALLET_ADDRESS" \
-  -H "x-api-key: gorincin_YOUR_API_KEY"
+curl -X GET "https://api.cook-incinerator.com/assets/YOUR_WALLET_ADDRESS" \
+  -H "x-api-key: cookincin_YOUR_API_KEY"
 
 # 3. Test build transaction (replace with actual data)
-curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
-  -H "x-api-key: gorincin_YOUR_API_KEY" \
+curl -X POST "https://api.cook-incinerator.com/build-burn-tx" \
+  -H "x-api-key: cookincin_YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "wallet": "YOUR_WALLET_ADDRESS",
@@ -482,23 +482,23 @@ curl -X POST "https://api.gor-incinerator.com/build-burn-tx" \
 |-----------|------------|-----------|
 | **Total Service Fee** | 5% | Split 50/50 |
 | Aether Labs Share | 2.5% | Aether Labs Vault |
-| Gor-incinerator Share | 2.5% | Gor-incinerator Vault |
+| Cook-incinerator Share | 2.5% | Cook-incinerator Vault |
 | **User Receives** | 95% | User Wallet |
 
 ### Example Calculation
 
 **Scenario**: User closes 14 token accounts
 
-1. **Total Rent Reclaimed**: 14 × 0.00203928 GOR = **0.02854992 GOR**
-2. **Service Fee (5%)**: 0.02854992 × 0.05 = **0.00142750 GOR**
-3. **Aether Labs (2.5%)**: 0.00142750 ÷ 2 = **0.00071375 GOR**
-4. **Gor-incinerator (2.5%)**: 0.00142750 ÷ 2 = **0.00071375 GOR**
-5. **User Receives (95%)**: 0.02854992 - 0.00142750 = **0.02712242 GOR**
+1. **Total Rent Reclaimed**: 14 × 0.00203928 COOK = **0.02854992 COOK**
+2. **Service Fee (5%)**: 0.02854992 × 0.05 = **0.00142750 COOK**
+3. **Aether Labs (2.5%)**: 0.00142750 ÷ 2 = **0.00071375 COOK**
+4. **Cook-incinerator (2.5%)**: 0.00142750 ÷ 2 = **0.00071375 COOK**
+5. **User Receives (95%)**: 0.02854992 - 0.00142750 = **0.02712242 COOK**
 
 ### Vault Addresses
 
 **Aether Labs Vault**: `[TO BE PROVIDED]`  
-**Gor-incinerator Vault**: `[TO BE PROVIDED]`
+**Cook-incinerator Vault**: `[TO BE PROVIDED]`
 
 These addresses are hardcoded in the API and cannot be changed by the client.
 
@@ -518,8 +518,8 @@ These addresses are hardcoded in the API and cannot be changed by the client.
 
 **Request**:
 ```bash
-curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
-  -H "x-api-key: gorincin_ADMIN_API_KEY"
+curl -X GET "https://api.cook-incinerator.com/reconciliation/report?start=2025-01-01&end=2025-01-31" \
+  -H "x-api-key: cookincin_ADMIN_API_KEY"
 ```
 
 **Response**:
@@ -535,7 +535,7 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
     "totalRent": 30.5892,
     "totalFees": 1.52946,
     "aetherLabsShare": 0.76473,
-    "gorIncineratorShare": 0.76473
+    "cookIncineratorShare": 0.76473
   },
   "transactions": [
     {
@@ -546,7 +546,7 @@ curl -X GET "https://api.gor-incinerator.com/reconciliation/report?start=2025-01
       "totalRent": 0.0203928,
       "serviceFee": 0.00101964,
       "aetherLabsFee": 0.00050982,
-      "gorIncineratorFee": 0.00050982,
+      "cookIncineratorFee": 0.00050982,
       "txHash": "5xKZFz...",
       "status": "confirmed"
     }
@@ -561,14 +561,14 @@ Scripts are provided in `api/scripts/`:
 **Bash Script**:
 ```bash
 cd api/scripts
-export ADMIN_API_KEY=gorincin_YOUR_ADMIN_KEY
+export ADMIN_API_KEY=cookincin_YOUR_ADMIN_KEY
 ./reconciliation.sh 2025-01-01 2025-01-31
 ```
 
 **Python Script**:
 ```bash
 cd api/scripts
-export ADMIN_API_KEY=gorincin_YOUR_ADMIN_KEY
+export ADMIN_API_KEY=cookincin_YOUR_ADMIN_KEY
 python3 reconciliation.py 2025-01-01 2025-01-31
 ```
 
@@ -660,15 +660,15 @@ async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 3)
 
 ### Technical Support
 
-- **GitHub Issues**: https://github.com/DOGECOIN87/gor-incinerator/issues
+- **GitHub Issues**: https://github.com/DOGECOIN87/cook-incinerator/issues
 - **Email**: [Contact via GitHub]
 - **Response Time**: Within 24 hours
 
 ### Documentation
 
-- **API Documentation**: https://github.com/DOGECOIN87/gor-incinerator/blob/main/api/README.md
-- **Deployment Guide**: https://github.com/DOGECOIN87/gor-incinerator/blob/main/DEPLOYMENT_GUIDE.md
-- **Business Model**: https://github.com/DOGECOIN87/gor-incinerator/blob/main/docs/BUSINESS_MODEL.md
+- **API Documentation**: https://github.com/DOGECOIN87/cook-incinerator/blob/main/api/README.md
+- **Deployment Guide**: https://github.com/DOGECOIN87/cook-incinerator/blob/main/DEPLOYMENT_GUIDE.md
+- **Business Model**: https://github.com/DOGECOIN87/cook-incinerator/blob/main/docs/BUSINESS_MODEL.md
 
 ---
 
@@ -676,7 +676,7 @@ async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 3)
 
 ### Pre-Integration
 
-- [ ] Receive API key from Gor-incinerator team
+- [ ] Receive API key from Cook-incinerator team
 - [ ] Store API key securely in environment variables
 - [ ] Review API documentation
 - [ ] Set up test environment
@@ -707,7 +707,7 @@ async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 3)
 - [ ] Monitor transaction success rate
 - [ ] Set up error tracking
 - [ ] Document any issues
-- [ ] Provide feedback to Gor-incinerator team
+- [ ] Provide feedback to Cook-incinerator team
 
 ### Post-Launch
 
@@ -732,12 +732,12 @@ async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 3)
 
 ## 📄 Appendix A: Vault Addresses
 
-**To be provided by Gor-incinerator team**
+**To be provided by Cook-incinerator team**
 
 | Vault | Address | Purpose |
 |-------|---------|---------|
 | Aether Labs | `[TBD]` | Receives 2.5% of service fee |
-| Gor-incinerator | `[TBD]` | Receives 2.5% of service fee |
+| Cook-incinerator | `[TBD]` | Receives 2.5% of service fee |
 
 ---
 

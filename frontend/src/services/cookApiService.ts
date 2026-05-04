@@ -1,9 +1,9 @@
 /**
- * GOR API Service
- * Fetches token metadata (logos, names, symbols) from gorapi.onrender.com
+ * COOK API Service
+ * Fetches token metadata (logos, names, symbols) from cookapi.onrender.com
  */
 
-const GOR_API_BASE_URL = "https://gorapi.onrender.com";
+const COOK_API_BASE_URL = "https://cookapi.onrender.com";
 
 export interface TokenMetadata {
     mint: string;
@@ -13,7 +13,7 @@ export interface TokenMetadata {
     decimals?: number;
 }
 
-interface GorApiTokenResponse {
+interface CookApiTokenResponse {
     mint: string;
     metadata: {
         name: string;
@@ -28,11 +28,11 @@ interface GorApiTokenResponse {
 }
 
 // Wrapper response from the API
-interface GorApiSearchResponse {
+interface CookApiSearchResponse {
     success: boolean;
     query: string;
     count: number;
-    data: GorApiTokenResponse[];
+    data: CookApiTokenResponse[];
 }
 
 // Cache for token metadata to avoid repeated API calls
@@ -50,14 +50,14 @@ export async function fetchTokenMetadata(mint: string): Promise<TokenMetadata | 
     }
 
     try {
-        const response = await fetch(`${GOR_API_BASE_URL}/api/tokens/search?q=${mint}`);
+        const response = await fetch(`${COOK_API_BASE_URL}/api/tokens/search?q=${mint}`);
 
         if (!response.ok) {
             tokenMetadataCache.set(mint, null);
             return null;
         }
 
-        const apiResponse: GorApiSearchResponse = await response.json();
+        const apiResponse: CookApiSearchResponse = await response.json();
 
         // Check if we got valid data
         if (!apiResponse.success || !apiResponse.data || apiResponse.data.length === 0) {

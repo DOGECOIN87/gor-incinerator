@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Flame, Loader2, CheckCircle2, AlertCircle, Wallet, ExternalLink, Info } from "lucide-react";
 import { useState, useEffect } from "react";
 import { isApiModeEnabled, fetchAssets, buildBurnTransaction, deserializeTransaction } from "@/services/apiClient";
-import { fetchBatchTokenMetadata } from "@/services/gorApiService";
+import { fetchBatchTokenMetadata } from "@/services/cookApiService";
 
 interface TokenAccount {
   pubkey: string;
@@ -27,13 +27,13 @@ interface BurnInterfaceProps {
   onConnectWallet: () => void;
 }
 
-const RENT_PER_ACCOUNT = 0.00203928; // GOR per account
+const RENT_PER_ACCOUNT = 0.00203928; // COOK per account
 const FEE_PERCENTAGE = 0.05; // 5%
 const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
 // Fee vault addresses (50/50 split) - hardcoded for reliability
 const AETHER_LABS_VAULT = "DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD";
-const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
+const COOK_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
 
 const BLACKLIST = [
   "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
@@ -46,7 +46,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
   const [totalRent, setTotalRent] = useState(0);
   const [serviceFee, setServiceFee] = useState(0);
   const [aetherLabsFee, setAetherLabsFee] = useState(0);
-  const [gorIncineratorFee, setGorIncineratorFee] = useState(0);
+  const [cookIncineratorFee, setCookIncineratorFee] = useState(0);
   const [youReceive, setYouReceive] = useState(0);
   const [scanning, setScanning] = useState(false);
   const [burnComplete, setBurnComplete] = useState(false);
@@ -67,7 +67,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
     try {
       const response = await fetchAssets(walletAddress);
 
-      // Enrich accounts with token logos from GOR API
+      // Enrich accounts with token logos from COOK API
       const accounts = response.accounts;
       if (accounts.length > 0) {
         const mints = accounts.map(a => a.mint);
@@ -90,7 +90,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
       // Calculate 50/50 split
       const halfFee = response.summary.serviceFee / 2;
       setAetherLabsFee(halfFee);
-      setGorIncineratorFee(halfFee);
+      setCookIncineratorFee(halfFee);
 
       setYouReceive(response.summary.youReceive);
     } catch (err) {
@@ -139,7 +139,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
         }
       }
 
-      // Fetch token logos from GOR API
+      // Fetch token logos from COOK API
       if (emptyAccounts.length > 0) {
         const mints = emptyAccounts.map(a => a.mint);
         const metadataMap = await fetchBatchTokenMetadata(mints);
@@ -165,7 +165,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
       // 50/50 split
       const halfFee = fee / 2;
       setAetherLabsFee(halfFee);
-      setGorIncineratorFee(halfFee);
+      setCookIncineratorFee(halfFee);
 
       setYouReceive(rent - fee);
     } catch (err) {
@@ -290,12 +290,12 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
         );
       }
 
-      if (gorIncineratorFee > 0) {
+      if (cookIncineratorFee > 0) {
         instructions.push(
           SystemProgram.transfer({
             fromPubkey: publicKey,
-            toPubkey: new PublicKey(GOR_INCINERATOR_VAULT),
-            lamports: Math.floor(gorIncineratorFee * 1e9),
+            toPubkey: new PublicKey(COOK_INCINERATOR_VAULT),
+            lamports: Math.floor(cookIncineratorFee * 1e9),
           })
         );
       }
@@ -340,7 +340,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
           </div>
           <CardTitle className="text-2xl">Connect Your Wallet</CardTitle>
           <CardDescription className="text-base mt-2">
-            Connect your Backpack wallet to start burning empty token accounts and reclaiming your GOR
+            Connect your Backpack wallet to start burning empty token accounts and reclaiming your COOK
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -381,23 +381,23 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Total Rent Reclaimed:</span>
-              <span className="font-medium">{totalRent.toFixed(8)} GOR</span>
+              <span className="font-medium">{totalRent.toFixed(8)} COOK</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Service Fee (5%):</span>
-              <span className="font-medium">{serviceFee.toFixed(8)} GOR</span>
+              <span className="font-medium">{serviceFee.toFixed(8)} COOK</span>
             </div>
             <div className="flex justify-between text-xs text-muted-foreground pl-4">
               <span>→ Aether Labs (2.5%):</span>
-              <span>{aetherLabsFee.toFixed(8)} GOR</span>
+              <span>{aetherLabsFee.toFixed(8)} COOK</span>
             </div>
             <div className="flex justify-between text-xs text-muted-foreground pl-4">
-              <span>→ Gor-incinerator (2.5%):</span>
-              <span>{gorIncineratorFee.toFixed(8)} GOR</span>
+              <span>→ Cook-incinerator (2.5%):</span>
+              <span>{cookIncineratorFee.toFixed(8)} COOK</span>
             </div>
             <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
               <span>You Received:</span>
-              <span className="text-primary">{youReceive.toFixed(8)} GOR</span>
+              <span className="text-primary">{youReceive.toFixed(8)} COOK</span>
             </div>
           </div>
 
@@ -405,7 +405,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => window.open(`https://explorer.gorbagana.com/tx/${txSignature}`, "_blank")}
+              onClick={() => window.open(`https://explorer.cookie chain.com/tx/${txSignature}`, "_blank")}
             >
               View Transaction
               <ExternalLink className="ml-2 h-4 w-4" />
@@ -436,7 +436,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
           <div>
             <CardTitle className="text-2xl">Burn Empty Accounts</CardTitle>
             <CardDescription className="mt-2">
-              Close empty token accounts and reclaim your GOR
+              Close empty token accounts and reclaim your COOK
             </CardDescription>
           </div>
           {apiMode && (
@@ -468,23 +468,23 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Total Rent to Reclaim:</span>
-                <span className="text-lg font-semibold">{totalRent.toFixed(8)} GOR</span>
+                <span className="text-lg font-semibold">{totalRent.toFixed(8)} COOK</span>
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-muted-foreground">Service Fee (5%):</span>
-                <span className="font-medium">{serviceFee.toFixed(8)} GOR</span>
+                <span className="font-medium">{serviceFee.toFixed(8)} COOK</span>
               </div>
               <div className="flex justify-between items-center text-xs text-muted-foreground pl-4">
                 <span>→ Aether Labs (2.5%):</span>
-                <span>{aetherLabsFee.toFixed(8)} GOR</span>
+                <span>{aetherLabsFee.toFixed(8)} COOK</span>
               </div>
               <div className="flex justify-between items-center text-xs text-muted-foreground pl-4">
-                <span>→ Gor-incinerator (2.5%):</span>
-                <span>{gorIncineratorFee.toFixed(8)} GOR</span>
+                <span>→ Cook-incinerator (2.5%):</span>
+                <span>{cookIncineratorFee.toFixed(8)} COOK</span>
               </div>
               <div className="flex justify-between items-center pt-3 border-t border-border">
                 <span className="font-medium">You Will Receive:</span>
-                <span className="text-xl font-bold text-primary">{youReceive.toFixed(8)} GOR</span>
+                <span className="text-xl font-bold text-primary">{youReceive.toFixed(8)} COOK</span>
               </div>
             </div>
 
@@ -525,7 +525,7 @@ export default function BurnInterfaceAPI({ walletConnected, walletAddress, onCon
                           {account.symbol || `${account.mint.slice(0, 6)}...${account.mint.slice(-4)}`}
                         </span>
                       </div>
-                      <span className="text-primary flex-shrink-0">{RENT_PER_ACCOUNT.toFixed(6)} GOR</span>
+                      <span className="text-primary flex-shrink-0">{RENT_PER_ACCOUNT.toFixed(6)} COOK</span>
                     </div>
                   ))}
                   {accounts.length > 14 && (

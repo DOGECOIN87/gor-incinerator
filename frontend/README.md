@@ -1,12 +1,12 @@
-# Gor Incinerator - Premium Token Burning Service
+# Cook Incinerator - Premium Token Burning Service
 ### Professional Web Service with Transparent 5% Fee
 
-The easiest way to reclaim rent from empty token accounts on the **Gorbagana** blockchain. Our user-friendly web interface with Backpack wallet integration makes token burning effortless. Professional service with industry-low 5% fee.
+The easiest way to reclaim rent from empty token accounts on the **Cookie Chain** blockchain. Our user-friendly web interface with Backpack wallet integration makes token burning effortless. Professional service with industry-low 5% fee.
 
 ## 🔥 Key Features
 
 - **Easy Web Interface**: No command line required - simple point-and-click
-- **Backpack Wallet Integration**: Seamless connection to Gorbagana network
+- **Backpack Wallet Integration**: Seamless connection to Cookie Chain network
 - **Batch Processing**: Close up to 14 token accounts in a single transaction
 - **High Success Rate**: >90% transaction success rate with optimized compute budget
 - **Safety First**: Only closes accounts with zero balance to prevent accidental token loss
@@ -15,7 +15,7 @@ The easiest way to reclaim rent from empty token accounts on the **Gorbagana** b
 
 ## 💰 Service Fee
 
-Gor Incinerator offers the **lowest fees in the industry**:
+Cook Incinerator offers the **lowest fees in the industry**:
 
 - **5% Service Fee**: Industry-leading low rate
 - **You Keep 95%**: More than competitors charging 15%+
@@ -26,30 +26,30 @@ Gor Incinerator offers the **lowest fees in the industry**:
 ### Fee Calculation
 
 When closing token accounts, the program:
-1. Calculates total rent to be reclaimed (~0.00203928 GOR per account)
+1. Calculates total rent to be reclaimed (~0.00203928 COOK per account)
 2. Applies the configured fee percentage (default 5%)
 3. Transfers the fee to the designated recipient wallet
 4. User receives the remaining 95% of reclaimed rent
 
 **Example**: Closing 14 accounts
-- Total rent reclaimed: ~0.0285 GOR
-- Fee (5%): ~0.00143 GOR
-- User receives: ~0.0271 GOR
+- Total rent reclaimed: ~0.0285 COOK
+- Fee (5%): ~0.00143 COOK
+- User receives: ~0.0271 COOK
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 16+ and npm
-- A Gorbagana wallet with some GOR for transaction fees
-- Access to a Gorbagana RPC endpoint
+- A Cookie Chain wallet with some COOK for transaction fees
+- Access to a Cookie Chain RPC endpoint
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/DOGECOIN87/gor-incinerator.com
-cd gor-incinerator.com
+git clone https://github.com/DOGECOIN87/cook-incinerator.com
+cd cook-incinerator.com
 
 # Install dependencies
 npm install
@@ -64,18 +64,18 @@ Create a `.env` file in the project root:
 
 ```dotenv
 # Required: RPC endpoint URL - THIS DETERMINES WHICH BLOCKCHAIN YOU USE
-# For Gorbagana:
-RPC_URL=https://rpc.gorbagana.com
+# For Cookie Chain:
+RPC_URL=https://rpc.cookiescan.io
 # For Solana Mainnet:
 # RPC_URL=https://api.mainnet-beta.solana.com
 
 # Required: Wallet keypair in uint8 array format (64 bytes)
 # This is the wallet whose token accounts will be closed
-# NOTE: Same wallet can exist on both Solana and Gorbagana, but this program
+# NOTE: Same wallet can exist on both Solana and Cookie Chain, but this program
 # will ONLY operate on the blockchain specified by RPC_URL
 WALLET=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64]
 
-# Optional: Fee recipient wallet address (Gorbagana/Solana public key)
+# Optional: Fee recipient wallet address (Cookie Chain/Solana public key)
 # If not provided, NO fees will be collected (100% goes to user)
 FEE_RECIPIENT=CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
 
@@ -89,7 +89,7 @@ FEE_PERCENTAGE=5
 
 The `RPC_URL` is the **only** thing that determines which blockchain you're operating on:
 
-- **Gorbagana RPC** → Operates on Gorbagana network only
+- **Cookie Chain RPC** → Operates on Cookie Chain network only
 - **Solana RPC** → Operates on Solana network only
 
 Your wallet can exist on both blockchains with the same address, but they are **completely separate accounts**. The program will only interact with the blockchain specified in your `RPC_URL`. 
@@ -103,7 +103,7 @@ npm run burn
 ```
 
 The program will:
-1. Connect to your Gorbagana RPC endpoint
+1. Connect to your Cookie Chain RPC endpoint
 2. Scan for empty token accounts in your wallet
 3. Build a transaction to close up to 14 accounts
 4. Apply the configured fee (if enabled)
@@ -112,17 +112,17 @@ The program will:
 
 **Output Example**:
 ```
-[2024-11-22T10:30:45.123Z] [INFO] Starting Gor Incinerator {"wallet":"ABC...XYZ","feePercentage":5,"feeRecipient":"DEF...UVW"}
+[2024-11-22T10:30:45.123Z] [INFO] Starting Cook Incinerator {"wallet":"ABC...XYZ","feePercentage":5,"feeRecipient":"DEF...UVW"}
 [2024-11-22T10:30:45.456Z] [INFO] Found token accounts {"count":47}
 [2024-11-22T10:30:46.789Z] [INFO] Fee will be collected {"accountsToClose":14,"feeAmount":0.00143,"feePercentage":5}
 [2024-11-22T10:30:47.012Z] [INFO] Transaction successful {"accountsClosed":14,"signature":"5h6x...P123"}
 14 token accounts successfully closed
-Fee collected: 0.00143 GOR (5%)
+Fee collected: 0.00143 COOK (5%)
 ```
 
 ### Continuous Operation
 
-To maximize GOR recovery, run the program repeatedly:
+To maximize COOK recovery, run the program repeatedly:
 
 ```bash
 # Run multiple times to close all empty accounts
@@ -163,7 +163,7 @@ The program automatically skips any account with a non-zero balance, ensuring yo
 ### Project Structure
 
 ```
-gor-incinerator.com/
+cook-incinerator.com/
 ├── src/
 │   ├── burn.ts                 # Main execution script
 │   ├── config.ts               # Configuration management
@@ -178,7 +178,7 @@ gor-incinerator.com/
 │       ├── errors.ts           # Custom error classes
 │       ├── logger.ts           # Structured logging
 │       └── validators.ts       # Input validation
-├── Adapting Solana Code for Gorbagana Fork and Front-End Design/
+├── Adapting Solana Code for Cookie Chain Fork and Front-End Design/
 │   ├── App.tsx                 # React app component
 │   ├── Home.tsx                # Landing page UI
 │   ├── burn.ts                 # Front-end burn logic
@@ -241,7 +241,7 @@ The project includes a modern, responsive front-end built with React and Tailwin
 
 ### Front-End Files
 
-Located in `Adapting Solana Code for Gorbagana Fork and Front-End Design/`:
+Located in `Adapting Solana Code for Cookie Chain Fork and Front-End Design/`:
 - `Home.tsx` - Main landing page component
 - `App.tsx` - Application wrapper with routing
 - `index.css` - Tailwind CSS styles and custom gradients
@@ -258,7 +258,7 @@ The 5% fee is implemented safely and transparently:
    - Defaults to 5% if not specified
 
 2. **Calculation** (`src/services/feeService.ts`):
-   - Uses accurate rent constant (0.00203928 GOR per account)
+   - Uses accurate rent constant (0.00203928 COOK per account)
    - Calculates fee in lamports for precision
    - Rounds down to ensure user never pays more than specified
 
@@ -308,30 +308,30 @@ FEE_RECIPIENT=
 
 ### Custom RPC Endpoints
 
-Use your own Gorbagana RPC for better performance:
+Use your own Cookie Chain RPC for better performance:
 
 ```dotenv
-RPC_URL=https://your-custom-rpc.gorbagana.com
+RPC_URL=https://your-custom-rpc.cookie chain.com
 ```
 
 ## 📝 Environment Variables Reference
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `RPC_URL` | ✅ Yes | - | Gorbagana RPC endpoint URL |
+| `RPC_URL` | ✅ Yes | - | Cookie Chain RPC endpoint URL |
 | `WALLET` | ✅ Yes | - | Wallet keypair (uint8 array, 64 bytes) |
 | `FEE_RECIPIENT` | ❌ No | - | Fee recipient public key (if omitted, no fees) |
 | `FEE_PERCENTAGE` | ❌ No | `5` | Fee percentage (0-100) |
 
-## 🌐 About Gorbagana
+## 🌐 About Cookie Chain
 
-Gorbagana is a high-performance blockchain fork of Solana, engineered for:
+Cookie Chain is a high-performance blockchain fork of Solana, engineered for:
 - **Speed**: Lightning-fast transaction processing
 - **Efficiency**: Low transaction costs
 - **Scalability**: High throughput for dApps
 - **Compatibility**: Solana-compatible tooling and libraries
 
-The Gor Incinerator leverages Gorbagana's architecture to provide efficient token account management, helping users reclaim valuable rent from unused accounts.
+The Cook Incinerator leverages Cookie Chain's architecture to provide efficient token account management, helping users reclaim valuable rent from unused accounts.
 
 ## 🤝 Contributing
 
@@ -343,8 +343,8 @@ ISC License - See LICENSE file for details
 
 ## 🔗 Links
 
-- **GitHub**: [https://github.com/DOGECOIN87/gor-incinerator.com](https://github.com/DOGECOIN87/gor-incinerator.com)
-- **Website**: [https://gor-incinerator.com](https://gor-incinerator.com)
+- **GitHub**: [https://github.com/DOGECOIN87/cook-incinerator.com](https://github.com/DOGECOIN87/cook-incinerator.com)
+- **Website**: [https://cook-incinerator.com](https://cook-incinerator.com)
 
 ---
 

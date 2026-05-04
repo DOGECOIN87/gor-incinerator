@@ -1,6 +1,6 @@
-# Testing Guide - Gor-Incinerator API
+# Testing Guide - Cook-Incinerator API
 
-Comprehensive testing guide for the Gor-Incinerator API implementation.
+Comprehensive testing guide for the Cook-Incinerator API implementation.
 
 ## 📋 Table of Contents
 
@@ -51,7 +51,7 @@ Create `api/src/services/__tests__/feeService.test.ts`:
 
 ```typescript
 import { describe, it, expect } from '@jest/globals';
-import { calculateFee, createFeeInstructions, lamportsToGor, gorToLamports } from '../feeService';
+import { calculateFee, createFeeInstructions, lamportsToCook, cookToLamports } from '../feeService';
 import { PublicKey } from '@solana/web3.js';
 
 describe('Fee Service', () => {
@@ -62,7 +62,7 @@ describe('Fee Service', () => {
       expect(result.totalRent).toBe(2039280); // lamports
       expect(result.serviceFee).toBe(101964); // 5%
       expect(result.aetherLabsFee).toBe(50982); // 2.5%
-      expect(result.gorIncineratorFee).toBe(50982); // 2.5%
+      expect(result.cookIncineratorFee).toBe(50982); // 2.5%
       expect(result.netAmount).toBe(1937316); // 95%
     });
 
@@ -72,15 +72,15 @@ describe('Fee Service', () => {
       expect(result.totalRent).toBe(28549920); // lamports
       expect(result.serviceFee).toBe(1427496); // 5%
       expect(result.aetherLabsFee).toBe(713748); // 2.5%
-      expect(result.gorIncineratorFee).toBe(713748); // 2.5%
+      expect(result.cookIncineratorFee).toBe(713748); // 2.5%
       expect(result.netAmount).toBe(27122424); // 95%
     });
 
     it('should split fees evenly (50/50)', () => {
       const result = calculateFee(10);
       
-      expect(result.aetherLabsFee).toBe(result.gorIncineratorFee);
-      expect(result.aetherLabsFee + result.gorIncineratorFee).toBe(result.serviceFee);
+      expect(result.aetherLabsFee).toBe(result.cookIncineratorFee);
+      expect(result.aetherLabsFee + result.cookIncineratorFee).toBe(result.serviceFee);
     });
 
     it('should throw error for zero accounts', () => {
@@ -125,8 +125,8 @@ describe('Fee Service', () => {
       // First instruction should be for Aether Labs
       expect(instructions[0].data.readBigUInt64LE(4)).toBe(BigInt(feeCalc.aetherLabsFee));
       
-      // Second instruction should be for Gor-incinerator
-      expect(instructions[1].data.readBigUInt64LE(4)).toBe(BigInt(feeCalc.gorIncineratorFee));
+      // Second instruction should be for Cook-incinerator
+      expect(instructions[1].data.readBigUInt64LE(4)).toBe(BigInt(feeCalc.cookIncineratorFee));
     });
 
     it('should throw error for invalid Aether vault address', () => {
@@ -138,27 +138,27 @@ describe('Fee Service', () => {
     it('should throw error for invalid Incinerator vault address', () => {
       expect(() => {
         createFeeInstructions(10, mockPayer, mockAetherVault, 'invalid');
-      }).toThrow('Invalid Gor-incinerator vault address');
+      }).toThrow('Invalid Cook-incinerator vault address');
     });
   });
 
-  describe('lamportsToGor', () => {
-    it('should convert lamports to GOR correctly', () => {
-      expect(lamportsToGor(1000000000)).toBe(1); // 1 GOR
-      expect(lamportsToGor(2039280)).toBeCloseTo(0.00203928, 8);
-      expect(lamportsToGor(0)).toBe(0);
+  describe('lamportsToCook', () => {
+    it('should convert lamports to COOK correctly', () => {
+      expect(lamportsToCook(1000000000)).toBe(1); // 1 COOK
+      expect(lamportsToCook(2039280)).toBeCloseTo(0.00203928, 8);
+      expect(lamportsToCook(0)).toBe(0);
     });
   });
 
-  describe('gorToLamports', () => {
-    it('should convert GOR to lamports correctly', () => {
-      expect(gorToLamports(1)).toBe(1000000000); // 1 GOR
-      expect(gorToLamports(0.00203928)).toBe(2039280);
-      expect(gorToLamports(0)).toBe(0);
+  describe('cookToLamports', () => {
+    it('should convert COOK to lamports correctly', () => {
+      expect(cookToLamports(1)).toBe(1000000000); // 1 COOK
+      expect(cookToLamports(0.00203928)).toBe(2039280);
+      expect(cookToLamports(0)).toBe(0);
     });
 
     it('should round down fractional lamports', () => {
-      expect(gorToLamports(0.0000000015)).toBe(1); // Should floor
+      expect(cookToLamports(0.0000000015)).toBe(1); // Should floor
     });
   });
 });
@@ -281,7 +281,7 @@ describe('API Integration Tests', () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data.service).toBe('Gor-Incinerator API');
+      expect(data.service).toBe('Cook-Incinerator API');
       expect(data.status).toBe('healthy');
       expect(data.endpoints).toBeInstanceOf(Array);
     });
@@ -473,11 +473,11 @@ npm test -- integration.test.ts
 
 ```bash
 # Test health endpoint (no auth)
-ab -n 1000 -c 10 https://api.gor-incinerator.com/health
+ab -n 1000 -c 10 https://api.cook-incinerator.com/health
 
 # Test assets endpoint (with auth)
 ab -n 1000 -c 10 -H "x-api-key: YOUR_API_KEY" \
-  https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+  https://api.cook-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 ```
 
 ### Using k6
@@ -502,7 +502,7 @@ export const options = {
   },
 };
 
-const API_URL = 'https://api.gor-incinerator.com';
+const API_URL = 'https://api.cook-incinerator.com';
 const API_KEY = __ENV.API_KEY;
 
 export default function () {
@@ -549,17 +549,17 @@ API_KEY=your_api_key k6 run api/tests/load-test.js
 
 ```bash
 # Test missing API key
-curl -i https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+curl -i https://api.cook-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 # Expected: 401 Unauthorized
 
 # Test invalid API key
 curl -i -H "x-api-key: invalid" \
-  https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+  https://api.cook-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 # Expected: 401 Unauthorized
 
 # Test valid API key
-curl -i -H "x-api-key: gorincin_YOUR_KEY" \
-  https://api.gor-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
+curl -i -H "x-api-key: cookincin_YOUR_KEY" \
+  https://api.cook-incinerator.com/assets/8xKZFz7qJR2H9PmVJW3nN4kLdMqY6tBsC1rEfGhUiSoP
 # Expected: 200 OK
 ```
 
@@ -567,20 +567,20 @@ curl -i -H "x-api-key: gorincin_YOUR_KEY" \
 
 ```bash
 # Test SQL injection attempt
-curl -X POST https://api.gor-incinerator.com/build-burn-tx \
+curl -X POST https://api.cook-incinerator.com/build-burn-tx \
   -H "x-api-key: YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"wallet": "'; DROP TABLE transactions; --", "accounts": []}'
 # Expected: 400 Bad Request
 
 # Test XSS attempt
-curl -X GET "https://api.gor-incinerator.com/assets/<script>alert('xss')</script>" \
+curl -X GET "https://api.cook-incinerator.com/assets/<script>alert('xss')</script>" \
   -H "x-api-key: YOUR_KEY"
 # Expected: 400 Bad Request
 
 # Test oversized payload
 dd if=/dev/zero bs=1M count=10 | curl -X POST \
-  https://api.gor-incinerator.com/build-burn-tx \
+  https://api.cook-incinerator.com/build-burn-tx \
   -H "x-api-key: YOUR_KEY" \
   -H "Content-Type: application/json" \
   --data-binary @-
@@ -625,7 +625,7 @@ dd if=/dev/zero bs=1M count=10 | curl -X POST \
 - [ ] Fees are transferred to correct vaults
 - [ ] User receives 95% of rent
 - [ ] Aether Labs receives 2.5%
-- [ ] Gor-incinerator receives 2.5%
+- [ ] Cook-incinerator receives 2.5%
 
 ---
 

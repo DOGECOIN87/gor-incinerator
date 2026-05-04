@@ -1,4 +1,4 @@
-name = "gor-incinerator-api"
+name = "cook-incinerator-api"
 main = "src/index.ts"
 compatibility_date = "2024-11-01"
 node_compat = true
@@ -10,7 +10,7 @@ node_compat = true
 # D1 Database for transaction logging
 [[d1_databases]]
 binding = "DB"
-database_name = "gor-incinerator-logs-2"
+database_name = "cook-incinerator-logs-2"
 database_id = "54456de5-7083-46c2-a69b-4164d5de2dff"
 
 # Environment variables (non-secret)
@@ -18,21 +18,21 @@ database_id = "54456de5-7083-46c2-a69b-4164d5de2dff"
 ENVIRONMENT = "production"
 
 # Secrets (set via: wrangler secret put <KEY>)
-# API_KEY - API key for Gorbag Wallet authentication (set ✓)
+# API_KEY - API key for Cookbag Wallet authentication (set ✓)
 # ADMIN_API_KEY - API key for reconciliation endpoint (set ✓)
-# GOR_RPC_URL - Gorbagana RPC endpoint URL (set ✓)
-# GOR_VAULT_ADDRESS_AETHER - Aether Labs vault address (50% of fee) (set ✓)
-# GOR_VAULT_ADDRESS_INCINERATOR - Gor-incinerator vault address (50% of fee) (set ✓)
+# COOK_RPC_URL - Cookie Chain RPC endpoint URL (set ✓)
+# COOK_VAULT_ADDRESS_AETHER - Aether Labs vault address (50% of fee) (set ✓)
+# COOK_VAULT_ADDRESS_INCINERATOR - Cook-incinerator vault address (50% of fee) (set ✓)
 
 # Development environment
 [env.dev]
-name = "gor-incinerator-api-dev"
+name = "cook-incinerator-api-dev"
 vars = { ENVIRONMENT = "development" }
 
 # Routes (configure after deployment)
 # This section is now uncommented to enable custom domain routing
 routes = [
-  { pattern = "api.gor-incinerator.com/*", zone_name = "gor-incinerator.com" }
+  { pattern = "api.cook-incinerator.com/*", zone_name = "cook-incinerator.com" }
 ]
 
 # CORS configuration

@@ -25,9 +25,9 @@ type Bindings = {
   SUPABASE_URL: string;
   SUPABASE_KEY: string;
   // Other required environment variables
-  GOR_RPC_URL: string;
-  GOR_VAULT_ADDRESS_AETHER: string;
-  GOR_VAULT_ADDRESS_INCINERATOR: string;
+  COOK_RPC_URL: string;
+  COOK_VAULT_ADDRESS_AETHER: string;
+  COOK_VAULT_ADDRESS_INCINERATOR: string;
   ADMIN_API_KEY: string;
 };
 
@@ -69,7 +69,7 @@ async function initializeD1Schema(db: D1Database) {
       total_rent REAL NOT NULL,
       service_fee REAL NOT NULL,
       aether_labs_fee REAL NOT NULL,
-      gor_incinerator_fee REAL NOT NULL,
+      cook_incinerator_fee REAL NOT NULL,
       tx_hash TEXT,
       status TEXT NOT NULL DEFAULT 'pending',
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -87,19 +87,19 @@ async function initializeD1Schema(db: D1Database) {
 // --- Endpoints ---
 
 // Health check endpoint
-app.get('/', (c) => c.text('Gor-Incinerator API Worker is running!'));
+app.get('/', (c) => c.text('Cook-Incinerator API Worker is running!'));
 
 // 1. GET /assets/:wallet
 app.get('/assets/:wallet', apiKeyAuth, async (c) => {
   const { wallet } = c.req.param();
-  const { GOR_RPC_URL } = env<Bindings>(c);
+  const { COOK_RPC_URL } = env<Bindings>(c);
 
   try {
     // 1. Validate wallet address
     const walletPubkey = validateWalletAddress(wallet);
 
     // 2. Create connection
-    const connection = createConnection(GOR_RPC_URL);
+    const connection = createConnection(COOK_RPC_URL);
 
     // 3. Fetch all token accounts
     const parsedAccounts = await fetchTokenAccounts(connection, walletPubkey);
@@ -144,7 +144,7 @@ app.get('/assets/:wallet', apiKeyAuth, async (c) => {
 
 // 2. POST /build-burn-tx
 app.post('/build-burn-tx', apiKeyAuth, async (c) => {
-  const { DB, GOR_RPC_URL } = env<Bindings>(c);
+  const { DB, COOK_RPC_URL } = env<Bindings>(c);
 
   try {
     const requestBody = (await c.req.json()) as BuildBurnTxRequest;
@@ -155,7 +155,7 @@ app.post('/build-burn-tx', apiKeyAuth, async (c) => {
     }
 
     // 1. Create connection
-    const connection = createConnection(GOR_RPC_URL);
+    const connection = createConnection(COOK_RPC_URL);
 
     // 2. Build the transaction (uses new logic from Phase 2)
     const txResponse: BuildBurnTxResponse = await buildBurnTransaction(
@@ -167,7 +167,7 @@ app.post('/build-burn-tx', apiKeyAuth, async (c) => {
     // 3. Log to D1 database (pending status)
     const timestamp = new Date().toISOString();
     const insertStmt = DB.prepare(
-      `INSERT INTO transactions (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, gor_incinerator_fee, status)
+      `INSERT INTO transactions (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, cook_incinerator_fee, status)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     );
 
@@ -179,7 +179,7 @@ app.post('/build-burn-tx', apiKeyAuth, async (c) => {
         txResponse.totalRent,
         txResponse.serviceFee,
         txResponse.feeBreakdown.aetherLabs,
-        txResponse.feeBreakdown.gorIncinerator,
+        txResponse.feeBreakdown.cookIncinerator,
         'pending'
       ).run();
     } catch (e) {
@@ -223,7 +223,7 @@ app.get('/reconciliation/report', adminApiKeyAuth, async (c) => {
       acc.totalRent += tx.total_rent;
       acc.totalFees += tx.service_fee;
       acc.aetherLabsShare += tx.aether_labs_fee;
-      acc.gorIncineratorShare += tx.gor_incinerator_fee;
+      acc.cookIncineratorShare += tx.cook_incinerator_fee;
       return acc;
     }, {
       totalTransactions: 0,
@@ -231,7 +231,7 @@ app.get('/reconciliation/report', adminApiKeyAuth, async (c) => {
       totalRent: 0,
       totalFees: 0,
       aetherLabsShare: 0,
-      gorIncineratorShare: 0,
+      cookIncineratorShare: 0,
     });
 
     const report = {

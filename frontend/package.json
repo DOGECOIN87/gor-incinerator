@@ -1,7 +1,7 @@
 {
-  "name": "gor-incinerator",
+  "name": "cook-incinerator",
   "version": "1.0.0",
-  "description": "Premium token burning service for Gorbagana blockchain - Easy rent reclamation with 5% fee",
+  "description": "Premium token burning service for Cookie Chain blockchain - Easy rent reclamation with 5% fee",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "deploy": "vite build && gh-pages -d dist"
   },
-  "author": "Gor Incinerator",
+  "author": "Cook Incinerator",
   "license": "ISC",
   "dependencies": {
     "@react-three/drei": "^9.122.0",

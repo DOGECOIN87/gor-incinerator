@@ -1,4 +1,4 @@
--- Initial database schema for Gor-Incinerator transaction logging
+-- Initial database schema for Cook-Incinerator transaction logging
 -- Cloudflare D1 (SQLite) database
 
 -- Transactions table
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS transactions (
   total_rent REAL NOT NULL,
   service_fee REAL NOT NULL,
   aether_labs_fee REAL NOT NULL,
-  gor_incinerator_fee REAL NOT NULL,
+  cook_incinerator_fee REAL NOT NULL,
   tx_hash TEXT,
   status TEXT NOT NULL DEFAULT 'pending',
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -24,7 +24,7 @@ CREATE INDEX IF NOT EXISTS idx_status ON transactions(status);
 CREATE INDEX IF NOT EXISTS idx_created_at ON transactions(created_at);
 
 -- Insert sample data for testing (optional, remove in production)
--- INSERT INTO transactions (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, gor_incinerator_fee, tx_hash, status)
+-- INSERT INTO transactions (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, cook_incinerator_fee, tx_hash, status)
 -- VALUES 
 --   ('2025-01-15T10:30:00Z', 'ABC123...', 10, 0.0203928, 0.00101964, 0.00050982, 0.00050982, 'tx123...', 'confirmed'),
 --   ('2025-01-16T14:20:00Z', 'DEF456...', 14, 0.02854992, 0.00142750, 0.00071375, 0.00071375, 'tx456...', 'confirmed');

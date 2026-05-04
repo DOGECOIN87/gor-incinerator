@@ -19,7 +19,7 @@ export async function logTransaction(
     totalRent: number;
     serviceFee: number;
     aetherLabsFee: number;
-    gorIncineratorFee: number;
+    cookIncineratorFee: number;
   }
 ): Promise<number> {
   const timestamp = new Date().toISOString();
@@ -27,7 +27,7 @@ export async function logTransaction(
   const result = await db
     .prepare(
       `INSERT INTO transactions 
-       (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, gor_incinerator_fee, status) 
+       (timestamp, wallet, accounts_closed, total_rent, service_fee, aether_labs_fee, cook_incinerator_fee, status) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
@@ -37,7 +37,7 @@ export async function logTransaction(
       data.totalRent,
       data.serviceFee,
       data.aetherLabsFee,
-      data.gorIncineratorFee,
+      data.cookIncineratorFee,
       "pending"
     )
     .run();
@@ -106,7 +106,7 @@ export async function getReconciliationSummary(
   totalRent: number;
   totalFees: number;
   aetherLabsShare: number;
-  gorIncineratorShare: number;
+  cookIncineratorShare: number;
 }> {
   const result = await db
     .prepare(
@@ -116,7 +116,7 @@ export async function getReconciliationSummary(
          SUM(total_rent) as total_rent,
          SUM(service_fee) as total_fees,
          SUM(aether_labs_fee) as aether_labs_share,
-         SUM(gor_incinerator_fee) as gor_incinerator_share
+         SUM(cook_incinerator_fee) as cook_incinerator_share
        FROM transactions 
        WHERE DATE(timestamp) >= DATE(?) AND DATE(timestamp) <= DATE(?)`
     )
@@ -127,7 +127,7 @@ export async function getReconciliationSummary(
       total_rent: number;
       total_fees: number;
       aether_labs_share: number;
-      gor_incinerator_share: number;
+      cook_incinerator_share: number;
     }>();
 
   return {
@@ -136,7 +136,7 @@ export async function getReconciliationSummary(
     totalRent: result?.total_rent || 0,
     totalFees: result?.total_fees || 0,
     aetherLabsShare: result?.aether_labs_share || 0,
-    gorIncineratorShare: result?.gor_incinerator_share || 0,
+    cookIncineratorShare: result?.cook_incinerator_share || 0,
   };
 }
 
@@ -154,7 +154,7 @@ function rowToRecord(row: TransactionRow): TransactionRecord {
     totalRent: row.total_rent,
     serviceFee: row.service_fee,
     aetherLabsFee: row.aether_labs_fee,
-    gorIncineratorFee: row.gor_incinerator_fee,
+    cookIncineratorFee: row.cook_incinerator_fee,
     txHash: row.tx_hash,
     status: row.status as "pending" | "confirmed" | "failed",
     createdAt: row.created_at,
@@ -176,7 +176,7 @@ export async function initializeDatabase(db: D1Database): Promise<void> {
         total_rent REAL NOT NULL,
         service_fee REAL NOT NULL,
         aether_labs_fee REAL NOT NULL,
-        gor_incinerator_fee REAL NOT NULL,
+        cook_incinerator_fee REAL NOT NULL,
         tx_hash TEXT,
         status TEXT NOT NULL DEFAULT 'pending',
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP

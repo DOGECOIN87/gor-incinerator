@@ -10,7 +10,7 @@ import {
   filterBurnEligibleAccounts,
   validateWalletAddress,
 } from "../services/blockchainService";
-import { calculateFee, lamportsToGor } from "../services/feeService";
+import { calculateFee, lamportsToCook } from "../services/feeService";
 
 /**
  * Handle GET /assets/:wallet request
@@ -28,8 +28,8 @@ export async function handleGetAssets(
     // Validate wallet address
     const wallet = validateWalletAddress(walletAddress);
 
-    // Create connection to Gorbagana RPC
-    const connection = createConnection(env.GOR_RPC_URL);
+    // Create connection to Cookie Chain RPC
+    const connection = createConnection(env.COOK_RPC_URL);
 
     // Fetch all token accounts for wallet
     const allAccounts = await fetchTokenAccounts(connection, wallet);
@@ -44,9 +44,9 @@ export async function handleGetAssets(
     const summary = {
       totalAccounts: allAccounts.length,
       burnEligible: accountCount,
-      totalRent: feeCalc ? lamportsToGor(feeCalc.totalRent) : 0,
-      serviceFee: feeCalc ? lamportsToGor(feeCalc.serviceFee) : 0,
-      youReceive: feeCalc ? lamportsToGor(feeCalc.netAmount) : 0,
+      totalRent: feeCalc ? lamportsToCook(feeCalc.totalRent) : 0,
+      serviceFee: feeCalc ? lamportsToCook(feeCalc.serviceFee) : 0,
+      youReceive: feeCalc ? lamportsToCook(feeCalc.netAmount) : 0,
     };
 
     const response: AssetsResponse = {

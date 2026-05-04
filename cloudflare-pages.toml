@@ -1,4 +1,4 @@
-name = "gor-incinerator-pages"
+name = "cook-incinerator-pages"
 pages_build_output_dir = "frontend/dist"
 
 [functions]
@@ -6,12 +6,12 @@ directory = "api"
 main = "src/index.ts"
 
 [functions.bindings]
-DB = { type = "d1", database_name = "gor-incinerator-logs", database_id = "54456de5-7083-46c2-a69b-4164d5de2dff" }
+DB = { type = "d1", database_name = "cook-incinerator-logs", database_id = "54456de5-7083-46c2-a69b-4164d5de2dff" }
 
 [functions.environment]
-GOR_RPC_URL = "https://api.gorbagana.com"
-GOR_VAULT_ADDRESS_AETHER = "AETHER_VAULT_ADDRESS_PLACEHOLDER"
-GOR_VAULT_ADDRESS_INCINERATOR = "INCINERATOR_VAULT_ADDRESS_PLACEHOLDER"
+COOK_RPC_URL = "https://api.cookie chain.com"
+COOK_VAULT_ADDRESS_AETHER = "AETHER_VAULT_ADDRESS_PLACEHOLDER"
+COOK_VAULT_ADDRESS_INCINERATOR = "INCINERATOR_VAULT_ADDRESS_PLACEHOLDER"
 ADMIN_API_KEY = "ADMIN_API_KEY_PLACEHOLDER"
 
 [build]

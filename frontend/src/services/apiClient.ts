@@ -1,5 +1,5 @@
 /**
- * API Client for Gor-Incinerator Backend
+ * API Client for Cook-Incinerator Backend
  * Handles communication with Cloudflare Workers API
  */
 
@@ -28,7 +28,7 @@ export interface AssetsResponse {
 
 export interface FeeBreakdown {
   aetherLabs: number;
-  gorIncinerator: number;
+  cookIncinerator: number;
 }
 
 export interface BuildBurnTxResponse {

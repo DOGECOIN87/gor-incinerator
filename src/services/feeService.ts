@@ -14,7 +14,7 @@ import { ValidationError } from "../utils/errors";
  * Handles the 5% fee collection from rent reclaimed
  */
 export class FeeService {
-  // Rent per token account on Solana/Gorbagana (approximately 0.00203928 SOL/GOR)
+  // Rent per token account on Solana/Cookie Chain (approximately 0.00203928 SOL/COOK)
   private static readonly RENT_PER_ACCOUNT = 0.00203928 * LAMPORTS_PER_SOL;
 
   /**

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Flame, Loader2, CheckCircle2, AlertCircle, Wallet, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
-import { fetchBatchTokenMetadata } from "@/services/gorApiService";
+import { fetchBatchTokenMetadata } from "@/services/cookApiService";
 
 interface TokenAccount {
   pubkey: string;
@@ -19,17 +19,17 @@ interface BurnInterfaceProps {
   onConnectWallet: () => void;
 }
 
-const RENT_PER_ACCOUNT = 0.00203928; // GOR per account
+const RENT_PER_ACCOUNT = 0.00203928; // COOK per account
 const FEE_PERCENTAGE = 0.05; // 5%
-// Gorbagana Token Program ID (different from Solana)
+// Cookie Chain Token Program ID (different from Solana)
 const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
-// Fee vault address (100% to Gor-Incinerator for direct mode)
-const GOR_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
+// Fee vault address (100% to Cook-Incinerator for direct mode)
+const COOK_INCINERATOR_VAULT = "BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG";
 
-const DEFAULT_GOR_RPC_URL = "https://rpc.trashscan.io";
-const GORBAGANA_RPC_HINTS = ["gorbagana", "trashscan", "api.gorbagana.com"];
-const LAMPORTS_PER_GOR = 1_000_000_000;
+const DEFAULT_COOK_RPC_URL = "https://rpc.cookiescan.io";
+const COOK_CHAIN_RPC_HINTS = ["cookie chain", "trashscan", "api.cookie chain.com"];
+const LAMPORTS_PER_COOK = 1_000_000_000;
 
 // Blacklist of important tokens that should never be closed
 const BLACKLIST = [
@@ -46,21 +46,21 @@ const getWalletRpcEndpoint = (connection: unknown): string | undefined => {
   return maybeConnection.rpcEndpoint || maybeConnection._rpcEndpoint;
 };
 
-const isGorbaganaRpc = (endpoint: string): boolean =>
-  GORBAGANA_RPC_HINTS.some((hint) => endpoint.includes(hint));
+const isCookieChainRpc = (endpoint: string): boolean =>
+  COOK_CHAIN_RPC_HINTS.some((hint) => endpoint.includes(hint));
 
 const resolveRpcEndpoint = (connection: unknown): string => {
-  const envRpc = import.meta.env.VITE_GOR_RPC_URL;
+  const envRpc = import.meta.env.VITE_COOK_RPC_URL;
   if (envRpc) {
     return envRpc;
   }
 
   const walletRpc = getWalletRpcEndpoint(connection);
-  if (walletRpc && isGorbaganaRpc(walletRpc)) {
+  if (walletRpc && isCookieChainRpc(walletRpc)) {
     return walletRpc;
   }
 
-  return DEFAULT_GOR_RPC_URL;
+  return DEFAULT_COOK_RPC_URL;
 };
 
 export default function BurnInterface({ walletConnected, walletAddress, onConnectWallet }: BurnInterfaceProps) {
@@ -124,7 +124,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         }
       }
 
-      // Fetch token logos from GOR API
+      // Fetch token logos from COOK API
       if (emptyAccounts.length > 0) {
         const mints = emptyAccounts.map(a => a.mint);
         const metadataMap = await fetchBatchTokenMetadata(mints);
@@ -211,9 +211,9 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       const feeInLamports = Math.floor(totalRentLamports * FEE_PERCENTAGE);
       const youReceiveLamports = totalRentLamports - feeInLamports;
 
-      setTotalRent(totalRentLamports / LAMPORTS_PER_GOR);
-      setServiceFee(feeInLamports / LAMPORTS_PER_GOR);
-      setYouReceive(youReceiveLamports / LAMPORTS_PER_GOR);
+      setTotalRent(totalRentLamports / LAMPORTS_PER_COOK);
+      setServiceFee(feeInLamports / LAMPORTS_PER_COOK);
+      setYouReceive(youReceiveLamports / LAMPORTS_PER_COOK);
 
       for (const account of accountsToClose) {
         instructions.push(
@@ -229,11 +229,11 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         accountsToClose: accountsToClose.length,
         totalRentLamports,
         feeInLamports,
-        vault: GOR_INCINERATOR_VAULT
+        vault: COOK_INCINERATOR_VAULT
       });
 
       if (feeInLamports > 0) {
-        const vaultPubkey = new PublicKey(GOR_INCINERATOR_VAULT);
+        const vaultPubkey = new PublicKey(COOK_INCINERATOR_VAULT);
         const vaultInfo = await rpcConnection.getAccountInfo(vaultPubkey, "processed");
         if (vaultInfo && vaultInfo.data.length > 0) {
           const minVaultBalance = await rpcConnection.getMinimumBalanceForRentExemption(
@@ -265,12 +265,12 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
       const networkFeeLamports = feeEstimate.value ?? 0;
       const walletBalanceLamports = await rpcConnection.getBalance(publicKey, "processed");
       if (walletBalanceLamports + totalRentLamports < feeInLamports + networkFeeLamports) {
-        throw new Error("Insufficient GOR to cover fees. Keep a small balance in your wallet.");
+        throw new Error("Insufficient COOK to cover fees. Keep a small balance in your wallet.");
       }
 
       let signature: string;
 
-      // Prefer signing locally and sending via the configured Gorbagana RPC
+      // Prefer signing locally and sending via the configured Cookie Chain RPC
       // @ts-ignore
       if (typeof window.backpack.signTransaction === "function") {
         // @ts-ignore
@@ -278,8 +278,8 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
         signature = await rpcConnection.sendRawTransaction(signedTransaction.serialize());
       } else {
         const walletRpc = getWalletRpcEndpoint(walletConnection);
-        if (!walletRpc || !isGorbaganaRpc(walletRpc)) {
-          throw new Error("Backpack RPC is not on Gorbagana. Please switch your wallet RPC and try again.");
+        if (!walletRpc || !isCookieChainRpc(walletRpc)) {
+          throw new Error("Backpack RPC is not on Cookie Chain. Please switch your wallet RPC and try again.");
         }
 
         // @ts-ignore
@@ -347,7 +347,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
           </div>
           <CardTitle className="text-2xl">Connect Your Wallet</CardTitle>
           <CardDescription className="text-base mt-2">
-            Connect your Backpack wallet to start burning empty token accounts and reclaiming your GOR
+            Connect your Backpack wallet to start burning empty token accounts and reclaiming your COOK
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -388,12 +388,12 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Service fee (5%):</span>
-              <span className="font-semibold">{serviceFee.toFixed(5)} GOR</span>
+              <span className="font-semibold">{serviceFee.toFixed(5)} COOK</span>
             </div>
             <div className="border-t border-border/50 pt-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-semibold">You received:</span>
-                <span className="font-bold text-xl text-primary">{youReceive.toFixed(5)} GOR</span>
+                <span className="font-bold text-xl text-primary">{youReceive.toFixed(5)} COOK</span>
               </div>
             </div>
           </div>
@@ -469,16 +469,16 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Total rent to reclaim:</span>
-                <span className="font-bold text-lg text-primary">{totalRent.toFixed(5)} GOR</span>
+                <span className="font-bold text-lg text-primary">{totalRent.toFixed(5)} COOK</span>
               </div>
               <div className="border-t border-border/50 pt-3 mt-3">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">Service fee (5%):</span>
-                  <span className="font-semibold">{serviceFee.toFixed(5)} GOR</span>
+                  <span className="font-semibold">{serviceFee.toFixed(5)} COOK</span>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-sm font-semibold">You receive:</span>
-                  <span className="font-bold text-xl text-primary">{youReceive.toFixed(5)} GOR</span>
+                  <span className="font-bold text-xl text-primary">{youReceive.toFixed(5)} COOK</span>
                 </div>
               </div>
             </div>
@@ -509,7 +509,7 @@ export default function BurnInterface({ walletConnected, walletAddress, onConnec
                           {account.symbol || `${account.mint.slice(0, 6)}...${account.mint.slice(-4)}`}
                         </span>
                       </div>
-                      <span className="text-primary flex-shrink-0">{RENT_PER_ACCOUNT.toFixed(6)} GOR</span>
+                      <span className="text-primary flex-shrink-0">{RENT_PER_ACCOUNT.toFixed(6)} COOK</span>
                     </div>
                   ))}
                   {accounts.length > 14 && (

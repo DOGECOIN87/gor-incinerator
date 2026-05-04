@@ -25,7 +25,7 @@ import {
   ValidationError,
   Env,
 } from "../types";
-import { createFeeInstructions, calculateFee, lamportsToGor } from "./feeService";
+import { createFeeInstructions, calculateFee, lamportsToCook } from "./feeService";
 import { getMintAuthority, getAccountInfo } from "./blockchainService";
 
 // Max number of instructions in a single transaction (Solana limit is around 1232 bytes, 
@@ -128,8 +128,8 @@ export async function buildBurnTransaction(
   const feeInstructions = createFeeInstructions(
     accountsToClose.length,
     payer,
-    env.GOR_VAULT_ADDRESS_AETHER,
-    env.GOR_VAULT_ADDRESS_INCINERATOR
+    env.COOK_VAULT_ADDRESS_AETHER,
+    env.COOK_VAULT_ADDRESS_INCINERATOR
   );
 
   // 5. Assemble all instructions in the required order
@@ -152,13 +152,13 @@ export async function buildBurnTransaction(
   return {
     transaction: serializedTx,
     accountsToClose: accountsToClose.length,
-    totalRent: lamportsToGor(feeCalc.totalRent),
-    serviceFee: lamportsToGor(feeCalc.serviceFee),
+    totalRent: lamportsToCook(feeCalc.totalRent),
+    serviceFee: lamportsToCook(feeCalc.serviceFee),
     feeBreakdown: {
-      aetherLabs: lamportsToGor(feeCalc.aetherLabsFee),
-      gorIncinerator: lamportsToGor(feeCalc.gorIncineratorFee),
+      aetherLabs: lamportsToCook(feeCalc.aetherLabsFee),
+      cookIncinerator: lamportsToCook(feeCalc.cookIncineratorFee),
     },
-    youReceive: lamportsToGor(feeCalc.netAmount),
+    youReceive: lamportsToCook(feeCalc.netAmount),
     blockhash: blockhash,
     requiresSignatures: [wallet],
   };

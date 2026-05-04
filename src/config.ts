@@ -7,7 +7,7 @@ import { Wallet } from "@project-serum/anchor";
  */
 export class Config {
   public static RPC_URL: string;
-  public static gorWallet: Wallet;
+  public static cookWallet: Wallet;
   public static connection: Connection;
   public static feeRecipient?: PublicKey;
   public static feePercentage: number;
@@ -40,7 +40,7 @@ export class Config {
         throw new Error("WALLET must contain at least 32 bytes");
       }
       const keypair = Keypair.fromSeed(walletUint8.slice(0, 32));
-      Config.gorWallet = new Wallet(keypair);
+      Config.cookWallet = new Wallet(keypair);
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Invalid WALLET format: ${error.message}`);

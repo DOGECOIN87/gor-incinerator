@@ -1,9 +1,9 @@
-# Gor-Incinerator Documentation Index
+# Cook-Incinerator Documentation Index
 
 **Last Updated**: December 12, 2025  
 **Status**: Production Ready ✅  
 
-This document serves as a comprehensive index to all Gor-Incinerator documentation and resources.
+This document serves as a comprehensive index to all Cook-Incinerator documentation and resources.
 
 ---
 
@@ -341,7 +341,7 @@ npm run tail
 cd frontend && npm run dev
 
 # Check database
-npx wrangler d1 info gor-incinerator-logs-2
+npx wrangler d1 info cook-incinerator-logs-2
 ```
 
 ### External Resources

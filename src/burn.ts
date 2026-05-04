@@ -12,7 +12,7 @@ import bs58 from "bs58";
 import { FeeService } from "./services/feeService";
 import { Logger } from "./utils/logger";
 
-// Gorbagana Program IDs (different from Solana)
+// Cookie Chain Program IDs (different from Solana)
 const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 const ASSOCIATED_TOKEN_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 
@@ -28,14 +28,14 @@ const blacklist = [
 ];
 
 (async function close_atas() {
-  Logger.info("Starting Gor Incinerator", {
-    wallet: Config.gorWallet.publicKey.toString(),
+  Logger.info("Starting Cook Incinerator", {
+    wallet: Config.cookWallet.publicKey.toString(),
     feePercentage: Config.feePercentage,
     feeRecipient: Config.feeRecipient?.toString() || "not configured",
   });
 
   const atas = await Config.connection.getParsedTokenAccountsByOwner(
-    Config.gorWallet.publicKey,
+    Config.cookWallet.publicKey,
     {
       programId: TOKEN_PROGRAM_ID,
     }
@@ -69,8 +69,8 @@ const blacklist = [
     inst.push(
       createCloseAccountInstruction(
         ata.pubkey,
-        Config.gorWallet.publicKey,
-        Config.gorWallet.publicKey
+        Config.cookWallet.publicKey,
+        Config.cookWallet.publicKey
       )
     );
     accountsToClose++;
@@ -84,7 +84,7 @@ const blacklist = [
   // Add fee transfer instruction if configured
   const feeInstruction = FeeService.createFeeInstruction(
     accountsToClose,
-    Config.gorWallet.publicKey
+    Config.cookWallet.publicKey
   );
   if (feeInstruction) {
     inst.push(feeInstruction);
@@ -100,11 +100,11 @@ const blacklist = [
   const txn = new VersionedTransaction(
     new TransactionMessage({
       instructions: inst,
-      payerKey: Config.gorWallet.publicKey,
+      payerKey: Config.cookWallet.publicKey,
       recentBlockhash: block.blockhash,
     }).compileToV0Message()
   );
-  txn.sign([Config.gorWallet.payer]);
+  txn.sign([Config.cookWallet.payer]);
   let sig = bs58.encode(txn.signatures[0]);
 
   Logger.info("Sending transaction", { signature: sig });
@@ -132,7 +132,7 @@ const blacklist = [
     if (Config.feeRecipient) {
       const feeCalc = FeeService.calculateFee(accountsToClose);
       console.log(
-        `Fee collected: ${feeCalc.feeAmount / 1e9} GOR (${Config.feePercentage}%)`
+        `Fee collected: ${feeCalc.feeAmount / 1e9} COOK (${Config.feePercentage}%)`
       );
     }
   } else {

@@ -1,7 +1,7 @@
-# Fee Implementation Summary - Gor Incinerator
+# Fee Implementation Summary - Cook Incinerator
 
 ## Overview
-Successfully implemented a **5% configurable fee system** for the Gor-incinerator.com dApp on the Gorbagana blockchain (Solana fork).
+Successfully implemented a **5% configurable fee system** for the Cook-incinerator.com dApp on the Cookie Chain blockchain (Solana fork).
 
 ## Implementation Date
 November 22, 2024
@@ -15,7 +15,7 @@ CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
 
 ### 1. Fee Service (`src/services/feeService.ts`)
 A comprehensive service for fee calculation and collection:
-- **Fee Calculation**: Accurate calculation based on rent per account (~0.00203928 GOR)
+- **Fee Calculation**: Accurate calculation based on rent per account (~0.00203928 COOK)
 - **Fee Instructions**: Creates SystemProgram transfer instructions
 - **Configuration Validation**: Ensures fee settings are valid
 - **Transparency**: Full logging of all fee operations
@@ -66,13 +66,13 @@ Updated both README files with:
 ### Default Configuration
 - **Fee Percentage**: 5%
 - **Fee Recipient**: CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
-- **Rent per Account**: ~0.00203928 GOR
+- **Rent per Account**: ~0.00203928 COOK
 
 ### Example Calculation
 Closing 14 accounts:
-- Total rent reclaimed: ~0.0285 GOR
-- Fee (5%): ~0.00143 GOR
-- User receives: ~0.0271 GOR
+- Total rent reclaimed: ~0.0285 COOK
+- Fee (5%): ~0.00143 COOK
+- User receives: ~0.0271 COOK
 
 ### User Control
 Users can:
@@ -123,13 +123,13 @@ Users can:
 - `src/burn.ts` - Enhanced with fee logging and validation
 - `.env.example` - Added fee recipient address
 - `README.md` - Updated with fee documentation
-- `Adapting Solana Code for Gorbagana Fork and Front-End Design/README.md` - Comprehensive documentation
+- `Adapting Solana Code for Cookie Chain Fork and Front-End Design/README.md` - Comprehensive documentation
 
 ## Environment Variables
 
 ```dotenv
 # Required
-RPC_URL=https://rpc.gorbagana.com
+RPC_URL=https://rpc.cookiescan.io
 WALLET=[1,2,3,...,64]
 
 # Optional - Fee Configuration
@@ -146,7 +146,7 @@ npm run burn
 
 # Output:
 # 14 token accounts successfully closed
-# Fee collected: 0.00143 GOR (5%)
+# Fee collected: 0.00143 COOK (5%)
 ```
 
 ### Without Fees
@@ -166,7 +166,7 @@ npm run burn
 
 # Output:
 # 14 token accounts successfully closed
-# Fee collected: 0.00286 GOR (10%)
+# Fee collected: 0.00286 COOK (10%)
 ```
 
 ## Testing Results
@@ -209,7 +209,7 @@ The 5% fee implementation is:
 - ✅ **Flexible**: Configurable or can be disabled
 - ✅ **Professional**: Production-ready code quality
 
-The implementation maintains the high standards of the Gor Incinerator project while adding a sustainable revenue model that respects user autonomy and transparency.
+The implementation maintains the high standards of the Cook Incinerator project while adding a sustainable revenue model that respects user autonomy and transparency.
 
 ---
 

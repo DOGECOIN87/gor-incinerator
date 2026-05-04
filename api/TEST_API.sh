@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Gor-Incinerator API Testing Script
+# Cook-Incinerator API Testing Script
 # Use these commands to test your deployed API endpoints
 
-API_URL="https://gor-incinerator-api.gor-incinerator.workers.dev"
+API_URL="https://cook-incinerator-api.cook-incinerator.workers.dev"
 USER_API_KEY="REDACTED_USER_API_KEY"
 ADMIN_API_KEY="REDACTED_ADMIN_API_KEY"
 
 echo "=========================================="
-echo "Gor-Incinerator API Testing"
+echo "Cook-Incinerator API Testing"
 echo "=========================================="
 echo ""
 
@@ -22,7 +22,7 @@ echo ""
 
 # Test 2: Get Assets with User API Key
 echo "2️⃣  Testing GET /assets/:wallet"
-echo "Note: Replace YOUR_WALLET_ADDRESS with an actual Solana/Gorbagana wallet address"
+echo "Note: Replace YOUR_WALLET_ADDRESS with an actual Solana/Cookie Chain wallet address"
 echo "Command: curl -H \"x-api-key: $USER_API_KEY\" $API_URL/assets/YOUR_WALLET_ADDRESS"
 echo ""
 echo "Example:"

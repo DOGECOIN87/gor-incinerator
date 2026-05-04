@@ -3,7 +3,7 @@ import {ComputeBudgetProgram, TransactionMessage, VersionedTransaction, PublicKe
 import {createCloseAccountInstruction} from "@solana/spl-token";
 import bs58 from "bs58";
 
-// Gorbagana Token Program ID (different from Solana)
+// Cookie Chain Token Program ID (different from Solana)
 const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
 const blacklist = [
@@ -12,7 +12,7 @@ const blacklist = [
 ];
 
 (async function close_atas() {
-    const atas = await Config.connection.getParsedTokenAccountsByOwner(Config.gorWallet.publicKey, {
+    const atas = await Config.connection.getParsedTokenAccountsByOwner(Config.cookWallet.publicKey, {
         programId: TOKEN_PROGRAM_ID
     });
 
@@ -34,18 +34,18 @@ const blacklist = [
         inst.push(
             createCloseAccountInstruction(
               ata.pubkey,
-              Config.gorWallet.publicKey,
-              Config.gorWallet.publicKey
+              Config.cookWallet.publicKey,
+              Config.cookWallet.publicKey
             )
         );
     }
 
     const txn = new VersionedTransaction(new TransactionMessage({
         instructions: inst,
-        payerKey: Config.gorWallet.publicKey,
+        payerKey: Config.cookWallet.publicKey,
         recentBlockhash: block.blockhash
     }).compileToV0Message());
-    txn.sign([Config.gorWallet.payer]);
+    txn.sign([Config.cookWallet.payer]);
     let sig = bs58.encode(txn.signatures[0]);
 
     await Config.connection.sendTransaction(txn, {

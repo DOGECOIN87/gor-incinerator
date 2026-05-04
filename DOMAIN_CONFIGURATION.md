@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers configuring a custom domain for your Gor-Incinerator deployment. You have two components to configure:
+This guide covers configuring a custom domain for your Cook-Incinerator deployment. You have two components to configure:
 
 1. **API Domain** - For your Cloudflare Worker
 2. **Frontend Domain** - For your web application
@@ -11,39 +11,39 @@ This guide covers configuring a custom domain for your Gor-Incinerator deploymen
 
 Your current deployment URLs are:
 
-- **API**: `https://gor-incinerator-api.gor-incinerator.workers.dev`
+- **API**: `https://cook-incinerator-api.cook-incinerator.workers.dev`
 - **Frontend**: Deployed to Cloudflare Pages (URL varies)
 
-## Option 1: Both on gor-incinerator.com (Recommended)
+## Option 1: Both on cook-incinerator.com (Recommended)
 
 This approach uses subdomains under a main domain:
 
 ```
-api.gor-incinerator.com    → Your Cloudflare Worker API
-gor-incinerator.com        → Your Frontend
+api.cook-incinerator.com    → Your Cloudflare Worker API
+cook-incinerator.com        → Your Frontend
 ```
 
 ### Prerequisites
 
 - A domain registered and managed by Cloudflare (or with Cloudflare nameservers)
 - Access to Cloudflare dashboard
-- Domain: `gor-incinerator.com`
+- Domain: `cook-incinerator.com`
 
 ### Step 1: Configure API Domain
 
 #### 1a. In Cloudflare Dashboard
 
 1. Go to: https://dash.cloudflare.com/
-2. Navigate to your domain → Workers & Pages → gor-incinerator-api
+2. Navigate to your domain → Workers & Pages → cook-incinerator-api
 3. Look for "Triggers" section at the top
 4. Click "Add Custom Domain"
-5. Enter: `api.gor-incinerator.com`
+5. Enter: `api.cook-incinerator.com`
 6. Cloudflare will create a CNAME record automatically
 
 #### 1b. Verify DNS
 
-1. Go to DNS settings for gor-incinerator.com
-2. Look for CNAME record pointing to `api.gor-incinerator.com`
+1. Go to DNS settings for cook-incinerator.com
+2. Look for CNAME record pointing to `api.cook-incinerator.com`
 3. Verify status shows as "Active" (usually within 15 minutes)
 
 #### 1c. Update Configuration
@@ -54,7 +54,7 @@ Update your `api/wrangler.toml` (optional - for documentation):
 # Add to the file for reference
 [env.production]
 routes = [
-  { pattern = "api.gor-incinerator.com/*", zone_name = "gor-incinerator.com" }
+  { pattern = "api.cook-incinerator.com/*", zone_name = "cook-incinerator.com" }
 ]
 ```
 
@@ -65,7 +65,7 @@ routes = [
 1. Go to: https://dash.cloudflare.com/
 2. Navigate to Pages → Your project
 3. Go to **Settings** → **Custom Domain**
-4. Add custom domain: `gor-incinerator.com` or `www.gor-incinerator.com`
+4. Add custom domain: `cook-incinerator.com` or `www.cook-incinerator.com`
 5. Follow DNS instructions if needed
 
 #### 2b. Verify DNS
@@ -79,10 +79,10 @@ routes = [
 Update `frontend/.env`:
 
 ```bash
-VITE_API_BASE_URL=https://api.gor-incinerator.com
+VITE_API_BASE_URL=https://api.cook-incinerator.com
 VITE_API_KEY=REDACTED_USER_API_KEY
-VITE_GOR_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
-VITE_GOR_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
+VITE_COOK_VAULT_ADDRESS_AETHER=DvY73fC74Ny33Zu3ScA62VCSwrz1yV8kBysKu3rnLjvD
+VITE_COOK_VAULT_ADDRESS_INCINERATOR=BuRnX2HDP8s1CFdYwKpYCCshaZcTvFm3xjbmXPR3QsdG
 VITE_MODE=api
 ```
 
@@ -128,9 +128,9 @@ Follow the same steps as Option 1 above.
 ```
 Type   | Name                    | Value                              | Status
 -------|-------------------------|------------------------------------|---------
-CNAME  | api                     | api.gor-incinerator.workers.dev   | Active
+CNAME  | api                     | api.cook-incinerator.workers.dev   | Active
 CNAME  | www                     | [pages-domain]                     | Active
-A/AAAA | @ (gor-incinerator.com) | [pages-ip]                        | Active
+A/AAAA | @ (cook-incinerator.com) | [pages-ip]                        | Active
 ```
 
 **Note**: Exact values depend on Cloudflare's assignments.
@@ -142,31 +142,31 @@ A/AAAA | @ (gor-incinerator.com) | [pages-ip]                        | Active
 ### Test API Domain
 
 ```bash
-# Should return "Gor-Incinerator API Worker is running!"
-curl https://api.gor-incinerator.com/
+# Should return "Cook-Incinerator API Worker is running!"
+curl https://api.cook-incinerator.com/
 
 # With authentication
 curl -H "x-api-key: REDACTED_USER_API_KEY" \
-   https://api.gor-incinerator.com/assets/YOUR_WALLET
+   https://api.cook-incinerator.com/assets/YOUR_WALLET
 ```
 
 ### Test Frontend Domain
 
 ```bash
 # Should open your frontend in browser
-open https://gor-incinerator.com
+open https://cook-incinerator.com
 # or
-curl https://gor-incinerator.com | head -20
+curl https://cook-incinerator.com | head -20
 ```
 
 ### Check DNS Propagation
 
 ```bash
 # Check API CNAME
-nslookup api.gor-incinerator.com
+nslookup api.cook-incinerator.com
 
 # Check frontend CNAME
-nslookup gor-incinerator.com
+nslookup cook-incinerator.com
 ```
 
 ---
@@ -222,10 +222,10 @@ Cloudflare provides free SSL certificates for all domains. Recommended settings:
 If you want multiple subdomains:
 
 ```
-api.gor-incinerator.com        → Cloudflare Worker
-app.gor-incinerator.com        → Frontend alternate
-admin.gor-incinerator.com      → Admin dashboard (future)
-www.gor-incinerator.com        → Canonical frontend
+api.cook-incinerator.com        → Cloudflare Worker
+app.cook-incinerator.com        → Frontend alternate
+admin.cook-incinerator.com      → Admin dashboard (future)
+www.cook-incinerator.com        → Canonical frontend
 ```
 
 For each subdomain:
@@ -241,17 +241,17 @@ You can use different configurations:
 
 ### Production (.env.production)
 ```
-VITE_API_BASE_URL=https://api.gor-incinerator.com
+VITE_API_BASE_URL=https://api.cook-incinerator.com
 ```
 
 ### Staging (.env.staging)
 ```
-VITE_API_BASE_URL=https://api-staging.gor-incinerator.com
+VITE_API_BASE_URL=https://api-staging.cook-incinerator.com
 ```
 
 ### Development (.env.development)
 ```
-VITE_API_BASE_URL=https://gor-incinerator-api.gor-incinerator.workers.dev
+VITE_API_BASE_URL=https://cook-incinerator-api.cook-incinerator.workers.dev
 ```
 
 ---
@@ -274,8 +274,8 @@ Monitor your domain using:
 3. **Local Health Checks**
    ```bash
    # Regular health checks
-   curl -f https://api.gor-incinerator.com/ || alert
-   curl -f https://gor-incinerator.com/ || alert
+   curl -f https://api.cook-incinerator.com/ || alert
+   curl -f https://cook-incinerator.com/ || alert
    ```
 
 ---
@@ -286,7 +286,7 @@ If you need to revert to workers.dev domain:
 
 1. Update `frontend/.env`:
    ```
-   VITE_API_BASE_URL=https://gor-incinerator-api.gor-incinerator.workers.dev
+   VITE_API_BASE_URL=https://cook-incinerator-api.cook-incinerator.workers.dev
    ```
 
 2. Rebuild frontend:

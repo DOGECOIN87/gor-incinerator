@@ -49,16 +49,16 @@ export default function Home() {
           <div className="flex h-16 sm:h-20 items-center justify-between">
             <div className="flex items-center gap-3">
               <img 
-                src="/gor-logo.jpg" 
-                alt="Gor-Incinerator Logo" 
+                src="/cook-logo.jpg" 
+                alt="Cook-Incinerator Logo" 
                 className="h-10 w-10 rounded-full object-cover shadow-lg shadow-emerald-500/40 border border-emerald-500/30"
               />
               <div className="flex flex-col">
                 <span className="text-sm font-medium tracking-[0.22em] uppercase text-muted-foreground">
-                  Gorbagana
+                  Cookie Chain
                 </span>
                 <span className="text-xl sm:text-2xl font-bold leading-none">
-                  Gor-Incinerator
+                  Cook-Incinerator
                 </span>
               </div>
             </div>
@@ -107,12 +107,12 @@ export default function Home() {
         <section id="hero" className="pt-8 pb-20 lg:pb-24">
           <div className="container mx-auto px-6 max-w-6xl">
             <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.95fr)]">
-              {/* LEFT – Copy & CTAs (all Gor info preserved) */}
+              {/* LEFT – Copy & CTAs (all Cook info preserved) */}
               <div className="space-y-8">
                 {/* Top pill */}
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-3 py-1 text-[0.65rem] sm:text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Gorbagana network</span>
+                  <span>Cookie Chain network</span>
                   <span className="h-3 w-px bg-border/60" />
                   <span>Rent recovery utility</span>
                 </div>
@@ -122,11 +122,11 @@ export default function Home() {
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
                     Burn junk,
                     <br />
-                    <span className="gradient-text">claim GOR</span>
+                    <span className="gradient-text">claim COOK</span>
                   </h1>
                   <p className="max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-                    Close empty token accounts on the Gorbagana network and recover your rent.{" "}
-                    Industry low 5% fees – 0% fees for Gorbagio NFT holders.
+                    Close empty token accounts on the Cookie Chain network and recover your rent.{" "}
+                    Industry low 5% fees – 0% fees for Cookbagio NFT holders.
                   </p>
                 </div>
 
@@ -138,7 +138,7 @@ export default function Home() {
                     </p>
                     <p className="text-2xl font-semibold">5%</p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      0% for Gorbagio NFT holders.
+                      0% for Cookbagio NFT holders.
                     </p>
                   </div>
 
@@ -219,7 +219,7 @@ export default function Home() {
                 <ol className="space-y-4 text-sm text-muted-foreground">
                   <li>
                     <span className="font-semibold text-foreground">1. Connect Backpack.</span>{" "}
-                    Gor-Incinerator connects directly to your Backpack wallet – no custodial layer.
+                    Cook-Incinerator connects directly to your Backpack wallet – no custodial layer.
                   </li>
                   <li>
                     <span className="font-semibold text-foreground">2. Scan your wallet.</span>{" "}
@@ -228,8 +228,8 @@ export default function Home() {
                   </li>
                   <li>
                     <span className="font-semibold text-foreground">3. Review & burn.</span>{" "}
-                    See how much rent can be reclaimed, the 5% service fee (or 0% for Gorbagio NFT
-                    holders), and your final GOR amount before sending the transaction.
+                    See how much rent can be reclaimed, the 5% service fee (or 0% for Cookbagio NFT
+                    holders), and your final COOK amount before sending the transaction.
                   </li>
                 </ol>
 
@@ -258,24 +258,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ABOUT SECTION – uses same Gor info, just structured */}
+        {/* ABOUT SECTION – uses same Cook info, just structured */}
         <section id="about" className="border-t border-border/60 bg-background py-16 lg:py-20">
           <div className="container mx-auto px-6 max-w-4xl space-y-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-2">
                 About
               </p>
-              <h2 className="text-2xl sm:text-3xl font-semibold">What is Gor-Incinerator?</h2>
+              <h2 className="text-2xl sm:text-3xl font-semibold">What is Cook-Incinerator?</h2>
             </div>
 
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Gor-Incinerator is a focused utility for{" "}
+              Cook-Incinerator is a focused utility for{" "}
               <span className="font-semibold text-foreground">
-                closing empty token accounts on the Gorbagana network
+                closing empty token accounts on the Cookie Chain network
               </span>{" "}
               so you can recover rent that would otherwise be locked away. It's built around a
               simple flow: connect Backpack, scan for empty accounts, then burn and reclaim your
-              GOR.
+              COOK.
             </p>
 
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
@@ -283,7 +283,7 @@ export default function Home() {
               <span className="font-semibold text-foreground">5% service fee</span> on recovered
               rent – and{" "}
               <span className="font-semibold text-foreground">
-                Gorbagio NFT holders pay 0% fees
+                Cookbagio NFT holders pay 0% fees
               </span>
               , receiving the full amount back.
             </p>
@@ -342,7 +342,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-semibold">Transparent economics</h3>
                 <p className="text-muted-foreground">
-                  See total rent, service fee and your GOR payout before you send a transaction.
+                  See total rent, service fee and your COOK payout before you send a transaction.
                 </p>
               </div>
             </div>
@@ -355,11 +355,11 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold">Gor-Incinerator</span>
+              <span className="text-lg font-bold">Cook-Incinerator</span>
             </div>
 
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <span>© 2025 Gor-Incinerator</span>
+              <span>© 2025 Cook-Incinerator</span>
             </div>
           </div>
         </div>

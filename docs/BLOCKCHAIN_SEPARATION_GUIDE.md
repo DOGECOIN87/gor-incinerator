@@ -1,8 +1,8 @@
-# Blockchain Separation: Solana vs Gorbagana
+# Blockchain Separation: Solana vs Cookie Chain
 
 ## How It Works
 
-The Gor Incinerator is **blockchain-specific** based on the `RPC_URL` you configure. The same wallet can exist on both Solana and Gorbagana, but the program will **only interact with the blockchain specified in your configuration**.
+The Cook Incinerator is **blockchain-specific** based on the `RPC_URL` you configure. The same wallet can exist on both Solana and Cookie Chain, but the program will **only interact with the blockchain specified in your configuration**.
 
 ## Key Concept: RPC_URL Determines the Blockchain
 
@@ -16,7 +16,7 @@ Config.connection = new Connection(Config.RPC_URL, {
 The `RPC_URL` is the **only** thing that determines which blockchain you're connecting to:
 
 - **Solana RPC** → Operates on Solana mainnet
-- **Gorbagana RPC** → Operates on Gorbagana network
+- **Cookie Chain RPC** → Operates on Cookie Chain network
 
 ## Same Wallet, Different Blockchains
 
@@ -39,16 +39,16 @@ Think of it like having the same email address on Gmail and Outlook - same ident
 
 ## Configuration Examples
 
-### For Gorbagana (Default)
+### For Cookie Chain (Default)
 ```dotenv
 # .env
-RPC_URL=https://rpc.gorbagana.com
+RPC_URL=https://rpc.cookiescan.io
 WALLET=[1,2,3,...,64]
 FEE_RECIPIENT=CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
 FEE_PERCENTAGE=5
 ```
 
-**Result**: Program connects to Gorbagana, closes token accounts on Gorbagana only.
+**Result**: Program connects to Cookie Chain, closes token accounts on Cookie Chain only.
 
 ### For Solana Mainnet
 ```dotenv
@@ -66,7 +66,7 @@ FEE_PERCENTAGE=5
 ```typescript
 // In src/burn.ts
 const atas = await Config.connection.getParsedTokenAccountsByOwner(
-  Config.gorWallet.publicKey,
+  Config.cookWallet.publicKey,
   {
     programId: TOKEN_PROGRAM_ID,
   }
@@ -85,31 +85,31 @@ This query goes to **only the RPC endpoint specified** in `Config.connection`, w
 - 50 token accounts
 - 10 empty, 40 with tokens
 
-**On Gorbagana**:
+**On Cookie Chain**:
 - 30 token accounts  
 - 20 empty, 10 with tokens
 
-**Running with Gorbagana RPC**:
+**Running with Cookie Chain RPC**:
 ```bash
-# .env has RPC_URL=https://rpc.gorbagana.com
+# .env has RPC_URL=https://rpc.cookiescan.io
 npm run burn
 ```
-**Result**: Closes up to 14 of the 20 empty accounts **on Gorbagana only**. Solana accounts are untouched.
+**Result**: Closes up to 14 of the 20 empty accounts **on Cookie Chain only**. Solana accounts are untouched.
 
 **Running with Solana RPC**:
 ```bash
 # .env has RPC_URL=https://api.mainnet-beta.solana.com
 npm run burn
 ```
-**Result**: Closes up to 14 of the 10 empty accounts **on Solana only**. Gorbagana accounts are untouched.
+**Result**: Closes up to 14 of the 10 empty accounts **on Solana only**. Cookie Chain accounts are untouched.
 
 ### Scenario 2: Using Different Configurations
 
 You can maintain separate `.env` files:
 
-**`.env.gorbagana`**:
+**`.env.cookie chain`**:
 ```dotenv
-RPC_URL=https://rpc.gorbagana.com
+RPC_URL=https://rpc.cookiescan.io
 WALLET=[your,wallet,bytes]
 FEE_RECIPIENT=CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL
 FEE_PERCENTAGE=5
@@ -125,8 +125,8 @@ FEE_PERCENTAGE=5
 
 Then run with specific config:
 ```bash
-# For Gorbagana
-cp .env.gorbagana .env && npm run burn
+# For Cookie Chain
+cp .env.cookie chain .env && npm run burn
 
 # For Solana
 cp .env.solana .env && npm run burn
@@ -167,14 +167,14 @@ Transactions sent to that blockchain only
 ### ⚠️ Important Notes
 
 **Fee Recipient Address**: The fee recipient address (`CeD9epfL2eHfbJxKNdCY5Udaisn1hh3zBMiDGeDJs7BL`) is the same public key on both chains, but:
-- On Gorbagana: Receives GOR tokens
+- On Cookie Chain: Receives COOK tokens
 - On Solana: Would receive SOL tokens (if you ran it there)
 
-**Token Program ID**: Gorbagana uses a **different** Token Program ID than Solana:
-- **Gorbagana**: `TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA`
+**Token Program ID**: Cookie Chain uses a **different** Token Program ID than Solana:
+- **Cookie Chain**: `TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA`
 - **Solana**: `TokenkegQfeZyiNwAJbPVwwQQfuM32jneSYP1daM`
 
-This code is configured specifically for Gorbagana. The same transaction structure and instruction format work on both chains, but you must use the correct Program IDs for each chain.
+This code is configured specifically for Cookie Chain. The same transaction structure and instruction format work on both chains, but you must use the correct Program IDs for each chain.
 
 ## Verification: How to Check Which Chain You're On
 
@@ -182,8 +182,8 @@ Add this to your `.env` file and check the logs:
 
 ```typescript
 // The program logs this on startup
-Logger.info("Starting Gor Incinerator", {
-  wallet: Config.gorWallet.publicKey.toString(),
+Logger.info("Starting Cook Incinerator", {
+  wallet: Config.cookWallet.publicKey.toString(),
   rpcUrl: Config.RPC_URL, // This shows which chain
   feePercentage: Config.feePercentage,
 });
@@ -191,19 +191,19 @@ Logger.info("Starting Gor Incinerator", {
 
 Output will show:
 ```
-[INFO] Starting Gor Incinerator {
+[INFO] Starting Cook Incinerator {
   "wallet":"ABC123...XYZ",
-  "rpcUrl":"https://rpc.gorbagana.com",  ← This confirms the chain
+  "rpcUrl":"https://rpc.cookiescan.io",  ← This confirms the chain
   "feePercentage":5
 }
 ```
 
 ## Common RPC Endpoints
 
-### Gorbagana
-- `https://rpc.gorbagana.com`
-- `https://rpc.gorbagana.wtf`
-- Custom Gorbagana RPC endpoints
+### Cookie Chain
+- `https://rpc.cookiescan.io`
+- `https://rpc.cookiescan.io`
+- Custom Cookie Chain RPC endpoints
 
 ### Solana Mainnet
 - `https://api.mainnet-beta.solana.com` (public, rate-limited)
@@ -223,7 +223,7 @@ cat .env | grep RPC_URL
 
 ### 2. Use Descriptive .env Files
 ```bash
-.env.gorbagana.mainnet
+.env.cookie chain.mainnet
 .env.solana.mainnet
 .env.solana.devnet
 ```
@@ -263,7 +263,7 @@ class Connection {
 
 ### Why Same Code Works on Both Chains
 
-Gorbagana is a **fork of Solana**, meaning:
+Cookie Chain is a **fork of Solana**, meaning:
 - Same account structure
 - Same transaction format
 - Same program IDs (Token Program, System Program, etc.)
@@ -274,18 +274,18 @@ The only difference is the **network** - different validators, different state, 
 
 ## Summary
 
-**Q: How does it work when a wallet has tokens on both Solana and Gorbagana?**
+**Q: How does it work when a wallet has tokens on both Solana and Cookie Chain?**
 
 **A**: The program operates on **only one blockchain at a time**, determined by your `RPC_URL`:
 
-1. **RPC_URL** = Gorbagana → Only touches Gorbagana accounts
+1. **RPC_URL** = Cookie Chain → Only touches Cookie Chain accounts
 2. **RPC_URL** = Solana → Only touches Solana accounts
 3. **Same wallet address** on both chains = **Completely separate accounts**
 4. **No cross-chain interaction** - physically impossible with this architecture
 5. **Safe to use same wallet** on both chains - they're isolated
 
 To manage accounts on both chains, you would:
-1. Run with Gorbagana RPC → Closes Gorbagana accounts
+1. Run with Cookie Chain RPC → Closes Cookie Chain accounts
 2. Change RPC_URL to Solana
 3. Run again → Closes Solana accounts
 

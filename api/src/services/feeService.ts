@@ -1,13 +1,13 @@
 /**
  * Fee calculation service with 50/50 split
- * Calculates fees for Aether Labs and Gor-incinerator
+ * Calculates fees for Aether Labs and Cook-incinerator
  */
 
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, TransactionInstruction } from "@solana/web3.js";
 import { FeeCalculation, ValidationError } from "../types";
 
 /**
- * Rent per token account on Gorbagana (approximately 0.00203928 GOR)
+ * Rent per token account on Cookie Chain (approximately 0.00203928 COOK)
  * This is the standard rent-exempt minimum for a token account
  */
 export const RENT_PER_ACCOUNT = 0.00203928 * LAMPORTS_PER_SOL;
@@ -20,7 +20,7 @@ export const FEE_PERCENTAGE = 5;
 /**
  * Calculate fee breakdown with 50/50 split
  * @param accountCount - Number of token accounts being closed
- * @returns Fee calculation with split between Aether Labs and Gor-incinerator
+ * @returns Fee calculation with split between Aether Labs and Cook-incinerator
  */
 export function calculateFee(accountCount: number): FeeCalculation {
   if (accountCount <= 0) {
@@ -37,9 +37,9 @@ export function calculateFee(accountCount: number): FeeCalculation {
   // Calculate 5% service fee
   const serviceFee = Math.floor((totalRent * FEE_PERCENTAGE) / 100);
 
-  // Split fee 50/50 between Aether Labs and Gor-incinerator
+  // Split fee 50/50 between Aether Labs and Cook-incinerator
   const aetherLabsFee = Math.floor(serviceFee / 2);
-  const gorIncineratorFee = Math.floor(serviceFee / 2);
+  const cookIncineratorFee = Math.floor(serviceFee / 2);
 
   // Calculate net amount user receives (95% of total rent)
   const netAmount = totalRent - serviceFee;
@@ -48,7 +48,7 @@ export function calculateFee(accountCount: number): FeeCalculation {
     totalRent,
     serviceFee,
     aetherLabsFee,
-    gorIncineratorFee,
+    cookIncineratorFee,
     netAmount,
   };
 }
@@ -58,7 +58,7 @@ export function calculateFee(accountCount: number): FeeCalculation {
  * @param accountCount - Number of accounts being closed
  * @param payer - Wallet address paying the fees
  * @param aetherVaultAddress - Aether Labs vault address
- * @param incineratorVaultAddress - Gor-incinerator vault address
+ * @param incineratorVaultAddress - Cook-incinerator vault address
  * @returns Array of two transfer instructions (50/50 split)
  */
 export function createFeeInstructions(
@@ -82,7 +82,7 @@ export function createFeeInstructions(
   try {
     incineratorVault = new PublicKey(incineratorVaultAddress);
   } catch (error) {
-    throw new ValidationError(`Invalid Gor-incinerator vault address: ${incineratorVaultAddress}`);
+    throw new ValidationError(`Invalid Cook-incinerator vault address: ${incineratorVaultAddress}`);
   }
 
   const instructions: TransactionInstruction[] = [];
@@ -98,12 +98,12 @@ export function createFeeInstructions(
     );
   }
 
-  if (feeCalc.gorIncineratorFee > 0) {
+  if (feeCalc.cookIncineratorFee > 0) {
     instructions.push(
       SystemProgram.transfer({
         fromPubkey: payer,
         toPubkey: incineratorVault,
-        lamports: feeCalc.gorIncineratorFee,
+        lamports: feeCalc.cookIncineratorFee,
       })
     );
   }
@@ -112,19 +112,19 @@ export function createFeeInstructions(
 }
 
 /**
- * Convert lamports to GOR for display
+ * Convert lamports to COOK for display
  * @param lamports - Amount in lamports
- * @returns Amount in GOR
+ * @returns Amount in COOK
  */
-export function lamportsToGor(lamports: number): number {
+export function lamportsToCook(lamports: number): number {
   return lamports / LAMPORTS_PER_SOL;
 }
 
 /**
- * Convert GOR to lamports
- * @param gor - Amount in GOR
+ * Convert COOK to lamports
+ * @param cook - Amount in COOK
  * @returns Amount in lamports
  */
-export function gorToLamports(gor: number): number {
-  return Math.floor(gor * LAMPORTS_PER_SOL);
+export function cookToLamports(cook: number): number {
+  return Math.floor(cook * LAMPORTS_PER_SOL);
 }

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Gor-Incinerator Cloudflare Worker Secrets Setup Script
+# Cook-Incinerator Cloudflare Worker Secrets Setup Script
 # This script automates setting secrets in your Cloudflare Worker
 
 set -e
 
 echo "================================"
-echo "Gor-Incinerator Secrets Setup"
+echo "Cook-Incinerator Secrets Setup"
 echo "================================"
 echo ""
 
@@ -53,16 +53,16 @@ echo "2. Setting ADMIN_API_KEY..."
 set_secret "ADMIN_API_KEY" "$ADMIN_API_KEY" || exit 1
 
 echo ""
-echo "3. Setting GOR_RPC_URL..."
-set_secret "GOR_RPC_URL" "$GOR_RPC_URL" || exit 1
+echo "3. Setting COOK_RPC_URL..."
+set_secret "COOK_RPC_URL" "$COOK_RPC_URL" || exit 1
 
 echo ""
-echo "4. Setting GOR_VAULT_ADDRESS_AETHER..."
-set_secret "GOR_VAULT_ADDRESS_AETHER" "$GOR_VAULT_ADDRESS_AETHER" || exit 1
+echo "4. Setting COOK_VAULT_ADDRESS_AETHER..."
+set_secret "COOK_VAULT_ADDRESS_AETHER" "$COOK_VAULT_ADDRESS_AETHER" || exit 1
 
 echo ""
-echo "5. Setting GOR_VAULT_ADDRESS_INCINERATOR..."
-set_secret "GOR_VAULT_ADDRESS_INCINERATOR" "$GOR_VAULT_ADDRESS_INCINERATOR" || exit 1
+echo "5. Setting COOK_VAULT_ADDRESS_INCINERATOR..."
+set_secret "COOK_VAULT_ADDRESS_INCINERATOR" "$COOK_VAULT_ADDRESS_INCINERATOR" || exit 1
 
 echo ""
 echo "================================"
@@ -72,5 +72,5 @@ echo ""
 echo "Next steps:"
 echo "1. Verify the database configuration in api/wrangler.toml"
 echo "2. Deploy the worker: cd api && npm run deploy"
-echo "3. Test the health endpoint: curl https://api.gor-incinerator.com/health"
+echo "3. Test the health endpoint: curl https://api.cook-incinerator.com/health"
 echo ""

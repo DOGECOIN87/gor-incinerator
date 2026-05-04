@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Reconciliation script for Gor-Incinerator
-# Generates monthly fee split reports for Aether Labs and Gor-incinerator
+# Reconciliation script for Cook-Incinerator
+# Generates monthly fee split reports for Aether Labs and Cook-incinerator
 #
 # Usage:
 #   ./reconciliation.sh 2025-01-01 2025-01-31
@@ -10,7 +10,7 @@
 set -e
 
 # Configuration
-API_URL="${API_URL:-https://api.gor-incinerator.com}"
+API_URL="${API_URL:-https://api.cook-incinerator.com}"
 ADMIN_API_KEY="${ADMIN_API_KEY:-}"
 
 # Colors for output
@@ -36,7 +36,7 @@ else
   END_DATE=$(date +%Y-%m-%d)
 fi
 
-echo -e "${GREEN}Gor-Incinerator Reconciliation Report${NC}"
+echo -e "${GREEN}Cook-Incinerator Reconciliation Report${NC}"
 echo "======================================"
 echo "Period: $START_DATE to $END_DATE"
 echo ""
@@ -58,13 +58,13 @@ echo -e "${YELLOW}Summary Statistics:${NC}"
 echo "-------------------"
 echo "Total Transactions:    $(echo "$RESPONSE" | jq -r '.summary.totalTransactions')"
 echo "Total Accounts Closed: $(echo "$RESPONSE" | jq -r '.summary.totalAccountsClosed')"
-echo "Total Rent Reclaimed:  $(echo "$RESPONSE" | jq -r '.summary.totalRent') GOR"
-echo "Total Fees Collected:  $(echo "$RESPONSE" | jq -r '.summary.totalFees') GOR"
+echo "Total Rent Reclaimed:  $(echo "$RESPONSE" | jq -r '.summary.totalRent') COOK"
+echo "Total Fees Collected:  $(echo "$RESPONSE" | jq -r '.summary.totalFees') COOK"
 echo ""
 echo -e "${YELLOW}Fee Split (50/50):${NC}"
 echo "-------------------"
-echo "Aether Labs Share:     $(echo "$RESPONSE" | jq -r '.summary.aetherLabsShare') GOR"
-echo "Gor-incinerator Share: $(echo "$RESPONSE" | jq -r '.summary.gorIncineratorShare') GOR"
+echo "Aether Labs Share:     $(echo "$RESPONSE" | jq -r '.summary.aetherLabsShare') COOK"
+echo "Cook-incinerator Share: $(echo "$RESPONSE" | jq -r '.summary.cookIncineratorShare') COOK"
 echo ""
 
 # Save full report to file
